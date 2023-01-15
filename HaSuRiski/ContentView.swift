@@ -39,7 +39,7 @@ func getPinColor(_ acidity: Double) -> Color {
             acidityFraction = (SOIL_NORMAL_PH - acidity) / (SOIL_NORMAL_PH - SOIL_ACID_PH)
     }
     
-    let pinColor = UIColor.green.mix(end: UIColor.red, fraction: acidityFraction)
+    let pinColor = UIColor(Color.green).mix(end: UIColor(Color.red), fraction: acidityFraction)
     
     return Color(pinColor)
 }
@@ -54,17 +54,21 @@ struct ContentView: View {
         span: MKCoordinateSpan(latitudeDelta: 12.0, longitudeDelta: 9.0))
     
     @State private var annotations = [Location]()
+    @State private var selectedAnnotation: Location?
         
     var body: some View {
         ZStack {
             Map(coordinateRegion: $mapRegion, annotationItems: annotations) { location in
-                MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)) {
+                MapAnnotation(coordinate: location.coordinate) {
                     Image(systemName: "star.circle")
                         .resizable()
                         .foregroundColor(getPinColor(location.acidity))
                         .frame(width: 32, height: 32)
                         .background(.white)
                         .clipShape(Circle())
+                        .onTapGesture {
+                            selectedAnnotation = location
+                        }
                 }
             }
             .onAppear {
@@ -95,7 +99,7 @@ struct ContentView: View {
                     .padding(.trailing)
                     
                     Button {
-                        let newLocation = Location(id: UUID(), name: "New", acidity: 5.7, latitude: mapRegion.center.latitude, longitude: mapRegion.center.longitude)
+                        let newLocation = Location(id: UUID(), name: "New annotation", acidity: 5.7, latitude: mapRegion.center.latitude, longitude: mapRegion.center.longitude)
                         annotations.append(newLocation)
                     } label: {
                         Image(systemName: "plus")
@@ -106,6 +110,13 @@ struct ContentView: View {
                     .font(.title)
                     .clipShape(Circle())
                     .padding(.trailing)
+                }
+            }
+        }
+        .sheet(item: $selectedAnnotation) { place in
+            AnnotationEditView(location: place) { newAnnotation in
+                if let index = annotations.firstIndex(of: place) {
+                    annotations[index] = newAnnotation
                 }
             }
         }
