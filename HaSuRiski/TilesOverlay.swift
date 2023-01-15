@@ -19,3 +19,19 @@ class TilesOverlay: MKTileOverlay {
         }
     }
 }
+
+func getOverlay() -> MKTileOverlay {
+    let bucket = "http://akusok.asuscomm.com:9000/elevation/"
+    let tileOverlay = MKTileOverlay(urlTemplate: bucket + "TILES_hillshade2/{z}/{x}/{y}.png")
+    tileOverlay.minimumZ = 2
+    tileOverlay.maximumZ = 16
+    return tileOverlay
+}
+
+func getCustomOverlay() -> MKTileOverlay {
+    // create tiles with --xyz flag for gdal2tiles.py
+    let tileOverlay = TilesOverlay()
+    tileOverlay.minimumZ = 2
+    tileOverlay.maximumZ = 16
+    return tileOverlay
+}
