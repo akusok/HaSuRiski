@@ -12,7 +12,7 @@
 		ECA8855E2974165F002F9EF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECA8855D2974165F002F9EF6 /* Assets.xcassets */; };
 		ECA885612974165F002F9EF6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECA885602974165F002F9EF6 /* Preview Assets.xcassets */; };
 		ECA8856929741826002F9EF6 /* TilesOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA8856829741826002F9EF6 /* TilesOverlay.swift */; };
-		ECA8856B297418CF002F9EF6 /* TilesMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA8856A297418CF002F9EF6 /* TilesMapView.swift */; };
+		ECA8856F29741DA2002F9EF6 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA8856E29741DA2002F9EF6 /* Location.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,7 +23,7 @@
 		ECA885602974165F002F9EF6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		ECA88567297416EC002F9EF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		ECA8856829741826002F9EF6 /* TilesOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TilesOverlay.swift; sourceTree = "<group>"; };
-		ECA8856A297418CF002F9EF6 /* TilesMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TilesMapView.swift; sourceTree = "<group>"; };
+		ECA8856E29741DA2002F9EF6 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,7 +62,7 @@
 				ECA8855D2974165F002F9EF6 /* Assets.xcassets */,
 				ECA8855F2974165F002F9EF6 /* Preview Content */,
 				ECA8856829741826002F9EF6 /* TilesOverlay.swift */,
-				ECA8856A297418CF002F9EF6 /* TilesMapView.swift */,
+				ECA8856E29741DA2002F9EF6 /* Location.swift */,
 			);
 			path = HaSuRiski;
 			sourceTree = "<group>";
@@ -147,8 +147,8 @@
 			files = (
 				ECA8856929741826002F9EF6 /* TilesOverlay.swift in Sources */,
 				ECA8855C2974165D002F9EF6 /* ContentView.swift in Sources */,
+				ECA8856F29741DA2002F9EF6 /* Location.swift in Sources */,
 				ECA8855A2974165D002F9EF6 /* HaSuRiskiApp.swift in Sources */,
-				ECA8856B297418CF002F9EF6 /* TilesMapView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
