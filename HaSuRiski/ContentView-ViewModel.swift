@@ -12,7 +12,10 @@ extension ContentView {
     
     // tab this class inside our ContentView
     // UI updates must happen on the @MainActor
-    @MainActor class ViewMode: ObservableObject {
-        
+    // every time I make a class conforming to the ObservableObject, add a @MainActor
+    @MainActor class ViewModel: ObservableObject {
+        @Published var annotations = [Location]()
+        @Published var selectedAnnotation: Location?
+
     }
 }

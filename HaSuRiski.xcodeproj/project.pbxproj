@@ -48,7 +48,6 @@
 		ECA8854D2974165D002F9EF6 = {
 			isa = PBXGroup;
 			children = (
-				9D769A80297D3AF8005DD7EE /* ContentView-ViewModel.swift */,
 				ECA885582974165D002F9EF6 /* HaSuRiski */,
 				ECA885572974165D002F9EF6 /* Products */,
 			);
@@ -75,6 +74,7 @@
 				ECA8856E29741DA2002F9EF6 /* Location.swift */,
 				ECA8857029742C3B002F9EF6 /* ColorInterpolation.swift */,
 				ECA8857229743680002F9EF6 /* AnnotationEditView.swift */,
+				9D769A80297D3AF8005DD7EE /* ContentView-ViewModel.swift */,
 			);
 			path = HaSuRiski;
 			sourceTree = "<group>";

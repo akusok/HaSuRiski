@@ -49,16 +49,15 @@ struct ContentView: View {
     private let mapAppearanceInstance = MKMapView.appearance()
     private var mapCustomDelegate: MapCustomDelegate = MapCustomDelegate(MKMapView.appearance())
 
+    @StateObject private var viewModel = ViewModel()
+    
     @State var mapRegion = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 65.49, longitude: 25.50),
         span: MKCoordinateSpan(latitudeDelta: 12.0, longitudeDelta: 9.0))
     
-    @State private var annotations = [Location]()
-    @State private var selectedAnnotation: Location?
-        
     var body: some View {
         ZStack {
-            Map(coordinateRegion: $mapRegion, annotationItems: annotations) { location in
+            Map(coordinateRegion: $mapRegion, annotationItems: viewModel.annotations) { location in
                 MapAnnotation(coordinate: location.coordinate) {
                     Image(systemName: "star.circle")
                         .resizable()
@@ -67,7 +66,7 @@ struct ContentView: View {
                         .background(.white)
                         .clipShape(Circle())
                         .onTapGesture {
-                            selectedAnnotation = location
+                            viewModel.selectedAnnotation = location
                         }
                 }
             }
@@ -87,7 +86,7 @@ struct ContentView: View {
                     
                     Button {
                         let newLocation = Location(id: UUID(), name: "New", acidity: 7.0, latitude: mapRegion.center.latitude, longitude: mapRegion.center.longitude)
-                        annotations.append(newLocation)
+                        viewModel.annotations.append(newLocation)
                     } label: {
                         Image(systemName: "plus")
                     }
@@ -100,7 +99,7 @@ struct ContentView: View {
                     
                     Button {
                         let newLocation = Location(id: UUID(), name: "New annotation", acidity: 5.7, latitude: mapRegion.center.latitude, longitude: mapRegion.center.longitude)
-                        annotations.append(newLocation)
+                        viewModel.annotations.append(newLocation)
                     } label: {
                         Image(systemName: "plus")
                     }
@@ -113,10 +112,10 @@ struct ContentView: View {
                 }
             }
         }
-        .sheet(item: $selectedAnnotation) { place in
+        .sheet(item: $viewModel.selectedAnnotation) { place in
             AnnotationEditView(location: place) { newAnnotation in
-                if let index = annotations.firstIndex(of: place) {
-                    annotations[index] = newAnnotation
+                if let index = viewModel.annotations.firstIndex(of: place) {
+                    viewModel.annotations[index] = newAnnotation
                 }
             }
         }
