@@ -16,7 +16,7 @@
 		ECA8856929741826002F9EF6 /* TilesOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA8856829741826002F9EF6 /* TilesOverlay.swift */; };
 		ECA8856F29741DA2002F9EF6 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA8856E29741DA2002F9EF6 /* Location.swift */; };
 		ECA8857129742C3B002F9EF6 /* ColorInterpolation.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA8857029742C3B002F9EF6 /* ColorInterpolation.swift */; };
-		ECA8857329743680002F9EF6 /* AnnotationEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA8857229743680002F9EF6 /* AnnotationEditView.swift */; };
+		ECA8857329743680002F9EF6 /* LocationEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA8857229743680002F9EF6 /* LocationEditView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,7 +31,7 @@
 		ECA8856829741826002F9EF6 /* TilesOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TilesOverlay.swift; sourceTree = "<group>"; };
 		ECA8856E29741DA2002F9EF6 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		ECA8857029742C3B002F9EF6 /* ColorInterpolation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorInterpolation.swift; sourceTree = "<group>"; };
-		ECA8857229743680002F9EF6 /* AnnotationEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationEditView.swift; sourceTree = "<group>"; };
+		ECA8857229743680002F9EF6 /* LocationEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +73,7 @@
 				ECA8856829741826002F9EF6 /* TilesOverlay.swift */,
 				ECA8856E29741DA2002F9EF6 /* Location.swift */,
 				ECA8857029742C3B002F9EF6 /* ColorInterpolation.swift */,
-				ECA8857229743680002F9EF6 /* AnnotationEditView.swift */,
+				ECA8857229743680002F9EF6 /* LocationEditView.swift */,
 				9D769A80297D3AF8005DD7EE /* ContentView-ViewModel.swift */,
 			);
 			path = HaSuRiski;
@@ -164,7 +164,7 @@
 				ECA8857129742C3B002F9EF6 /* ColorInterpolation.swift in Sources */,
 				9D769A81297D3AF8005DD7EE /* ContentView-ViewModel.swift in Sources */,
 				ECA8855A2974165D002F9EF6 /* HaSuRiskiApp.swift in Sources */,
-				ECA8857329743680002F9EF6 /* AnnotationEditView.swift in Sources */,
+				ECA8857329743680002F9EF6 /* LocationEditView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

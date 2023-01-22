@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AnnotationEditView: View {
+struct LocationEditView: View {
     enum LoadingState {
         case loading, loaded, failed
     }
@@ -113,6 +113,6 @@ struct AnnotationEditView: View {
 
 struct AnnotationEditView_Previews: PreviewProvider {
     static var previews: some View {
-        AnnotationEditView(location: Location.example) { newLocation in }
+        LocationEditView(location: Location.example) { newLocation in }
     }
 }

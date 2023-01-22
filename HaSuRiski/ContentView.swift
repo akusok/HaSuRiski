@@ -8,22 +8,6 @@
 import SwiftUI
 import MapKit
 
-class MapCustomDelegate: NSObject, MKMapViewDelegate {
-    var parent: MKMapView
-    
-    init(_ parent: MKMapView) {
-        self.parent = parent
-    }
-    
-    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        if let tileOverlay = overlay as? MKTileOverlay {
-            let renderer = MKTileOverlayRenderer(overlay: tileOverlay)
-            renderer.alpha = 0.75
-            return renderer
-        }
-        return MKOverlayRenderer()
-    }
-}
 
 func getPinColor(_ acidity: Double) -> Color {
     // acidity is interpolated at 5.6==red, 7.0==green
@@ -46,18 +30,15 @@ func getPinColor(_ acidity: Double) -> Color {
 
 struct ContentView: View {
     
+    // cannot move Appearance attributes out of Content View
     private let mapAppearanceInstance = MKMapView.appearance()
     private var mapCustomDelegate: MapCustomDelegate = MapCustomDelegate(MKMapView.appearance())
 
     @StateObject private var viewModel = ViewModel()
-    
-    @State var mapRegion = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 65.49, longitude: 25.50),
-        span: MKCoordinateSpan(latitudeDelta: 12.0, longitudeDelta: 9.0))
-    
+        
     var body: some View {
         ZStack {
-            Map(coordinateRegion: $mapRegion, annotationItems: viewModel.annotations) { location in
+            Map(coordinateRegion: $viewModel.mapRegion, annotationItems: viewModel.locations) { location in
                 MapAnnotation(coordinate: location.coordinate) {
                     Image(systemName: "star.circle")
                         .resizable()
@@ -66,7 +47,7 @@ struct ContentView: View {
                         .background(.white)
                         .clipShape(Circle())
                         .onTapGesture {
-                            viewModel.selectedAnnotation = location
+                            viewModel.selectedLocation = location
                         }
                 }
             }
@@ -83,10 +64,8 @@ struct ContentView: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    
                     Button {
-                        let newLocation = Location(id: UUID(), name: "New", acidity: 7.0, latitude: mapRegion.center.latitude, longitude: mapRegion.center.longitude)
-                        viewModel.annotations.append(newLocation)
+                        viewModel.addLocation(acidity: SOIL_NORMAL_PH)
                     } label: {
                         Image(systemName: "plus")
                     }
@@ -98,8 +77,7 @@ struct ContentView: View {
                     .padding(.trailing)
                     
                     Button {
-                        let newLocation = Location(id: UUID(), name: "New annotation", acidity: 5.7, latitude: mapRegion.center.latitude, longitude: mapRegion.center.longitude)
-                        viewModel.annotations.append(newLocation)
+                        viewModel.addLocation(acidity: SOIL_ACID_PH)
                     } label: {
                         Image(systemName: "plus")
                     }
@@ -112,12 +90,8 @@ struct ContentView: View {
                 }
             }
         }
-        .sheet(item: $viewModel.selectedAnnotation) { place in
-            AnnotationEditView(location: place) { newAnnotation in
-                if let index = viewModel.annotations.firstIndex(of: place) {
-                    viewModel.annotations[index] = newAnnotation
-                }
-            }
+        .sheet(item: $viewModel.selectedLocation) { place in
+            LocationEditView(location: place) { viewModel.updateLocation($0) }
         }
     }
 }
