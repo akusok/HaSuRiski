@@ -9,6 +9,11 @@ import Foundation
 import LocalAuthentication
 import MapKit
 
+struct PH {
+    static let NORMAL = 7.0  // normal PH soil
+    static let ACID = 5.6    // 100% acid sulfate soil
+}
+
 extension ContentView {
     
     // tab this class inside our ContentView
@@ -94,21 +99,5 @@ extension ContentView {
         }
     }
     
-    class MapCustomDelegate: NSObject, MKMapViewDelegate {
-        var parent: MKMapView
-        
-        init(_ parent: MKMapView) {
-            self.parent = parent
-        }
-        
-        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-            if let tileOverlay = overlay as? MKTileOverlay {
-                let renderer = MKTileOverlayRenderer(overlay: tileOverlay)
-                renderer.alpha = 0.75
-                return renderer
-            }
-            return MKOverlayRenderer()
-        }
-    }
 }
 

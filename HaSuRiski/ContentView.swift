@@ -11,12 +11,29 @@ import MapKit
 
 struct ContentView: View {
     
-    // cannot move Appearance attributes out of Content View
+    @StateObject private var viewModel = ViewModel()
+
+    // this thing glues overlay to SwiftUI Map, until a proper way is implemented
     private let mapAppearanceInstance = MKMapView.appearance()
     private var mapCustomDelegate: MapCustomDelegate = MapCustomDelegate(MKMapView.appearance())
-
-    @StateObject private var viewModel = ViewModel()
+    
+    class MapCustomDelegate: NSObject, MKMapViewDelegate {
+        var parent: MKMapView
         
+        init(_ parent: MKMapView) {
+            self.parent = parent
+        }
+        
+        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+            if let tileOverlay = overlay as? MKTileOverlay {
+                let renderer = MKTileOverlayRenderer(overlay: tileOverlay)
+                renderer.alpha = 0.75
+                return renderer
+            }
+            return MKOverlayRenderer()
+        }
+    }
+    
     var body: some View {
         if viewModel.isUnlocked {
             ZStack {
@@ -47,7 +64,7 @@ struct ContentView: View {
                     HStack {
                         Spacer()
                         Button {
-                            viewModel.addLocation(acidity: SOIL_NORMAL_PH)
+                            viewModel.addLocation(acidity: PH.NORMAL)
                         } label: {
                             Image(systemName: "plus")
                         }
@@ -59,7 +76,7 @@ struct ContentView: View {
                         .padding(.trailing)
                         
                         Button {
-                            viewModel.addLocation(acidity: SOIL_ACID_PH)
+                            viewModel.addLocation(acidity: PH.ACID)
                         } label: {
                             Image(systemName: "plus")
                         }

@@ -33,13 +33,13 @@ struct LocationEditView: View {
                     TextField("Name", text: $name)
                     
                     VStack {
-                        Slider(value: $acidity, in: SOIL_ACID_PH...SOIL_NORMAL_PH, step: 0.1) {
+                        Slider(value: $acidity, in: PH.ACID...PH.NORMAL, step: 0.1) {
                             Text("Acidity")
                         } minimumValueLabel: {
-                            Text(String(format: "≤ %.1f", SOIL_ACID_PH))
+                            Text(String(format: "≤ %.1f", PH.ACID))
                                 .foregroundColor(.red)
                         } maximumValueLabel: {
-                            Text(String(format: "≥ %.1f", SOIL_NORMAL_PH))
+                            Text(String(format: "≥ %.1f", PH.NORMAL))
                                 .foregroundColor(.green)
                         }
                         Text(String(format: "Soil acidity PH: %.1f", acidity))
