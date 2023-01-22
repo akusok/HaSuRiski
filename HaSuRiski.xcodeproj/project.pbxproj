@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9D769A7F297D2C93005DD7EE /* WikiResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D769A7E297D2C93005DD7EE /* WikiResult.swift */; };
+		9D769A81297D3AF8005DD7EE /* ContentView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D769A80297D3AF8005DD7EE /* ContentView-ViewModel.swift */; };
 		ECA8855A2974165D002F9EF6 /* HaSuRiskiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA885592974165D002F9EF6 /* HaSuRiskiApp.swift */; };
 		ECA8855C2974165D002F9EF6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA8855B2974165D002F9EF6 /* ContentView.swift */; };
 		ECA8855E2974165F002F9EF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECA8855D2974165F002F9EF6 /* Assets.xcassets */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		9D769A7E297D2C93005DD7EE /* WikiResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiResult.swift; sourceTree = "<group>"; };
+		9D769A80297D3AF8005DD7EE /* ContentView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView-ViewModel.swift"; sourceTree = "<group>"; };
 		ECA885562974165D002F9EF6 /* HaSuRiski.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HaSuRiski.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECA885592974165D002F9EF6 /* HaSuRiskiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaSuRiskiApp.swift; sourceTree = "<group>"; };
 		ECA8855B2974165D002F9EF6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -46,6 +48,7 @@
 		ECA8854D2974165D002F9EF6 = {
 			isa = PBXGroup;
 			children = (
+				9D769A80297D3AF8005DD7EE /* ContentView-ViewModel.swift */,
 				ECA885582974165D002F9EF6 /* HaSuRiski */,
 				ECA885572974165D002F9EF6 /* Products */,
 			);
@@ -159,6 +162,7 @@
 				ECA8856F29741DA2002F9EF6 /* Location.swift in Sources */,
 				9D769A7F297D2C93005DD7EE /* WikiResult.swift in Sources */,
 				ECA8857129742C3B002F9EF6 /* ColorInterpolation.swift in Sources */,
+				9D769A81297D3AF8005DD7EE /* ContentView-ViewModel.swift in Sources */,
 				ECA8855A2974165D002F9EF6 /* HaSuRiskiApp.swift in Sources */,
 				ECA8857329743680002F9EF6 /* AnnotationEditView.swift in Sources */,
 			);
