@@ -16,13 +16,38 @@ extension ContentView {
     // the ObservableObject, add a @MainActor
     @MainActor class ViewModel: ObservableObject {
         
-        @Published private(set) var locations = [Location]()
+        // can init with ` = [Location]()`
+        // or set type `: [Location]` and initialize at init()
+        // or set `: [Location]!` and initialize at a function called by init()
+        @Published private(set) var locations: [Location]
         @Published var selectedLocation: Location?
 
         @Published var mapRegion = MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 65.49, longitude: 25.50),
             span: MKCoordinateSpan(latitudeDelta: 12.0, longitudeDelta: 9.0))
 
+        let savePath = FileManager.documentDirectory.appendingPathComponent("SavedPlaces")
+        
+        init() {
+            // avoid calling sub-function because init works with half-initialized
+            // instance of a class, and needs workarounds calling sub-functions
+            do {
+                let data = try Data(contentsOf: savePath)
+                locations = try JSONDecoder().decode([Location].self, from: data)
+            } catch {
+                locations = []
+            }
+        }
+        
+        func saveLocations() {
+            do {
+                let data = try JSONEncoder().encode(locations)
+                try data.write(to: savePath, options: [.atomicWrite, .completeFileProtection])
+            } catch {
+                print("Unable to save data.")
+            }
+        }
+        
         func addLocation(acidity: Double) {
             let newLocation = Location(
                 id: UUID(),
@@ -32,6 +57,7 @@ extension ContentView {
                 longitude: mapRegion.center.longitude
             )
             locations.append(newLocation)
+            saveLocations()
         }
         
         func updateLocation(_ newLocation: Location) {
@@ -39,6 +65,7 @@ extension ContentView {
             
             if let index = locations.firstIndex(of: selectedPlace) {
                 locations[index] = newLocation
+                saveLocations()
             }
         }
     }
