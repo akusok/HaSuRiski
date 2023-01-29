@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import LocalAuthentication
 import MapKit
 
 struct PH {
@@ -27,7 +26,6 @@ extension ContentView {
         // or set `: [Location]!` and initialize at a function called by init()
         @Published private(set) var locations: [Location]
         @Published var selectedLocation: Location?
-        @Published var isUnlocked = false
 
         @Published var mapRegion = MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 65.49, longitude: 25.50),
@@ -73,28 +71,6 @@ extension ContentView {
             if let index = locations.firstIndex(of: selectedPlace) {
                 locations[index] = newLocation
                 saveLocations()
-            }
-        }
-        
-        func authenticate() {
-            let context = LAContext()
-            var error: NSError?
-            
-            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-                let reason = "Please authenticate yourself to unlock your annotations."
-                
-                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
-                    if success {
-                        Task {  @MainActor in
-                            // change published value from inside the Main actor
-                            self.isUnlocked = true
-                        }
-                    } else {
-                        // error
-                    }
-                }
-            } else {
-                // no biometrics
             }
         }
     }

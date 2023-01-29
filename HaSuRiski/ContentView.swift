@@ -35,72 +35,61 @@ struct ContentView: View {
     }
     
     var body: some View {
-        if viewModel.isUnlocked {
-            ZStack {
-                Map(coordinateRegion: $viewModel.mapRegion, annotationItems: viewModel.locations) { location in
-                    MapAnnotation(coordinate: location.coordinate) {
-                        Image(systemName: "star.circle")
-                            .resizable()
-                            .foregroundColor(getPinColor(location.acidity))
-                            .frame(width: 32, height: 32)
-                            .background(.white)
-                            .clipShape(Circle())
-                            .onTapGesture {
-                                viewModel.selectedLocation = location
-                            }
-                    }
+        ZStack {
+            Map(coordinateRegion: $viewModel.mapRegion, annotationItems: viewModel.locations) { location in
+                MapAnnotation(coordinate: location.coordinate) {
+                    Image(systemName: "star.circle")
+                        .resizable()
+                        .foregroundColor(getPinColor(location.acidity))
+                        .frame(width: 32, height: 32)
+                        .background(.white)
+                        .clipShape(Circle())
+                        .onTapGesture {
+                            viewModel.selectedLocation = location
+                        }
                 }
-                .onAppear {
-                    self.mapAppearanceInstance.delegate = mapCustomDelegate
-                    self.mapAppearanceInstance.addOverlay(getCustomOverlay())
-                }
-                .ignoresSafeArea()
-                Circle()
-                    .fill(.blue)
-                    .opacity(0.3)
-                    .frame(width: 32)
-                VStack {
+            }
+            .onAppear {
+                self.mapAppearanceInstance.delegate = mapCustomDelegate
+                self.mapAppearanceInstance.addOverlay(getCustomOverlay())
+            }
+            .ignoresSafeArea()
+            Circle()
+                .fill(.blue)
+                .opacity(0.3)
+                .frame(width: 32)
+            VStack {
+                Spacer()
+                HStack {
                     Spacer()
-                    HStack {
-                        Spacer()
-                        Button {
-                            viewModel.addLocation(acidity: PH.NORMAL)
-                        } label: {
-                            Image(systemName: "plus")
-                        }
-                        .padding()
-                        .background(.green.opacity(0.85))
-                        .foregroundColor(.white)
-                        .font(.title)
-                        .clipShape(Circle())
-                        .padding(.trailing)
-                        
-                        Button {
-                            viewModel.addLocation(acidity: PH.ACID)
-                        } label: {
-                            Image(systemName: "plus")
-                        }
-                        .padding()
-                        .background(.red.opacity(0.75))
-                        .foregroundColor(.white)
-                        .font(.title)
-                        .clipShape(Circle())
-                        .padding(.trailing)
+                    Button {
+                        viewModel.addLocation(acidity: PH.NORMAL)
+                    } label: {
+                        Image(systemName: "plus")
                     }
+                    .padding()
+                    .background(.green.opacity(0.85))
+                    .foregroundColor(.white)
+                    .font(.title)
+                    .clipShape(Circle())
+                    .padding(.trailing)
+                    
+                    Button {
+                        viewModel.addLocation(acidity: PH.ACID)
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                    .padding()
+                    .background(.red.opacity(0.75))
+                    .foregroundColor(.white)
+                    .font(.title)
+                    .clipShape(Circle())
+                    .padding(.trailing)
                 }
             }
-            .sheet(item: $viewModel.selectedLocation) { place in
-                LocationEditView(location: place) { viewModel.updateLocation($0) }
-            }
-        } else {
-            // show button to unlock
-            Button("Unlock Annotations") {
-                viewModel.authenticate()
-            }
-            .padding()
-            .background(.blue)
-            .foregroundColor(.white)
-            .clipShape(Capsule())
+        }
+        .sheet(item: $viewModel.selectedLocation) { place in
+            LocationEditView(location: place) { viewModel.updateLocation($0) }
         }
     }
 }
