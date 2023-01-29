@@ -8,11 +8,6 @@
 import Foundation
 import MapKit
 
-struct PH {
-    static let NORMAL = 7.0  // normal PH soil
-    static let ACID = 5.6    // 100% acid sulfate soil
-}
-
 extension ContentView {
     
     // tab this class inside our ContentView
@@ -59,11 +54,11 @@ extension ContentView {
             locations = newLocations
         }
         
-        func addLocation(acidity: Double) {
+        func addLocation(isAcidSulfate: Bool) {
             let newLocation = Location(
                 id: UUID(),
                 name: "New",
-                acidity: acidity,
+                acidSulfate: isAcidSulfate,
                 latitude: mapRegion.center.latitude,
                 longitude: mapRegion.center.longitude
             )

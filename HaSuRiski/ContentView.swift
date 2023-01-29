@@ -40,7 +40,7 @@ struct ContentView: View {
                 MapAnnotation(coordinate: location.coordinate) {
                     Image(systemName: "star.circle")
                         .resizable()
-                        .foregroundColor(getPinColor(location.acidity))
+                        .foregroundColor(location.acidSulfate ? .red : .green)
                         .frame(width: 32, height: 32)
                         .background(.white)
                         .clipShape(Circle())
@@ -102,7 +102,7 @@ struct ContentView: View {
                     Spacer()
                     
                     Button {
-                        viewModel.addLocation(acidity: PH.NORMAL)
+                        viewModel.addLocation(isAcidSulfate: false)
                     } label: {
                         Image(systemName: "plus")
                     }
@@ -114,7 +114,7 @@ struct ContentView: View {
                     .padding(.trailing)
                     
                     Button {
-                        viewModel.addLocation(acidity: PH.ACID)
+                        viewModel.addLocation(isAcidSulfate: true)
                     } label: {
                         Image(systemName: "plus")
                     }

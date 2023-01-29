@@ -17,7 +17,7 @@ struct LocationEditView: View {
     var onSave: (Location) -> Void
 
     @State private var name: String
-    @State private var acidity: Double
+    @State private var acidSulfate: Bool
     
     // default state is "currently loading data"
     @State private var loadingState = LoadingState.loading
@@ -31,19 +31,9 @@ struct LocationEditView: View {
             Form {
                 Section {
                     TextField("Name", text: $name)
-                    
                     VStack {
-                        Slider(value: $acidity, in: PH.ACID...PH.NORMAL, step: 0.1) {
-                            Text("Acidity")
-                        } minimumValueLabel: {
-                            Text(String(format: "≤ %.1f", PH.ACID))
-                                .foregroundColor(.red)
-                        } maximumValueLabel: {
-                            Text(String(format: "≥ %.1f", PH.NORMAL))
-                                .foregroundColor(.green)
-                        }
-                        Text(String(format: "Soil acidity PH: %.1f", acidity))
-                            .foregroundColor(getPinColor(acidity))
+                        Toggle(acidSulfate ? "Acid Sulfate soil" : "Normal Soil", isOn: $acidSulfate)
+                            .foregroundColor(acidSulfate ? .red : .green)
                     }
                 }
                 Section("Nearby...") {
@@ -70,7 +60,7 @@ struct LocationEditView: View {
                     var newLocation = location
                     newLocation.id = UUID()
                     newLocation.name = name
-                    newLocation.acidity = acidity
+                    newLocation.acidSulfate = acidSulfate
                     
                     onSave(newLocation)
                     dismiss()
@@ -88,7 +78,7 @@ struct LocationEditView: View {
         self.onSave = onSave
         
         _name = State(initialValue: location.name)
-        _acidity = State(initialValue: location.acidity)
+        _acidSulfate = State(initialValue: location.acidSulfate)
     }
     
     func fetchNearbyPlaces() async {
