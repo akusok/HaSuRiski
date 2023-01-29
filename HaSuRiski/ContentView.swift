@@ -61,7 +61,18 @@ struct ContentView: View {
             VStack {
                 Spacer()
                 HStack {
+                    Button {
+                        viewModel.showingExporter.toggle()
+                    } label: {
+                        Image(systemName: "square.and.arrow.up.circle")
+                    }
+                    .padding(.leading)
+                    .foregroundColor(.blue.opacity(0.75))
+                    .font(.system(size: 55))
+                    .fileExporter(isPresented: $viewModel.showingExporter, document: LocationDoc(content: viewModel.locations), contentType: .text) { result in }
+                    
                     Spacer()
+                    
                     Button {
                         viewModel.addLocation(acidity: PH.NORMAL)
                     } label: {
