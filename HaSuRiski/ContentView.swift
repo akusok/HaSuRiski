@@ -59,7 +59,6 @@ struct ContentView: View {
                 .opacity(0.3)
                 .frame(width: 32)
             VStack {
-                Spacer()
                 HStack {
                     Button {
                         viewModel.showingExporter.toggle()
@@ -67,10 +66,38 @@ struct ContentView: View {
                         Image(systemName: "square.and.arrow.up.circle")
                     }
                     .padding(.leading)
-                    .foregroundColor(.blue.opacity(0.75))
-                    .font(.system(size: 55))
+                    .foregroundColor(.blue.opacity(0.85))
+                    .font(.system(size: 50))
                     .fileExporter(isPresented: $viewModel.showingExporter, document: LocationDoc(content: viewModel.locations), contentType: .text) { result in }
+
+                    Spacer()
                     
+                    Button {
+                        viewModel.showingImporter.toggle()
+                    } label: {
+                        Image(systemName: "square.and.arrow.down")
+                    }
+                    .padding(.trailing)
+                    .foregroundColor(.blue.opacity(0.85))
+                    .font(.system(size: 40))
+                    .fileImporter(isPresented: $viewModel.showingImporter, allowedContentTypes: [.text]) { result in
+                        do {
+                            let fileUrl = try result.get()
+                        
+                            if fileUrl.startAccessingSecurityScopedResource() {
+                                let data = try Data(contentsOf: result.get())
+                                let fileLocations = try JSONDecoder().decode([Location].self, from: data)
+                                viewModel.setLocations(fileLocations)
+                            }
+                            fileUrl.stopAccessingSecurityScopedResource()
+                            
+                        } catch let error as NSError {
+                            fatalError("Error: \(error.localizedDescription)")
+                        }
+                    }
+                }
+                Spacer()
+                HStack {
                     Spacer()
                     
                     Button {

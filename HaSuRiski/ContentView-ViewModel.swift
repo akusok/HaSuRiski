@@ -27,6 +27,7 @@ extension ContentView {
         @Published private(set) var locations: [Location]
         @Published var selectedLocation: Location?
         @Published var showingExporter = false
+        @Published var showingImporter = false
 
         @Published var mapRegion = MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 65.49, longitude: 25.50),
@@ -52,6 +53,10 @@ extension ContentView {
             } catch {
                 print("Unable to save data.")
             }
+        }
+        
+        func setLocations(_ newLocations: [Location]) {
+            locations = newLocations
         }
         
         func addLocation(acidity: Double) {

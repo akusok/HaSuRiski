@@ -42,10 +42,12 @@ struct LocationDoc: FileDocument {
     }
 
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        let header = "Name,Acidity,Latitude,Longitude,ID\n"
-        let text = header + content.reduce("") {
-            $0 + "\($1.name),\($1.acidity),\($1.latitude),\($1.longitude),\($1.id)\n"
+        do {
+            let json = try String(data: JSONEncoder().encode(content), encoding: String.Encoding.utf8)
+            let data = json?.data(using: .utf8) ?? Data()
+            return FileWrapper(regularFileWithContents: data)
+        } catch {
+            return FileWrapper(regularFileWithContents: Data())
         }
-        return FileWrapper(regularFileWithContents: text.data(using: .utf8) ?? Data())
     }
 }
