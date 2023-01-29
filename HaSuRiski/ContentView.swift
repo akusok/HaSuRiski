@@ -58,6 +58,7 @@ struct ContentView: View {
                 .fill(.blue)
                 .opacity(0.3)
                 .frame(width: 32)
+                .allowsHitTesting(false)
             VStack {
                 HStack {
                     Button {
