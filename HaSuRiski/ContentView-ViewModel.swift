@@ -26,6 +26,7 @@ extension ContentView {
         // or set `: [Location]!` and initialize at a function called by init()
         @Published private(set) var locations: [Location]
         @Published var selectedLocation: Location?
+        @Published var showingExporter = false
 
         @Published var mapRegion = MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 65.49, longitude: 25.50),
