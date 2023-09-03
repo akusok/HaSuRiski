@@ -15,14 +15,19 @@ struct ContentView: View {
         VStack {
             MapView(selectedLayer: $selectedLayer)
                 .edgesIgnoringSafeArea(.all)
+                        
+            Text("Select map layer")
+                .padding(.top)
             
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            
-            Text("Hello, world!")
+            Picker("Select map layer", selection: $selectedLayer) {
+                ForEach(Layer.allCases, id: \.id) { value in
+                    Text(value.localized)
+                        .tag(value)
+                }
+            }
         }
-        .padding()
+        .ignoresSafeArea()
+        .padding(.bottom)
     }
 }
 
