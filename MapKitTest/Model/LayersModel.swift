@@ -18,6 +18,8 @@ enum Layer: String, CaseIterable, Equatable, Identifiable {
     case openStreetMap = "OSM"
     case openTopoMap = "Open Topo Map"
     case swissTopo = "Swiss Topo map"
+    case hasuriski = "<my> HaSuRiski"
+    case gtkEnnako = "<GTK> Ennako"
 
     var localized: LocalizedStringKey { LocalizedStringKey(rawValue) }
     

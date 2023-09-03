@@ -17,3 +17,7 @@ let OpenTopoMapOverlay = MKTileOverlay(urlTemplate: "https://b.tile.opentopomap.
 let OpenStreetMapOverlay = MKTileOverlay(urlTemplate: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png")
 
 let SwissTopoMapOverlay = MKTileOverlay(urlTemplate: "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg")
+
+let PredictTerrain = MKTileOverlay(urlTemplate: "http://akusok.asuscomm.com:9000/elevation/predict_terrain/{z}/{x}/{y}.png")
+
+let GTKEnnako = MKTileOverlay(urlTemplate: "http://akusok.asuscomm.com:9000/elevation/hasuriski_ennako/{z}/{x}/{y}.png")

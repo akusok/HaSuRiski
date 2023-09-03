@@ -80,6 +80,10 @@ struct MapView: UIViewRepresentable {
                 overlay = SwissTopoMapOverlay
             case .ign25:
                 overlay = IGN25Overlay
+            case .hasuriski:
+                overlay = PredictTerrain
+            case .gtkEnnako:
+                overlay = GTKEnnako
             default: //ign
                 overlay = IGNV2Overlay
             }
