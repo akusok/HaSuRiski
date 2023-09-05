@@ -12,6 +12,7 @@ import MapKit
 struct MapView: UIViewRepresentable {
     
     @Binding var selectedLayer: Layer
+    private let tilesModel = TilesModel.shared
         
     init(selectedLayer: Binding<Layer>) {
         self._selectedLayer = selectedLayer
@@ -70,25 +71,9 @@ struct MapView: UIViewRepresentable {
         case .standard:
             mapView.mapType = .standard
         default:
-            let overlay: MKTileOverlay
-            switch selectedLayer {
-            case .openStreetMap:
-                overlay = OpenStreetMapOverlay
-            case .openTopoMap:
-                overlay = OpenTopoMapOverlay
-            case .swissTopo:
-                overlay = SwissTopoMapOverlay
-            case .ign25:
-                overlay = IGN25Overlay
-            case .hasuriski:
-                overlay = PredictTerrain
-            case .gtkEnnako:
-                overlay = GTKEnnako
-            default: //ign
-                overlay = IGNV2Overlay
-            }
+            tilesModel.selectedLayer = selectedLayer
+            let overlay = tilesModel.getOverlay()
             overlay.canReplaceMapContent = false
-            // Other type underneath the overlay not used in standard/hybrid/hybridFlyover cases to track changes
             mapView.mapType = .mutedStandard
             mapView.addOverlay(overlay, level: .aboveLabels)
         }

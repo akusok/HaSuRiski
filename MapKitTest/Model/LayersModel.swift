@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 enum Layer: String, CaseIterable, Equatable, Identifiable {
     
@@ -29,3 +30,26 @@ enum Layer: String, CaseIterable, Equatable, Identifiable {
     var id: Self { self }
     
 }
+
+// example URL:  http://server/path?x={x}&y={y}&z={z}&scale={scale}.
+
+let mapPaths: [Layer: String] = [
+    .ign: "https://wxs.ign.fr/pratique/geoportail/wmts?layer=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&style=normal&tilematrixset=PM&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fpng&TileMatrix={z}&TileCol={x}&TileRow={y}",
+    .ign25: "https://wxs.ign.fr/an7nvfzojv5wa96dsga5nk8w/geoportail/wmts?layer=GEOGRAPHICALGRIDSYSTEMS.MAPS&style=normal&tilematrixset=PM&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}",
+    .openStreetMap: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    .openTopoMap: "https://b.tile.opentopomap.org/{z}/{x}/{y}.png",
+    .swissTopo: "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg",
+    .hasuriski: "http://akusok.asuscomm.com:9000/elevation/predict_terrain/{z}/{x}/{y}.png",
+    .gtkEnnako: "http://akusok.asuscomm.com:9000/elevation/hasuriski_ennako/{z}/{x}/{y}.png",
+]
+
+let mapTileOverlays: [Layer: MKTileOverlay] = [
+    .ign: MKTileOverlay(urlTemplate:"https://wxs.ign.fr/pratique/geoportail/wmts?layer=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&style=normal&tilematrixset=PM&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fpng&TileMatrix={z}&TileCol={x}&TileRow={y}"),
+    .ign25: MKTileOverlay(urlTemplate:"https://wxs.ign.fr/an7nvfzojv5wa96dsga5nk8w/geoportail/wmts?layer=GEOGRAPHICALGRIDSYSTEMS.MAPS&style=normal&tilematrixset=PM&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"),
+    .openStreetMap: MKTileOverlay(urlTemplate:"https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"),
+    .openTopoMap: MKTileOverlay(urlTemplate:"https://b.tile.opentopomap.org/{z}/{x}/{y}.png"),
+    .swissTopo: MKTileOverlay(urlTemplate:"https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg"),
+    .hasuriski: MKTileOverlay(urlTemplate:"http://akusok.asuscomm.com:9000/elevation/predict_terrain/{z}/{x}/{y}.png"),
+    .gtkEnnako: MKTileOverlay(urlTemplate:"http://akusok.asuscomm.com:9000/elevation/hasuriski_ennako/{z}/{x}/{y}.png"),
+]
+

@@ -8,16 +8,32 @@
 import SwiftUI
 import MapKit
 
-let IGNV2Overlay = MKTileOverlay(urlTemplate: "https://wxs.ign.fr/pratique/geoportail/wmts?layer=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&style=normal&tilematrixset=PM&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fpng&TileMatrix={z}&TileCol={x}&TileRow={y}")
 
-let IGN25Overlay = MKTileOverlay(urlTemplate: "https://wxs.ign.fr/an7nvfzojv5wa96dsga5nk8w/geoportail/wmts?layer=GEOGRAPHICALGRIDSYSTEMS.MAPS&style=normal&tilematrixset=PM&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}")
-                                 
-let OpenTopoMapOverlay = MKTileOverlay(urlTemplate: "https://b.tile.opentopomap.org/{z}/{x}/{y}.png")
+// // Does not work well, empty screen
+//class CustomTileOverlay: MKTileOverlay, ObservableObject {
+//
+//    @Published var selectedLayer: Layer = .standard
+//    
+//    static let shared = CustomTileOverlay()
+//
+//    override func url(forTilePath path: MKTileOverlayPath) -> URL {
+//        let overlay: MKTileOverlay = mapTileOverlays[self.selectedLayer]!
+//        let url = overlay.url(forTilePath: path)
+//        return url
+//    }
+//    
+//}
 
-let OpenStreetMapOverlay = MKTileOverlay(urlTemplate: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png")
-
-let SwissTopoMapOverlay = MKTileOverlay(urlTemplate: "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg")
-
-let PredictTerrain = MKTileOverlay(urlTemplate: "http://akusok.asuscomm.com:9000/elevation/predict_terrain/{z}/{x}/{y}.png")
-
-let GTKEnnako = MKTileOverlay(urlTemplate: "http://akusok.asuscomm.com:9000/elevation/hasuriski_ennako/{z}/{x}/{y}.png")
+class TilesModel: ObservableObject {
+    
+    @Published var selectedLayer: Layer = .standard
+    
+    static let shared = TilesModel()
+    
+    func getOverlay() -> MKTileOverlay {
+        let overlay = mapTileOverlays[self.selectedLayer]!
+        overlay.minimumZ = 2
+        overlay.maximumZ = 16
+        return overlay
+    }
+}
