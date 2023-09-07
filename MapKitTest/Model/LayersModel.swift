@@ -17,10 +17,10 @@ enum Layer: String, CaseIterable, Equatable, Identifiable {
     case ign = "IGN"
     case ign25 = "ign25"
     case openStreetMap = "OSM"
-    case openTopoMap = "Open Topo Map"
-    case swissTopo = "Swiss Topo map"
-    case hasuriski = "<my> HaSuRiski"
-    case gtkEnnako = "<GTK> Ennako"
+    case openTopoMap = "Open Topo"
+    case swissTopo = "Swiss Topo"
+    case hasuriski = "HaSuRiski"
+    case gtkEnnako = "Ennako"
 
     var localized: LocalizedStringKey { LocalizedStringKey(rawValue) }
     

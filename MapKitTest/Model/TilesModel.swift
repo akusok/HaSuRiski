@@ -9,20 +9,14 @@ import SwiftUI
 import MapKit
 
 
-// // Does not work well, empty screen
-//class CustomTileOverlay: MKTileOverlay, ObservableObject {
-//
-//    @Published var selectedLayer: Layer = .standard
-//    
-//    static let shared = CustomTileOverlay()
-//
-//    override func url(forTilePath path: MKTileOverlayPath) -> URL {
-//        let overlay: MKTileOverlay = mapTileOverlays[self.selectedLayer]!
-//        let url = overlay.url(forTilePath: path)
-//        return url
-//    }
-//    
-//}
+ // Does not work well, empty screen
+class CustomTileOverlay: MKTileOverlay {
+
+    init(selectedLayer: Layer) {
+        super.init(urlTemplate: mapPaths[selectedLayer])
+    }
+    
+}
 
 class TilesModel: ObservableObject {
     

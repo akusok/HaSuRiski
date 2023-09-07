@@ -11,11 +11,14 @@ import MapKit
 
 struct MapView: UIViewRepresentable {
     
+    @EnvironmentObject var locationsModel: LocationsViewModel
     @Binding var selectedLayer: Layer
+    @Binding var region: MKCoordinateRegion
     private let tilesModel = TilesModel.shared
-        
-    init(selectedLayer: Binding<Layer>) {
+
+    init(selectedLayer: Binding<Layer>, region: Binding<MKCoordinateRegion>) {
         self._selectedLayer = selectedLayer
+        self._region = region
     }
 
     func makeCoordinator() -> Coordinator {
@@ -38,6 +41,32 @@ struct MapView: UIViewRepresentable {
                 return MKOverlayRenderer()
             }
         }
+        
+        func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+            parent.region = mapView.region
+        }
+        
+        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+            print("trying to display annotation on map")
+
+            if let annotation = annotation as? LocAnnotation {
+                let identifier = "Annotation"
+                var view = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                if let view = view {
+                    view.annotation = annotation
+                } else {
+                    view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                    view?.canShowCallout = true
+                }
+                if let view = view as? MKMarkerAnnotationView {
+                    view.glyphImage = annotation.markerGlyph
+                    view.markerTintColor = annotation.markerColor
+                }
+                return view
+            } else {
+                return nil
+            }
+        }
     }
     
     func makeUIView(context: Context) -> MKMapView {
@@ -49,6 +78,7 @@ struct MapView: UIViewRepresentable {
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
         setOverlays(mapView: uiView)
+        setAnnotations(mapView: uiView)
     }
     
     private func configureMap(mapView: MKMapView) {
@@ -59,6 +89,7 @@ struct MapView: UIViewRepresentable {
         mapView.tintColor = .blue
         mapView.isPitchEnabled = true
         mapView.showsCompass = true // Remove default
+        mapView.setRegion(region, animated: true)
     }
     
     private func setOverlays(mapView: MKMapView) {
@@ -78,16 +109,36 @@ struct MapView: UIViewRepresentable {
             mapView.addOverlay(overlay, level: .aboveLabels)
         }
     }
+    
+    private func setAnnotations(mapView: MKMapView) {
+        let previousAnnotations = mapView.annotations
+        mapView.removeAnnotations(previousAnnotations)
+        mapView.addAnnotations(self.locationsModel.annotations)
+        
+//        let previousAnnotations = mapView.annotations
+//        if previousAnnotations.count != annotations.count + 1 {
+//            mapView.removeAnnotations(previousAnnotations)
+//            mapView.addAnnotations(annotations)
+//        } else {
+//            guard selectedPoi == nil else { return }
+//            mapView.deselectAnnotation(selectedAnnotation, animated: true)
+//        }
+
+    }
+
 }
 
 // MARK: Previews
 struct MapView_Previews: PreviewProvider {
     @State static var selectedLayer: Layer = .ign25
+    @State static var loc = LocationsViewModel()
+    @State static var myMap = MapView(selectedLayer: $selectedLayer, region: $loc.mapRegion)
     
     static var previews: some View {
-        MapView(selectedLayer: $selectedLayer)
+        myMap
             .previewDevice(PreviewDevice(rawValue: "iPhone X"))
             .previewDisplayName("iPhone X")
             .environment(\.colorScheme, .dark)
+            .environmentObject(loc)
     }
 }

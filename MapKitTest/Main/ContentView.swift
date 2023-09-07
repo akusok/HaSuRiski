@@ -6,31 +6,60 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct ContentView: View {
 
-    @State var selectedLayer: Layer = .ign25
-    
+    @State var selectedLayer: Layer = .standard
+    @StateObject var viewModel = LocationsViewModel()
+
     var body: some View {
-        VStack {
-            MapView(selectedLayer: $selectedLayer)
-                .edgesIgnoringSafeArea(.all)
-                        
-            Text("Select map layer")
-                .padding(.top)
+        ZStack {
+            MapView(selectedLayer: $selectedLayer, region: $viewModel.mapRegion)
+                .ignoresSafeArea()
+                    
+            // at the center
+            Circle()
+                .fill(.blue)
+                .opacity(0.3)
+                .frame(width: 32)
+                .allowsHitTesting(false)
             
-            Picker("Select map layer", selection: $selectedLayer) {
-                ForEach(Layer.allCases, id: \.id) { value in
-                    Text(value.localized)
-                        .tag(value)
+            VStack {
+                HStack {
+                    SaveButton()
+                    LoadButton()
+                    Spacer()
+                    
+                    Picker("Select map layer", selection: $selectedLayer) {
+                        ForEach(Layer.allCases, id: \.id) { Text($0.localized) }
+                    }
+                    .accentColor(.black)
+                    .background(.white.opacity(0.7))
+                    .cornerRadius(8)
+                    .padding(.trailing)
+                }
+                
+                Spacer()
+                
+                HStack {
+                    Spacer()
+                    AddPinButton(isAS: false, bgColor: .green.opacity(0.85))
+                    AddPinButton(isAS: true, bgColor: .red.opacity(0.75))
                 }
             }
         }
-        .ignoresSafeArea()
-        .padding(.bottom)
+        .environmentObject(viewModel)
     }
 }
 
-#Preview {
-    ContentView()
+
+struct ContentView_Previews: PreviewProvider {
+    
+    static let loc = LocationsViewModel()
+    
+    static var previews: some View {
+        ContentView()
+            .environmentObject(loc)
+    }
 }
