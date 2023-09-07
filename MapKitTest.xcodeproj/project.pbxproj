@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D2D08092AA9F602007AB5B7 /* CachedOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2D08082AA9F602007AB5B7 /* CachedOverlay.swift */; };
+		9D2D080C2AA9F63D007AB5B7 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 9D2D080B2AA9F63D007AB5B7 /* Cache */; };
 		9D8DD0822AA526730053FB8D /* Semaphore in Frameworks */ = {isa = PBXBuildFile; productRef = 9D8DD0812AA526730053FB8D /* Semaphore */; };
 		9DE12DB52AA7201000AC759C /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE12DB42AA7201000AC759C /* Buttons.swift */; };
 		9DE12DB72AA7202E00AC759C /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE12DB62AA7202E00AC759C /* LocationModel.swift */; };
@@ -23,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9D2D08082AA9F602007AB5B7 /* CachedOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedOverlay.swift; sourceTree = "<group>"; };
 		9DE12DB42AA7201000AC759C /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
 		9DE12DB62AA7202E00AC759C /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
 		9DE12DB92AA7208200AC759C /* LocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
@@ -45,6 +48,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D8DD0822AA526730053FB8D /* Semaphore in Frameworks */,
+				9D2D080C2AA9F63D007AB5B7 /* Cache in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,6 +119,7 @@
 				ECD617862AA4BD0D00C0633B /* LayersModel.swift */,
 				ECD6178E2AA4E23200C0633B /* TilesModel.swift */,
 				9DE12DB62AA7202E00AC759C /* LocationModel.swift */,
+				9D2D08082AA9F602007AB5B7 /* CachedOverlay.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -137,6 +142,7 @@
 			name = MapKitTest;
 			packageProductDependencies = (
 				9D8DD0812AA526730053FB8D /* Semaphore */,
+				9D2D080B2AA9F63D007AB5B7 /* Cache */,
 			);
 			productName = MapKitTest;
 			productReference = ECD6174F2AA4B7C400C0633B /* MapKitTest.app */;
@@ -168,6 +174,7 @@
 			mainGroup = ECD617462AA4B7C400C0633B;
 			packageReferences = (
 				ECD6178A2AA4BEAA00C0633B /* XCLocalSwiftPackageReference "../Semaphore" */,
+				9D2D080A2AA9F63D007AB5B7 /* XCLocalSwiftPackageReference "../Cache" */,
 			);
 			productRefGroup = ECD617502AA4B7C400C0633B /* Products */;
 			projectDirPath = "";
@@ -200,6 +207,7 @@
 				ECD617532AA4B7C400C0633B /* AppDelegate.swift in Sources */,
 				ECD617852AA4B9B200C0633B /* MapView.swift in Sources */,
 				ECD617872AA4BD0D00C0633B /* LayersModel.swift in Sources */,
+				9D2D08092AA9F602007AB5B7 /* CachedOverlay.swift in Sources */,
 				ECD617812AA4B90B00C0633B /* ContentView.swift in Sources */,
 				ECD617552AA4B7C400C0633B /* SceneDelegate.swift in Sources */,
 				9DE12DBA2AA7208200AC759C /* LocationViewModel.swift in Sources */,
@@ -419,6 +427,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
+		9D2D080A2AA9F63D007AB5B7 /* XCLocalSwiftPackageReference "../Cache" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Cache;
+		};
 		ECD6178A2AA4BEAA00C0633B /* XCLocalSwiftPackageReference "../Semaphore" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../Semaphore;
@@ -426,6 +438,10 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		9D2D080B2AA9F63D007AB5B7 /* Cache */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Cache;
+		};
 		9D8DD0812AA526730053FB8D /* Semaphore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Semaphore;

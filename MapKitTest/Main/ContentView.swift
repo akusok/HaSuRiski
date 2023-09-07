@@ -11,11 +11,12 @@ import MapKit
 struct ContentView: View {
 
     @State var selectedLayer: Layer = .standard
+    @State var isGrayscale: Bool = false
     @StateObject var viewModel = LocationsViewModel()
 
     var body: some View {
         ZStack {
-            MapView(selectedLayer: $selectedLayer, region: $viewModel.mapRegion)
+            MapView(selectedLayer: $selectedLayer, region: $viewModel.mapRegion, isGrayscale: $isGrayscale)
                 .ignoresSafeArea()
                     
             // at the center
@@ -43,6 +44,19 @@ struct ContentView: View {
                 Spacer()
                 
                 HStack {
+                    
+                    Button {
+                        self.isGrayscale.toggle()
+                    } label: {
+                        Image(systemName: "eye.fill")
+                    }
+                    .padding()
+                    .background(.gray.opacity(0.75))
+                    .foregroundColor(.white)
+                    .font(.title)
+                    .clipShape(Circle())
+                    .padding(.leading)
+                    
                     Spacer()
                     AddPinButton(isAS: false, bgColor: .green.opacity(0.85))
                     AddPinButton(isAS: true, bgColor: .red.opacity(0.75))

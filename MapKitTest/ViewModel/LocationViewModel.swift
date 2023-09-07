@@ -10,15 +10,12 @@ import MapKit
 
 class LocationsViewModel: ObservableObject {
 
-    // can init with ` = [Location]()`
-    // or set type `: [Location]` and initialize at init()
-    // or set `: [Location]!` and initialize at a function called by init()
-//    private(set) var locations: [Location]
     var locations: [Location]
-    var annotations: [LocAnnotation] {
-        locations.map { LocAnnotation(poi: $0) }
-    }
+//    var annotations: [LocAnnotation] {
+//        locations.map { LocAnnotation(poi: $0) }
+//    }
     
+    @Published var showGrayscale = false
     @Published var selectedLocation: Location?
     @Published var showingExporter = false
     @Published var showingImporter = false

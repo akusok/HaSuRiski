@@ -13,12 +13,15 @@ struct MapView: UIViewRepresentable {
     
     @EnvironmentObject var locationsModel: LocationsViewModel
     @Binding var selectedLayer: Layer
+    @Binding var isGrayscale: Bool
     @Binding var region: MKCoordinateRegion
     private let tilesModel = TilesModel.shared
+    private var locationsCount: Int = 0
 
-    init(selectedLayer: Binding<Layer>, region: Binding<MKCoordinateRegion>) {
+    init(selectedLayer: Binding<Layer>, region: Binding<MKCoordinateRegion>, isGrayscale: Binding<Bool>) {
         self._selectedLayer = selectedLayer
         self._region = region
+        self._isGrayscale = isGrayscale
     }
 
     func makeCoordinator() -> Coordinator {
@@ -47,8 +50,6 @@ struct MapView: UIViewRepresentable {
         }
         
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-            print("trying to display annotation on map")
-
             if let annotation = annotation as? LocAnnotation {
                 let identifier = "Annotation"
                 var view = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
@@ -103,6 +104,7 @@ struct MapView: UIViewRepresentable {
             mapView.mapType = .standard
         default:
             tilesModel.selectedLayer = selectedLayer
+            tilesModel.isGrayscale = isGrayscale
             let overlay = tilesModel.getOverlay()
             overlay.canReplaceMapContent = false
             mapView.mapType = .mutedStandard
@@ -112,18 +114,11 @@ struct MapView: UIViewRepresentable {
     
     private func setAnnotations(mapView: MKMapView) {
         let previousAnnotations = mapView.annotations
-        mapView.removeAnnotations(previousAnnotations)
-        mapView.addAnnotations(self.locationsModel.annotations)
-        
-//        let previousAnnotations = mapView.annotations
-//        if previousAnnotations.count != annotations.count + 1 {
-//            mapView.removeAnnotations(previousAnnotations)
-//            mapView.addAnnotations(annotations)
-//        } else {
-//            guard selectedPoi == nil else { return }
-//            mapView.deselectAnnotation(selectedAnnotation, animated: true)
-//        }
-
+        let annotations = self.locationsModel.locations.map { LocAnnotation(poi: $0) }
+        if previousAnnotations.count != annotations.count {
+            mapView.removeAnnotations(previousAnnotations)
+            mapView.addAnnotations(annotations)
+        }
     }
 
 }
@@ -132,7 +127,8 @@ struct MapView: UIViewRepresentable {
 struct MapView_Previews: PreviewProvider {
     @State static var selectedLayer: Layer = .ign25
     @State static var loc = LocationsViewModel()
-    @State static var myMap = MapView(selectedLayer: $selectedLayer, region: $loc.mapRegion)
+    @State static var isGrayscale = false
+    @State static var myMap = MapView(selectedLayer: $selectedLayer, region: $loc.mapRegion, isGrayscale: $isGrayscale)
     
     static var previews: some View {
         myMap
