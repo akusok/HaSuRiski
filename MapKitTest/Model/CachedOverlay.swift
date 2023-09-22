@@ -8,6 +8,7 @@
 
 import Cache
 import MapKit
+import MetalPerformanceShaders
 
 
 class CachedTileOverlay: MKTileOverlay {
@@ -17,6 +18,8 @@ class CachedTileOverlay: MKTileOverlay {
     private let operationQueue = OperationQueue()
     private let session = URLSession.shared
     @Published var isGrayscale: Bool = false
+    private let device: MTLDevice
+
     
     private let cache = try! Storage<String, Data>(
         diskConfig: DiskConfig(name: "TileCache"),
@@ -26,6 +29,7 @@ class CachedTileOverlay: MKTileOverlay {
     private let subdomains = ["a", "b", "c"]
 
     override init(urlTemplate URLTemplate: String?) {
+        device = MTLCreateSystemDefaultDevice()!
         super.init(urlTemplate: URLTemplate)
         UIGraphicsGetCurrentContext()?.interpolationQuality = .high
         try? self.cache.removeExpiredObjects()
@@ -56,7 +60,7 @@ class CachedTileOverlay: MKTileOverlay {
     private func scaleUp (data: Data, targetHeight: CGFloat) -> Data {
         if let img = Image(data: data) {
             if self.isGrayscale {
-                return img.noir()!.pngData()!
+                return img.noir(device: device)!.pngData()!
             }
         }
         return data
@@ -104,14 +108,62 @@ extension UIImage {
         return newImage
     }
     
-    func noir() -> UIImage? {
-       let context = CIContext(options: nil)
-       guard let currentFilter = CIFilter(name: "CIPhotoEffectNoir") else { return nil }
-       currentFilter.setValue(CIImage(image: self), forKey: kCIInputImageKey)
-       if let output = currentFilter.outputImage,
+    func noir(device: MTLDevice) -> UIImage? {
+        
+        let x = self.cgImage!
+        print(x.bitsPerPixel)
+        let provider = x.dataProvider
+        let providerData = provider?.data!
+        let dataPtr = CFDataGetBytePtr(providerData)!
+        
+        let N = 256*256*4
+        var dataDiff: [UInt8] = Array(repeating: 0, count: N)
+        for i in stride(from: 0, to: N, by: 4) { dataDiff[i] = dataPtr[i] < 200 ? 50 : 0 }
+        
+        
+        var dataVector2: [UInt8]?
+        let a, b: Int
+        (dataVector2, a, b) = UIImage(cgImage: x).pixelData()
+        
+        print(dataVector2?.count)
+        print(Array(0..<20).map { dataVector2![$0] })
+        
+        
+        let buffer = device.makeBuffer(bytes: dataPtr, length: N, options: [])!
+        let descr = MPSVectorDescriptor(length: N, dataType: .uInt8)
+        let dataVector = MPSVector(buffer: buffer, descriptor: descr)
+                
+        let res = dataVector.data.contents().bindMemory(to: UInt8.self, capacity: N)
+        let resArray = Array(0 ..< 20).map { res[$0] }
+        print(resArray.map{ String($0) }.joined(separator: "\t"))
+        
+        let context = CIContext(options: nil)
+        guard let currentFilter = CIFilter(name: "CIPhotoEffectNoir") else { return nil }
+        currentFilter.setValue(CIImage(image: self), forKey: kCIInputImageKey)
+        if let output = currentFilter.outputImage,
            let cgImage = context.createCGImage(output, from: output.extent) {
            return UIImage(cgImage: cgImage, scale: scale, orientation: imageOrientation)
-       }
-       return nil
+        }
+        return nil
    }
 }
+
+
+// Make uiImage from data
+
+//let width = 2
+//let height = 1
+//let bytesPerPixel = 4 // RGBA
+//
+//let content = UnsafeMutablePointer<UInt8>.allocate(capacity: width * height * bytesPerPixel)
+//apply_raw_data(content) // set content to [255,0,0,0,255,0,0,0]
+//
+//let colorSpace = CGColorSpaceCreateDeviceRGB()
+//
+//guard let context = CGContext(data: content, width: width, height: height, bitsPerComponent: 8, bytesPerRow: width * 4, space: colorSpace, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
+//    else { return }
+//    
+//if let cgImage = context.makeImage() {
+//    let image = UIImage(cgImage)
+//    // use image here
+//}
