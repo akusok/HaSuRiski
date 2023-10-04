@@ -22,6 +22,9 @@
 		EC8B5E5D2ACDEE3A002AEA38 /* ELM.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8B5E5B2ACDEE3A002AEA38 /* ELM.swift */; };
 		EC8B5E5E2ACDEE3A002AEA38 /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8B5E5C2ACDEE3A002AEA38 /* utils.swift */; };
 		EC8B5E602ACDEEA4002AEA38 /* imageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8B5E5F2ACDEEA4002AEA38 /* imageUtils.swift */; };
+		EC8B5E622ACDEF02002AEA38 /* ELMModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8B5E612ACDEF02002AEA38 /* ELMModel.swift */; };
+		EC8B5E652ACDEF80002AEA38 /* hbias_150.npy in Resources */ = {isa = PBXBuildFile; fileRef = EC8B5E632ACDEF7F002AEA38 /* hbias_150.npy */; };
+		EC8B5E662ACDEF80002AEA38 /* hW_150.npy in Resources */ = {isa = PBXBuildFile; fileRef = EC8B5E642ACDEF80002AEA38 /* hW_150.npy */; };
 		ECD617532AA4B7C400C0633B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD617522AA4B7C400C0633B /* AppDelegate.swift */; };
 		ECD617552AA4B7C400C0633B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD617542AA4B7C400C0633B /* SceneDelegate.swift */; };
 		ECD6175C2AA4B7DC00C0633B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECD6175B2AA4B7DC00C0633B /* Assets.xcassets */; };
@@ -46,6 +49,9 @@
 		EC8B5E5B2ACDEE3A002AEA38 /* ELM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ELM.swift; sourceTree = "<group>"; };
 		EC8B5E5C2ACDEE3A002AEA38 /* utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
 		EC8B5E5F2ACDEEA4002AEA38 /* imageUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = imageUtils.swift; sourceTree = "<group>"; };
+		EC8B5E612ACDEF02002AEA38 /* ELMModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ELMModel.swift; sourceTree = "<group>"; };
+		EC8B5E632ACDEF7F002AEA38 /* hbias_150.npy */ = {isa = PBXFileReference; lastKnownFileType = file; path = hbias_150.npy; sourceTree = "<group>"; };
+		EC8B5E642ACDEF80002AEA38 /* hW_150.npy */ = {isa = PBXFileReference; lastKnownFileType = file; path = hW_150.npy; sourceTree = "<group>"; };
 		ECD6174F2AA4B7C400C0633B /* MapKitTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapKitTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECD617522AA4B7C400C0633B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ECD617542AA4B7C400C0633B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -82,6 +88,8 @@
 		EC8B5E4B2ACDEC1A002AEA38 /* ELM */ = {
 			isa = PBXGroup;
 			children = (
+				EC8B5E632ACDEF7F002AEA38 /* hbias_150.npy */,
+				EC8B5E642ACDEF80002AEA38 /* hW_150.npy */,
 				EC8B5E5B2ACDEE3A002AEA38 /* ELM.swift */,
 				EC8B5E5C2ACDEE3A002AEA38 /* utils.swift */,
 			);
@@ -160,6 +168,7 @@
 				ECD6178E2AA4E23200C0633B /* TilesModel.swift */,
 				9DE12DB62AA7202E00AC759C /* LocationModel.swift */,
 				9D2D08082AA9F602007AB5B7 /* CachedOverlay.swift */,
+				EC8B5E612ACDEF02002AEA38 /* ELMModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -230,8 +239,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC8B5E652ACDEF80002AEA38 /* hbias_150.npy in Resources */,
 				ECD6175F2AA4B7DC00C0633B /* LaunchScreen.storyboard in Resources */,
 				ECD6175C2AA4B7DC00C0633B /* Assets.xcassets in Resources */,
+				EC8B5E662ACDEF80002AEA38 /* hW_150.npy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +257,7 @@
 				EC8B5E562ACDEC92002AEA38 /* NpyHeader.swift in Sources */,
 				9DE12DB72AA7202E00AC759C /* LocationModel.swift in Sources */,
 				9DE12DB52AA7201000AC759C /* Buttons.swift in Sources */,
+				EC8B5E622ACDEF02002AEA38 /* ELMModel.swift in Sources */,
 				ECD617532AA4B7C400C0633B /* AppDelegate.swift in Sources */,
 				EC8B5E592ACDEC92002AEA38 /* DataType.swift in Sources */,
 				EC8B5E5A2ACDEC92002AEA38 /* Npy.swift in Sources */,
