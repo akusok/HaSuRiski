@@ -14,7 +14,7 @@ class ELMModel {
     let device = MTLCreateSystemDefaultDevice()!
     var model: ELM?
     
-    func buildELM(device: MTLDevice) {
+    func buildELM() {
         let mainBundle = Bundle.main
         
         // use uploaded files
@@ -28,15 +28,14 @@ class ELMModel {
         print("Data file:")
         let fileX = mainBundle.url(forResource: "hX", withExtension: "npy")!
         let fileY = mainBundle.url(forResource: "hY", withExtension: "npy")!
-        
-        let fileW = myFiles["hW_150.npy"]!
-        let fileBias = myFiles["hbias_150.npy"]!
-        
-        let X: MPSMatrix = loadFromNpy(contentsOf: fileX, device: device)
-        let Y: MPSMatrix = loadFromNpy(contentsOf: fileY, device: device)
+        let fileW = mainBundle.url(forResource: "hW_150", withExtension: "npy")!
+        let fileBias = mainBundle.url(forResource: "hbias_150", withExtension: "npy")!
+
+        let X: MPSMatrix = loadFromNpy(contentsOf: fileX, device: self.device)
+        let Y: MPSMatrix = loadFromNpy(contentsOf: fileY, device: self.device)
         
         let t0 = CFAbsoluteTimeGetCurrent()
-        self.model = ELM(device: device, bK: bK, bL: bL, alpha: 1E1, W: [fileW], bias: [fileBias])
+        self.model = ELM(device: self.device, bK: bK, bL: bL, alpha: 1E1, W: [fileW], bias: [fileBias])
         self.model!.fit(X: X, Y: Y)
         let t = CFAbsoluteTimeGetCurrent() - t0
         print(String(format: "Training time: %.3f", t))

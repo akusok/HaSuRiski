@@ -57,6 +57,33 @@ struct ContentView: View {
                     .clipShape(Circle())
                     .padding(.leading)
                     
+                    Button {
+                        let t0 = CFAbsoluteTimeGetCurrent()
+                        
+                        let elm = ELMModel()
+                        elm.buildELM()
+                        Task {
+                            await elm.getRemoteImage(6, 36, 15)
+                        }
+                        
+                        let loadTasks = Array(1000...1200).map { y in
+                            Task {
+                                await elm.getRemoteImage(12, 2337, y)
+                            }
+                        }
+                        
+                        let t1 = CFAbsoluteTimeGetCurrent() - t0
+                        print(String(format: "Button press took: %.1f seconds", t1))
+                    } label: {
+                        Image(systemName: "testtube.2")
+                    }
+                    .padding()
+                    .background(.gray.opacity(0.75))
+                    .foregroundColor(.white)
+                    .font(.title)
+                    .clipShape(Circle())
+                    .padding(.leading)
+                    
                     Spacer()
                     AddPinButton(isAS: false, bgColor: .green.opacity(0.85))
                     AddPinButton(isAS: true, bgColor: .red.opacity(0.75))
