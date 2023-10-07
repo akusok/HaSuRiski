@@ -61,24 +61,31 @@ class CachedTileOverlay: MKTileOverlay {
 
                     // loading remote data, predicting, writing predictions to pixels
                     let url = URL(string: "http://akusok.asuscomm.com:9000/elevation/combined_data/\(path.z)/\(path.x)/\(path.y).npy")!
-                    let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 10)
+                    let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 15)
                     self.session.dataTask(with: request) { data, _, error in
+                        var loadSuccess = false
                         if let combinedData=data {
                             if let Yh = self.elm!.predict(data: combinedData) {
                                 let res = Yh.data.contents().bindMemory(to: Float.self, capacity: n)
                                 for i in 0 ..< n {
-                                    Yh_arr[i*4] = UInt8(min(max(res[i], 0), 1) * 255)
-                                    Yh_arr[i*4 + 1] = UInt8(min(max(res[i], 0), 1) * 255)
-                                    Yh_arr[i*4 + 2] = UInt8(min(max(res[i], 0), 1) * 255)
-                                    Yh_arr[i*4 + 3] = 255
+                                    let val = (0.7 - res[i])*4  // "colormap" scaling
+                                    let ival = UInt8(min(max(val, 0), 1) * 255)
+                                    Yh_arr[i*4] = ival
+                                    Yh_arr[i*4 + 1] = ival
+                                    Yh_arr[i*4 + 2] = ival
+                                    Yh_arr[i*4 + 3] = 255 - ival
                                 }
+                                loadSuccess = true
                             }
                         }
                         
                         // use imageUtil with 4-channel array
                         let img = UIImage(Yh_arr, width: 256, height: 256)
                         let imgData = img.pngData()!
-                        self.cache.async.setObject(imgData, forKey: dataCacheKey, completion: { _ in  })
+                        if loadSuccess {
+//                            try? self.cache.setObject(imgData, forKey: dataCacheKey)
+                            self.cache.async.setObject(imgData, forKey: dataCacheKey, completion: { _ in  })
+                        }
 
                         print("Sending data for: \(url)")
                         result(imgData, nil)
@@ -96,7 +103,7 @@ class CachedTileOverlay: MKTileOverlay {
                     result(self.scaleUp(data: data, targetHeight: self.tileSize.height), nil)
                 case .failure:
                     let url = self.url(forTilePath: path)
-                    let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 5)
+                    let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 3)
                     
                     self.session.dataTask(with: request) { data, _, error in
                         if data != nil {
