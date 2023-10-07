@@ -59,13 +59,13 @@ class ELMModel: ObservableObject {
             }
 
             if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200, let data = data {
-                DispatchQueue.main.async { self.predictWithModel(data: data, y: y) }
+                DispatchQueue.main.async { self.predictWithModel(data: data) }
             }
         }
         task.resume()
     }
     
-    func predictWithModel(data: Data, y: Int) {
+    func predictWithModel(data: Data) {
         
         guard let model=self.model else {
             print("Model not trained!")
@@ -73,12 +73,26 @@ class ELMModel: ObservableObject {
         }
 
         let t0 = CFAbsoluteTimeGetCurrent()
-        let Xs: MPSMatrix = loadFromNpy(data: data, device: self.device)
+        let Xs: MPSMatrix = loadFromNpy(data: data, device: self.device)!
         _ = model.predict(X: Xs)
         let t2 = CFAbsoluteTimeGetCurrent() - t0
         
-        print(String(format: "Predict time of y=\(y): %.0f ms", t2*1000))
+        print(String(format: "Predict time: %.0f ms", t2*1000))
     }
     
+    func predict(data: Data) -> MPSMatrix? {
+        
+        guard let model=self.model else {
+            print("Model not trained!")
+            return nil
+        }
+        
+        guard let Xs: MPSMatrix = loadFromNpy(data: data, device: self.device) else {
+            print("Cannot load Xs")
+            return nil
+        }
+        
+        return model.predict(X: Xs)
+    }
     
 }

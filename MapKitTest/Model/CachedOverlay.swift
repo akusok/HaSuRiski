@@ -26,7 +26,7 @@ class CachedTileOverlay: MKTileOverlay {
     
     private let cache = try! Storage<String, Data>(
         diskConfig: DiskConfig(name: "TileCache"),
-        memoryConfig: MemoryConfig(expiry: .never, countLimit: 5_000, totalCostLimit: 100_000),
+        memoryConfig: MemoryConfig(expiry: .never, countLimit: 50_000, totalCostLimit: 1_000_000),
         transformer: TransformerFactory.forData()
     )
     private let subdomains = ["a", "b", "c"]
@@ -39,16 +39,59 @@ class CachedTileOverlay: MKTileOverlay {
     }
 
     override func loadTile(at path: MKTileOverlayPath, result: @escaping (Data?, Error?) -> Void) {
+        // save data tile
+        let dataCacheKey = "\(self.urlTemplate!)-\(path.x)-\(path.y)-\(path.z)-\(path.contentScaleFactor)-data"
+        self.cache.async.object(forKey: dataCacheKey) { val in
+            switch val {
+            case .success(let data):
+                print("Predict with cached data")
+                let n = 256*256
+                var Yh_arr = Array<UInt8>(repeating: 128, count: n*4)
+
+                if let Yh = self.elm!.predict(data: data) {
+                    let res = Yh.data.contents().bindMemory(to: Float.self, capacity: n)
+                    for i in 0 ..< n {
+                        Yh_arr[i*4] = UInt8(min(max(res[i], 0), 1) * 255)
+                        Yh_arr[i*4 + 1] = UInt8(min(max(res[i], 0), 1) * 255)
+                        Yh_arr[i*4 + 2] = UInt8(min(max(res[i], 0), 1) * 255)
+                        Yh_arr[i*4 + 3] = 0
+                    }
+                }
+                
+                print("Arr!")
+                print(Yh_arr[...30])
+                
+                // use imageUtil with 4-channel array
+                let img = UIImage(&Yh_arr, width: 256, height: 256)
+                let imgData = img.pngData()!
+                
+                
+                
+                
+            case .failure:
+                print("Save to cache")
+                let url = URL(string: "http://akusok.asuscomm.com:9000/elevation/combined_data/\(path.z)/\(path.x)/\(path.y).npy")!
+
+                let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 5)
+                self.session.dataTask(with: request) { data, _, error in
+                    if let data=data {
+                        self.cache.async.setObject(data, forKey: dataCacheKey, completion: { _ in  })
+                    } else {
+                        print("No data for: \(url)")
+                    }
+                }.resume()
+            }
+        }
+        
+        // normal cached image
         let cacheKey = "\(self.urlTemplate!)-\(path.x)-\(path.y)-\(path.z)-\(path.contentScaleFactor)"
         self.cache.async.object(forKey: cacheKey) { val in
             switch val {
             case .success(let data):
-//                print("Cached!")
                 result(self.scaleUp(data: data, targetHeight: self.tileSize.height), nil)
             case .failure:
-//                print("Requesting Data")
                 let url = self.url(forTilePath: path)
-                let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 3)
+                let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 5)
                 
                 self.session.dataTask(with: request) { data, _, error in
                     if data != nil {
@@ -57,14 +100,12 @@ class CachedTileOverlay: MKTileOverlay {
                         result(upscaledData, error)
                     }
                     
-                    if let model = self.elm {
-                        print("Got a model!")
-                    }
+//                    if let model = self.elm {
+//                        print("Got a model!")
+//                    }
 //                    Task {
 //                        await self.elm!.getRemoteImage(6, 36, 15)
 //                    }
-                    
-                    
                 }.resume()
             }
         }
