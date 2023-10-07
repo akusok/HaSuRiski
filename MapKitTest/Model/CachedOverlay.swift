@@ -6,6 +6,7 @@
 //
 //
 
+import SwiftUI
 import Cache
 import MapKit
 import MetalPerformanceShaders
@@ -17,9 +18,10 @@ class CachedTileOverlay: MKTileOverlay {
 
     private let operationQueue = OperationQueue()
     private let session = URLSession.shared
-    @Published var isGrayscale: Bool = false
     private let device: MTLDevice
 
+    @Published var isGrayscale: Bool = false
+    @Published var elm: ELMModel?
     
     private let cache = try! Storage<String, Data>(
         diskConfig: DiskConfig(name: "TileCache"),
@@ -40,18 +42,25 @@ class CachedTileOverlay: MKTileOverlay {
         self.cache.async.object(forKey: cacheKey) { val in
             switch val {
             case .success(let data):
-                print("Cached!")
+//                print("Cached!")
                 result(self.scaleUp(data: data, targetHeight: self.tileSize.height), nil)
             case .failure:
-                print("Requesting Data")
+//                print("Requesting Data")
                 let url = self.url(forTilePath: path)
                 let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 3)
+                
                 self.session.dataTask(with: request) { data, _, error in
                     if data != nil {
                         let upscaledData = self.scaleUp(data: data!, targetHeight: self.tileSize.height)
                         self.cache.async.setObject(upscaledData, forKey: cacheKey, completion: { _ in  })
                         result(upscaledData, error)
                     }
+                    
+                    Task {
+                        await self.elm!.getRemoteImage(6, 36, 15)
+                    }
+                    
+                    
                 }.resume()
             }
         }

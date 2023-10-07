@@ -104,6 +104,7 @@ struct MapView: UIViewRepresentable {
         case .standard:
             mapView.mapType = .standard
         default:
+            tilesModel.elm = elm
             tilesModel.selectedLayer = selectedLayer
             tilesModel.isGrayscale = isGrayscale
             let overlay = tilesModel.getOverlay()
@@ -128,6 +129,7 @@ struct MapView: UIViewRepresentable {
 struct MapView_Previews: PreviewProvider {
     @State static var selectedLayer: Layer = .ign25
     @State static var loc = LocationsViewModel()
+    @State static var elm = ELMModel.buildELM()
     @State static var isGrayscale = false
     @State static var myMap = MapView(selectedLayer: $selectedLayer, region: $loc.mapRegion, isGrayscale: $isGrayscale)
     
@@ -137,5 +139,6 @@ struct MapView_Previews: PreviewProvider {
             .previewDisplayName("iPhone X")
             .environment(\.colorScheme, .dark)
             .environmentObject(loc)
+            .environmentObject(elm)
     }
 }
