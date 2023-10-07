@@ -12,6 +12,7 @@ import MapKit
 struct MapView: UIViewRepresentable {
     
     @EnvironmentObject var locationsModel: LocationsViewModel
+    @EnvironmentObject var elm: ELMModel
     @Binding var selectedLayer: Layer
     @Binding var isGrayscale: Bool
     @Binding var region: MKCoordinateRegion

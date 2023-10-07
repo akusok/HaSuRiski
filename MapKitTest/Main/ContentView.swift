@@ -12,10 +12,9 @@ struct ContentView: View {
 
     @State var selectedLayer: Layer = .standard
     @State var isGrayscale: Bool = false
-    @StateObject var viewModel = LocationsViewModel()
-    var elm = ELMModel.buildELM()
+    @StateObject private var viewModel = LocationsViewModel()
+    @StateObject private var elm = ELMModel.buildELM()
     
-
     var body: some View {
         ZStack {
             MapView(selectedLayer: $selectedLayer, region: $viewModel.mapRegion, isGrayscale: $isGrayscale)
@@ -91,6 +90,7 @@ struct ContentView: View {
             }
         }
         .environmentObject(viewModel)
+        .environmentObject(elm)
     }
 }
 
@@ -98,9 +98,11 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     
     static let loc = LocationsViewModel()
+    static let elm = ELMModel.buildELM()
     
     static var previews: some View {
         ContentView()
             .environmentObject(loc)
+            .environmentObject(elm)
     }
 }

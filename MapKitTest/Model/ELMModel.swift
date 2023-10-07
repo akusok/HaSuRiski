@@ -9,7 +9,7 @@ import SwiftUI
 import MetalPerformanceShaders
 
 
-class ELMModel {
+class ELMModel: ObservableObject {
 
     let device = MTLCreateSystemDefaultDevice()!
     var model: ELM?
