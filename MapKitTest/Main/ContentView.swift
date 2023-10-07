@@ -11,12 +11,20 @@ import MapKit
 struct ContentView: View {
 
     @State var selectedLayer: Layer = .standard
-    @StateObject private var viewModel = LocationsViewModel()
+    @State var selectedLocation: Location? = nil
+    @StateObject private var viewModel: LocationsViewModel = .shared
     @StateObject private var elm = ELMModel.buildELM()
+    
+    private var isLocationViewDisplayed: Bool { selectedLocation != nil }
     
     var body: some View {
         ZStack {
-            MapView(selectedLayer: $selectedLayer, region: $viewModel.mapRegion)
+            MapView(
+                selectedLayer: $selectedLayer,
+                region: $viewModel.mapRegion,
+                locations: $viewModel.locations,
+                selectedLocation: $selectedLocation
+            )
                 .ignoresSafeArea()
                     
             // at the center
@@ -50,6 +58,12 @@ struct ContentView: View {
                 }
             }
         }
+        .sheet(item: $selectedLocation) { place in
+            LocationEditView(location: place) {
+                viewModel.updateLocation($0, old: selectedLocation)
+            }
+        }
+
         .environmentObject(viewModel)
         .environmentObject(elm)
     }

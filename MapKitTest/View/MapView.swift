@@ -9,18 +9,23 @@ import SwiftUI
 import UIKit
 import MapKit
 
+var selectedAnnotation: LocAnnotation?
+
 struct MapView: UIViewRepresentable {
     
-    @EnvironmentObject var locationsModel: LocationsViewModel
     @EnvironmentObject var elm: ELMModel
+    @Binding var locations: [Location]
+    @Binding var selectedLocation: Location?
     @Binding var selectedLayer: Layer
     @Binding var region: MKCoordinateRegion
     private let tilesModel = TilesModel.shared
     private var locationsCount: Int = 0
 
-    init(selectedLayer: Binding<Layer>, region: Binding<MKCoordinateRegion>) {
+    init(selectedLayer: Binding<Layer>, region: Binding<MKCoordinateRegion>, locations: Binding<[Location]>, selectedLocation: Binding<Location?>) {
         self._selectedLayer = selectedLayer
         self._region = region
+        self._locations = locations
+        self._selectedLocation = selectedLocation
     }
 
     func makeCoordinator() -> Coordinator {
@@ -66,6 +71,19 @@ struct MapView: UIViewRepresentable {
             } else {
                 return nil
             }
+        }
+        
+        func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+            guard let annotation = view.annotation as? LocAnnotation else { return }
+            self.parent.selectedLocation = annotation.poi
+            selectedAnnotation = annotation
+//            Feedback.selected()
+        }
+        
+        func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+            self.parent.selectedLocation = nil
+            selectedAnnotation = nil
+//            Feedback.selected()
         }
     }
     
@@ -134,11 +152,13 @@ struct MapView: UIViewRepresentable {
     
     private func setAnnotations(mapView: MKMapView) {
         let previousAnnotations = mapView.annotations
-        let annotations = self.locationsModel.locations.map { LocAnnotation(poi: $0) }
-        if previousAnnotations.count != annotations.count {
-            mapView.removeAnnotations(previousAnnotations)
-            mapView.addAnnotations(annotations)
-        }
+        let annotations = self.locations.map { LocAnnotation(poi: $0) }
+//        if previousAnnotations.count != annotations.count {
+//            mapView.removeAnnotations(previousAnnotations)
+//            mapView.addAnnotations(annotations)
+//        }
+        mapView.removeAnnotations(previousAnnotations)
+        mapView.addAnnotations(annotations)
     }
 
 }
@@ -146,9 +166,14 @@ struct MapView: UIViewRepresentable {
 // MARK: Previews
 struct MapView_Previews: PreviewProvider {
     @State static var selectedLayer: Layer = .ign25
-    @State static var loc = LocationsViewModel()
+    @State static var loc: LocationsViewModel = .shared
     @State static var elm = ELMModel.buildELM()
-    @State static var myMap = MapView(selectedLayer: $selectedLayer, region: $loc.mapRegion)
+    @State static var myMap = MapView(
+        selectedLayer: $selectedLayer,
+        region: $loc.mapRegion,
+        locations: $loc.locations,
+        selectedLocation: Binding<Location?>.constant(nil)
+    )
     
     static var previews: some View {
         myMap

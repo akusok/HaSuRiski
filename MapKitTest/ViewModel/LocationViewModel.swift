@@ -8,11 +8,11 @@
 import Foundation
 import MapKit
 
-class LocationsViewModel: ObservableObject {
-
-    var locations: [Location]
+final class LocationsViewModel: ObservableObject {
     
-    @Published var selectedLocation: Location?
+    static let shared: LocationsViewModel = .init()
+
+    @Published var locations: [Location]
     @Published var showingExporter = false
     @Published var showingImporter = false
     private let savePath: URL
@@ -63,10 +63,13 @@ class LocationsViewModel: ObservableObject {
         saveLocations()
     }
     
-    func updateLocation(_ newLocation: Location) {
-        guard let selectedPlace = selectedLocation else { return }
+    func updateLocation(_ newLocation: Location, old oldLocation: Location?) {
+        guard let oldLocation = oldLocation else {
+            print("No location selected")
+            return
+        }
         
-        if let index = locations.firstIndex(of: selectedPlace) {
+        if let index = locations.firstIndex(of: oldLocation) {
             locations[index] = newLocation
             saveLocations()
         }
