@@ -130,23 +130,21 @@ class ELM {
         var cbuf: MTLCommandBuffer!
         
         // encode and run computations
-        for _ in 0..<10 {
-            for i in 0 ..< bK {
-                cbuf = commandQueue.makeCommandBuffer()!
-                matMulXW.encode(commandBuffer: cbuf, leftMatrix: X, rightMatrix: W[i], resultMatrix: H[i])
-                cbuf.commit()
-                
-                cbuf = commandQueue.makeCommandBuffer()!
-                matBiasTanh.encode(commandBuffer: cbuf, inputMatrix: H[i], biasVector: bias[i], resultMatrix: H[i])
-                cbuf.commit()
-                
-                cbuf = commandQueue.makeCommandBuffer()!
-                matMulHtT.encode(commandBuffer: cbuf, leftMatrix: H[i], rightMatrix: Y, resultMatrix: B[i]!)
-                for j in 0 ... i {
-                    matMulHtH.encode(commandBuffer: cbuf, leftMatrix: H[i], rightMatrix: H[j], resultMatrix: L[i][j]!)
-                }
-                cbuf.commit()
+        for i in 0 ..< bK {
+            cbuf = commandQueue.makeCommandBuffer()!
+            matMulXW.encode(commandBuffer: cbuf, leftMatrix: X, rightMatrix: W[i], resultMatrix: H[i])
+            cbuf.commit()
+            
+            cbuf = commandQueue.makeCommandBuffer()!
+            matBiasTanh.encode(commandBuffer: cbuf, inputMatrix: H[i], biasVector: bias[i], resultMatrix: H[i])
+            cbuf.commit()
+            
+            cbuf = commandQueue.makeCommandBuffer()!
+            matMulHtT.encode(commandBuffer: cbuf, leftMatrix: H[i], rightMatrix: Y, resultMatrix: B[i]!)
+            for j in 0 ... i {
+                matMulHtH.encode(commandBuffer: cbuf, leftMatrix: H[i], rightMatrix: H[j], resultMatrix: L[i][j]!)
             }
+            cbuf.commit()
         }
         return cbuf
     }

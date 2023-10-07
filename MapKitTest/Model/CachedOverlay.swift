@@ -13,14 +13,12 @@ import MetalPerformanceShaders
 
 
 class CachedTileOverlay: MKTileOverlay {
-
     internal var enableCache = true
 
     private let operationQueue = OperationQueue()
     private let session = URLSession.shared
     private let device: MTLDevice
 
-    @Published var isGrayscale: Bool = false
     @Published var selectedLayer: Layer = .standard
     @Published var elm: ELMModel?
     
@@ -41,22 +39,21 @@ class CachedTileOverlay: MKTileOverlay {
 
     override func loadTile(at path: MKTileOverlayPath, result: @escaping (Data?, Error?) -> Void) {
         
+        let dataDir = "combined_data_4"
+        let reduce = 4
+        let n = (256/reduce)*(256/reduce)
+
         if self.selectedLayer == .hasuriski {
             // save data tile
             let dataCacheKey = "\(self.urlTemplate!)-\(path.x)-\(path.y)-\(path.z)-\(path.contentScaleFactor)-data"
             self.cache.async.object(forKey: dataCacheKey) { val in
                 switch val {
                 case .success(let imgData):
-                    print("Loading cached data")
                     result(imgData, nil)
                     
                 case .failure:
-                    print("Loading HaSuRiski map")
-                    // create basic image array
-                    let reduce = 4
-                    let dataDir = "combined_data_4"
                     
-                    let n = (256/reduce)*(256/reduce)
+                    // create basic image array
                     var Yh_arr = Array<UInt8>(repeating: 255, count: n*4)
 
                     // loading remote data, predicting, writing predictions to pixels
@@ -66,6 +63,7 @@ class CachedTileOverlay: MKTileOverlay {
                         var loadSuccess = false
                         if let combinedData=data {
                             if let Yh = self.elm!.predict(data: combinedData) {
+                                loadSuccess = true
                                 let res = Yh.data.contents().bindMemory(to: Float.self, capacity: n)
                                 for i in 0 ..< n {
                                     let val = (0.7 - res[i])*4  // "colormap" scaling
@@ -75,7 +73,6 @@ class CachedTileOverlay: MKTileOverlay {
                                     Yh_arr[i*4 + 2] = ival
                                     Yh_arr[i*4 + 3] = 255 - ival
                                 }
-                                loadSuccess = true
                             }
                         }
                         
@@ -87,7 +84,7 @@ class CachedTileOverlay: MKTileOverlay {
                             self.cache.async.setObject(imgData, forKey: dataCacheKey, completion: { _ in  })
                         }
 
-                        print("Sending data for: \(url)")
+                        print("Getting data for: \(url)")
                         result(imgData, nil)
                         
                     }.resume()
@@ -100,30 +97,20 @@ class CachedTileOverlay: MKTileOverlay {
             self.cache.async.object(forKey: cacheKey) { val in
                 switch val {
                 case .success(let data):
-                    result(self.scaleUp(data: data, targetHeight: self.tileSize.height), nil)
+                    result(data, nil)
                 case .failure:
                     let url = self.url(forTilePath: path)
                     let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 3)
                     
                     self.session.dataTask(with: request) { data, _, error in
-                        if data != nil {
-                            let upscaledData = self.scaleUp(data: data!, targetHeight: self.tileSize.height)
-                            self.cache.async.setObject(upscaledData, forKey: cacheKey, completion: { _ in  })
-                            result(upscaledData, error)
+                        if let data = data {
+                            self.cache.async.setObject(data, forKey: cacheKey, completion: { _ in  })
+                            result(data, error)
                         }
                     }.resume()
                 }
             }
         }
-    }
-
-    private func scaleUp (data: Data, targetHeight: CGFloat) -> Data {
-        if let img = Image(data: data) {
-            if self.isGrayscale {
-                return img.noir(device: device)!.pngData()!
-            }
-        }
-        return data
     }
 
     internal func clearCache() {
@@ -144,24 +131,3 @@ class CachedTileOverlay: MKTileOverlay {
         return URL(string: urlString!)!
     }
 }
-
-
-
-// Make uiImage from data
-
-//let width = 2
-//let height = 1
-//let bytesPerPixel = 4 // RGBA
-//
-//let content = UnsafeMutablePointer<UInt8>.allocate(capacity: width * height * bytesPerPixel)
-//apply_raw_data(content) // set content to [255,0,0,0,255,0,0,0]
-//
-//let colorSpace = CGColorSpaceCreateDeviceRGB()
-//
-//guard let context = CGContext(data: content, width: width, height: height, bitsPerComponent: 8, bytesPerRow: width * 4, space: colorSpace, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
-//    else { return }
-//    
-//if let cgImage = context.makeImage() {
-//    let image = UIImage(cgImage)
-//    // use image here
-//}

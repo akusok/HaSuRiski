@@ -20,18 +20,13 @@ enum Layer: String, CaseIterable, Equatable, Identifiable {
     case openTopoMap = "Open Topo"
     case swissTopo = "Swiss Topo"
     case hasuriski = "HaSuRiski"
+    case antonEnnako = "Anton Ennako"
     case gtkEnnako = "Ennako"
 
     var localized: LocalizedStringKey { LocalizedStringKey(rawValue) }
     
-    /// Only layers we can actually download (MKTileOverlay),  (Maps currentType standard, hybrid, flyover are not  overlays)
-    static var onlyOverlaysLayers: [Layer] { [.ign25, .openTopoMap, .ign, .openStreetMap, .swissTopo] }
-    
     var id: Self { self }
-    
 }
-
-// example URL:  http://server/path?x={x}&y={y}&z={z}&scale={scale}.
 
 let mapPaths: [Layer: String] = [
     .ign: "https://wxs.ign.fr/pratique/geoportail/wmts?layer=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&style=normal&tilematrixset=PM&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fpng&TileMatrix={z}&TileCol={x}&TileRow={y}",
@@ -40,6 +35,7 @@ let mapPaths: [Layer: String] = [
     .openTopoMap: "https://b.tile.opentopomap.org/{z}/{x}/{y}.png",
     .swissTopo: "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg",
     .hasuriski: "http://akusok.asuscomm.com:9000/elevation/predict_terrain/{z}/{x}/{y}.png",
+    .antonEnnako: "http://akusok.asuscomm.com:9000/elevation/predict_terrain/{z}/{x}/{y}.png",
     .gtkEnnako: "http://akusok.asuscomm.com:9000/elevation/hasuriski_ennako/{z}/{x}/{y}.png",
 ]
 
@@ -50,6 +46,7 @@ let mapTileOverlays: [Layer: MKTileOverlay] = [
     .openTopoMap: MKTileOverlay(urlTemplate:"https://b.tile.opentopomap.org/{z}/{x}/{y}.png"),
     .swissTopo: MKTileOverlay(urlTemplate:"https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg"),
     .hasuriski: MKTileOverlay(urlTemplate:"http://akusok.asuscomm.com:9000/elevation/predict_terrain/{z}/{x}/{y}.png"),
+    .antonEnnako: MKTileOverlay(urlTemplate:"http://akusok.asuscomm.com:9000/elevation/predict_terrain/{z}/{x}/{y}.png"),
     .gtkEnnako: MKTileOverlay(urlTemplate:"http://akusok.asuscomm.com:9000/elevation/hasuriski_ennako/{z}/{x}/{y}.png"),
 ]
 

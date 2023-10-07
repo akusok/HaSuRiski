@@ -14,15 +14,13 @@ struct MapView: UIViewRepresentable {
     @EnvironmentObject var locationsModel: LocationsViewModel
     @EnvironmentObject var elm: ELMModel
     @Binding var selectedLayer: Layer
-    @Binding var isGrayscale: Bool
     @Binding var region: MKCoordinateRegion
     private let tilesModel = TilesModel.shared
     private var locationsCount: Int = 0
 
-    init(selectedLayer: Binding<Layer>, region: Binding<MKCoordinateRegion>, isGrayscale: Binding<Bool>) {
+    init(selectedLayer: Binding<Layer>, region: Binding<MKCoordinateRegion>) {
         self._selectedLayer = selectedLayer
         self._region = region
-        self._isGrayscale = isGrayscale
     }
 
     func makeCoordinator() -> Coordinator {
@@ -127,7 +125,6 @@ struct MapView: UIViewRepresentable {
         default:
             tilesModel.elm = elm
             tilesModel.selectedLayer = selectedLayer
-            tilesModel.isGrayscale = isGrayscale
             let overlay = tilesModel.getOverlay()
             overlay.canReplaceMapContent = false
             mapView.mapType = .mutedStandard
@@ -151,8 +148,7 @@ struct MapView_Previews: PreviewProvider {
     @State static var selectedLayer: Layer = .ign25
     @State static var loc = LocationsViewModel()
     @State static var elm = ELMModel.buildELM()
-    @State static var isGrayscale = false
-    @State static var myMap = MapView(selectedLayer: $selectedLayer, region: $loc.mapRegion, isGrayscale: $isGrayscale)
+    @State static var myMap = MapView(selectedLayer: $selectedLayer, region: $loc.mapRegion)
     
     static var previews: some View {
         myMap

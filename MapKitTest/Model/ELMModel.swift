@@ -18,13 +18,8 @@ class ELMModel: ObservableObject {
         let mainBundle = Bundle.main
         let elm = ELMModel()
         
-        // use uploaded files
-//        let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-//        let allFiles = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil)
-//        let myFiles = Dictionary(uniqueKeysWithValues: allFiles.map { ($0.lastPathComponent, $0) })
-        
         let bK = 1  // weight batches
-        let bL = 300
+        let bL = 1000
         
         print("Data file:")
         let fileX = mainBundle.url(forResource: "X", withExtension: "npy")!
@@ -43,56 +38,9 @@ class ELMModel: ObservableObject {
         return elm
     }
     
-    func getRemoteImage(_ z: Int, _ x: Int, _ y: Int) async {
-        
-        let url = URL(string: "http://akusok.asuscomm.com:9000/elevation/combined_data/\(z)/\(x)/\(y).npy")!
-        
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print(error)
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                print("bad return code")
-                return
-            }
-
-            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200, let data = data {
-                DispatchQueue.main.async { self.predictWithModel(data: data) }
-            }
-        }
-        task.resume()
-    }
-    
-    func predictWithModel(data: Data) {
-        
-        guard let model=self.model else {
-            print("Model not trained!")
-            return
-        }
-
-        let t0 = CFAbsoluteTimeGetCurrent()
-        let Xs: MPSMatrix = loadFromNpy(data: data, device: self.device)!
-        _ = model.predict(X: Xs)
-        let t2 = CFAbsoluteTimeGetCurrent() - t0
-        
-        print(String(format: "Predict time: %.0f ms", t2*1000))
-    }
-    
     func predict(data: Data) -> MPSMatrix? {
-        
-        guard let model=self.model else {
-            print("Model not trained!")
-            return nil
-        }
-        
-        guard let Xs: MPSMatrix = loadFromNpy(data: data, device: self.device) else {
-//            print("Cannot load Xs")
-            return nil
-        }
-        
-        return model.predict(X: Xs)
+        guard let Xs: MPSMatrix = loadFromNpy(data: data, device: self.device) else { return nil }        
+        return model!.predict(X: Xs)
     }
     
 }
