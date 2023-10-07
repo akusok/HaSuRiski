@@ -13,6 +13,8 @@ struct ContentView: View {
     @State var selectedLayer: Layer = .standard
     @State var isGrayscale: Bool = false
     @StateObject var viewModel = LocationsViewModel()
+    var elm = ELMModel.buildELM()
+    
 
     var body: some View {
         ZStack {
@@ -60,15 +62,13 @@ struct ContentView: View {
                     Button {
                         let t0 = CFAbsoluteTimeGetCurrent()
                         
-                        let elm = ELMModel()
-                        elm.buildELM()
                         Task {
-                            await elm.getRemoteImage(6, 36, 15)
+                            await self.elm.getRemoteImage(6, 36, 15)
                         }
                         
-                        let loadTasks = Array(1000...1200).map { y in
+                        let loadTasks = Array(1000...1020).map { y in
                             Task {
-                                await elm.getRemoteImage(12, 2337, y)
+                                await self.elm.getRemoteImage(12, 2337, y)
                             }
                         }
                         

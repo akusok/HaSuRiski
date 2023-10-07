@@ -14,12 +14,13 @@ class ELMModel {
     let device = MTLCreateSystemDefaultDevice()!
     var model: ELM?
     
-    func buildELM() {
+    static func buildELM() -> ELMModel {
         let mainBundle = Bundle.main
+        let elm = ELMModel()
         
         // use uploaded files
-        let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-        let allFiles = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil)
+//        let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+//        let allFiles = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil)
 //        let myFiles = Dictionary(uniqueKeysWithValues: allFiles.map { ($0.lastPathComponent, $0) })
         
         let bK = 1  // weight batches
@@ -31,14 +32,15 @@ class ELMModel {
         let fileW = mainBundle.url(forResource: "W_\(bL)", withExtension: "npy")!
         let fileBias = mainBundle.url(forResource: "bias_\(bL)", withExtension: "npy")!
 
-        let X: MPSMatrix = loadFromNpy(contentsOf: fileX, device: self.device)
-        let Y: MPSMatrix = loadFromNpy(contentsOf: fileY, device: self.device)
+        let X: MPSMatrix = loadFromNpy(contentsOf: fileX, device: elm.device)
+        let Y: MPSMatrix = loadFromNpy(contentsOf: fileY, device: elm.device)
         
         let t0 = CFAbsoluteTimeGetCurrent()
-        self.model = ELM(device: self.device, bK: bK, bL: bL, alpha: 1E2, W: [fileW], bias: [fileBias])
-        self.model!.fit(X: X, Y: Y)
+        elm.model = ELM(device: elm.device, bK: bK, bL: bL, alpha: 1E2, W: [fileW], bias: [fileBias])
+        elm.model!.fit(X: X, Y: Y)
         let t = CFAbsoluteTimeGetCurrent() - t0
         print(String(format: "Training time: %.3f", t))
+        return elm
     }
     
     func getRemoteImage(_ z: Int, _ x: Int, _ y: Int) async {
