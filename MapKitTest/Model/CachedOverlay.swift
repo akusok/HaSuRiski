@@ -39,74 +39,72 @@ class CachedTileOverlay: MKTileOverlay {
     }
 
     override func loadTile(at path: MKTileOverlayPath, result: @escaping (Data?, Error?) -> Void) {
-        // save data tile
-        let dataCacheKey = "\(self.urlTemplate!)-\(path.x)-\(path.y)-\(path.z)-\(path.contentScaleFactor)-data"
-        self.cache.async.object(forKey: dataCacheKey) { val in
-            switch val {
-            case .success(let data):
-                print("Predict with cached data")
-                let n = 256*256
-                var Yh_arr = Array<UInt8>(repeating: 128, count: n*4)
-
-                if let Yh = self.elm!.predict(data: data) {
-                    let res = Yh.data.contents().bindMemory(to: Float.self, capacity: n)
+        
+        if self.selectedLayer == .hasuriski {
+            // save data tile
+            let dataCacheKey = "\(self.urlTemplate!)-\(path.x)-\(path.y)-\(path.z)-\(path.contentScaleFactor)-data"
+            self.cache.async.object(forKey: dataCacheKey) { val in
+                switch val {
+                case .success(let data):
+                    result(data, nil)
+                    
+                case .failure:
+                    
+                    print("Loading HaSuRiski map")
+                    // create basic image array
+                    let n = 256*256
+                    var Yh_arr = Array<UInt8>(repeating: 128, count: n*4)
                     for i in 0 ..< n {
-                        Yh_arr[i*4] = UInt8(min(max(res[i], 0), 1) * 255)
-                        Yh_arr[i*4 + 1] = UInt8(min(max(res[i], 0), 1) * 255)
-                        Yh_arr[i*4 + 2] = UInt8(min(max(res[i], 0), 1) * 255)
+                        Yh_arr[i*4] = 200
+                        Yh_arr[i*4 + 1] = 50
+                        Yh_arr[i*4 + 2] = 10
                         Yh_arr[i*4 + 3] = 0
                     }
-                }
-                
-                print("Arr!")
-                print(Yh_arr[...30])
-                
-                // use imageUtil with 4-channel array
-                let img = UIImage(&Yh_arr, width: 256, height: 256)
-                let imgData = img.pngData()!
-                
-                
-                
-                
-            case .failure:
-                print("Save to cache")
-                let url = URL(string: "http://akusok.asuscomm.com:9000/elevation/combined_data/\(path.z)/\(path.x)/\(path.y).npy")!
 
-                let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 5)
-                self.session.dataTask(with: request) { data, _, error in
-                    if let data=data {
-                        self.cache.async.setObject(data, forKey: dataCacheKey, completion: { _ in  })
-                    } else {
-                        print("No data for: \(url)")
-                    }
-                }.resume()
-            }
-        }
-        
-        // normal cached image
-        let cacheKey = "\(self.urlTemplate!)-\(path.x)-\(path.y)-\(path.z)-\(path.contentScaleFactor)"
-        self.cache.async.object(forKey: cacheKey) { val in
-            switch val {
-            case .success(let data):
-                result(self.scaleUp(data: data, targetHeight: self.tileSize.height), nil)
-            case .failure:
-                let url = self.url(forTilePath: path)
-                let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 5)
-                
-                self.session.dataTask(with: request) { data, _, error in
-                    if data != nil {
-                        let upscaledData = self.scaleUp(data: data!, targetHeight: self.tileSize.height)
-                        self.cache.async.setObject(upscaledData, forKey: cacheKey, completion: { _ in  })
-                        result(upscaledData, error)
-                    }
+                    // loading remote data, predicting, writing predictions to pixels
+                    let url = URL(string: "http://akusok.asuscomm.com:9000/elevation/combined_data/\(path.z)/\(path.x)/\(path.y).npy")!
+                    let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 3)
+                    self.session.dataTask(with: request) { data, _, error in
+                        if let combinedData=data {
+                            if let Yh = self.elm!.predict(data: combinedData) {
+                                let res = Yh.data.contents().bindMemory(to: Float.self, capacity: n)
+                                for i in 0 ..< n {
+                                    Yh_arr[i*4] = UInt8(min(max(res[i], 0), 1) * 255)
+                                    Yh_arr[i*4 + 1] = UInt8(min(max(res[i], 0), 1) * 255)
+                                    Yh_arr[i*4 + 2] = UInt8(min(max(res[i], 0), 1) * 255)
+                                    Yh_arr[i*4 + 3] = 0
+                                }
+                            }
+                        }
+                    }.resume()
                     
-//                    if let model = self.elm {
-//                        print("Got a model!")
-//                    }
-//                    Task {
-//                        await self.elm!.getRemoteImage(6, 36, 15)
-//                    }
-                }.resume()
+                    // use imageUtil with 4-channel array
+                    let img = UIImage(&Yh_arr, width: 256, height: 256)
+                    let imgData = img.pngData()!
+                    self.cache.async.setObject(imgData, forKey: dataCacheKey, completion: { _ in  })
+                    result(imgData, nil)
+                }
+            }
+            
+        } else {
+            // normal cached image
+            let cacheKey = "\(self.urlTemplate!)-\(path.x)-\(path.y)-\(path.z)-\(path.contentScaleFactor)"
+            self.cache.async.object(forKey: cacheKey) { val in
+                switch val {
+                case .success(let data):
+                    result(self.scaleUp(data: data, targetHeight: self.tileSize.height), nil)
+                case .failure:
+                    let url = self.url(forTilePath: path)
+                    let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 5)
+                    
+                    self.session.dataTask(with: request) { data, _, error in
+                        if data != nil {
+                            let upscaledData = self.scaleUp(data: data!, targetHeight: self.tileSize.height)
+                            self.cache.async.setObject(upscaledData, forKey: cacheKey, completion: { _ in  })
+                            result(upscaledData, error)
+                        }
+                    }.resume()
+                }
             }
         }
     }
@@ -119,15 +117,6 @@ class CachedTileOverlay: MKTileOverlay {
         }
         return data
     }
-    
-//    private func scaleUp (data: Data, targetHeight: CGFloat) -> Data {
-//        if let img = Image(data: data) {
-//            if img.size.height < targetHeight {
-//                return img.resize(targetHeight, targetHeight)!.pngData()!
-//            }
-//        }
-//        return data
-//    }
 
     internal func clearCache() {
         try? cache.removeAll()
