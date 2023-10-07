@@ -29,6 +29,24 @@ struct AddPinButton: View {
     }
 }
 
+struct RemoveLocationsButton: View {
+    
+    @Binding var editingLocations: Bool
+    
+    var body: some View {
+        Button {
+            editingLocations.toggle()
+        } label: {
+            Image(systemName: "eraser")
+        }
+        .font(.system(size: 50))
+        .foregroundColor(.blue.opacity(0.85))
+        .background(.white.opacity(0.7))
+        .clipShape(Circle())
+        .padding(.leading)
+    }
+}
+
 struct SaveButton: View {
     
     @EnvironmentObject var model: LocationsViewModel

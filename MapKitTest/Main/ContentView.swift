@@ -54,19 +54,7 @@ struct ContentView: View {
                 Spacer()
                 
                 HStack {
-                    
-                    Button {
-                        editingLocations.toggle()
-                    } label: {
-                        Image(systemName: "eraser")
-                    }
-                    .padding()
-                    .background(.gray)
-                    .foregroundColor(.white)
-                    .font(.title)
-                    .clipShape(Circle())
-                    .padding(.leading)
-
+                    RemoveLocationsButton(editingLocations: $editingLocations)
                     Spacer()
                     AddPinButton(isAS: false, bgColor: .green.opacity(0.85))
                     AddPinButton(isAS: true, bgColor: .red.opacity(0.75))
@@ -82,13 +70,6 @@ struct ContentView: View {
             NavigationStack {
                 LocationsListView(vm: viewModel)
                     .navigationTitle("Remove locations")
-//                    .toolbar {
-//                        ToolbarItem(placement: .confirmationAction) {
-//                            Button("Done") {
-//                                editingLocations = false
-//                            }
-//                        }
-//                    }
             }
         }
         .environmentObject(viewModel)
