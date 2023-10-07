@@ -12,6 +12,7 @@ import MapKit
 struct MapView: UIViewRepresentable {
     
     @EnvironmentObject var locationsModel: LocationsViewModel
+    @EnvironmentObject var elm: ELMModel
     @Binding var selectedLayer: Layer
     @Binding var isGrayscale: Bool
     @Binding var region: MKCoordinateRegion
@@ -94,6 +95,27 @@ struct MapView: UIViewRepresentable {
     }
     
     private func setOverlays(mapView: MKMapView) {
+        
+        let currentTileOverlay = mapView.overlays.first { $0 is MKTileOverlay}
+        var layerHasChanged: Bool
+        switch selectedLayer {
+        case .satellite:
+            layerHasChanged = mapView.mapType != .hybrid
+        case .flyover:
+            layerHasChanged = mapView.mapType != .hybridFlyover
+        case .standard:
+            layerHasChanged = mapView.mapType != .standard
+        default:
+            if let overlay = currentTileOverlay as? CachedTileOverlay {
+                layerHasChanged = overlay.selectedLayer != selectedLayer
+            } else {
+                layerHasChanged = true
+            }
+        }
+
+        // still on the same layer, nothing to do
+        guard layerHasChanged else { return }
+        
         mapView.removeOverlays(mapView.overlays)
         switch selectedLayer {
         case .satellite:
@@ -103,6 +125,7 @@ struct MapView: UIViewRepresentable {
         case .standard:
             mapView.mapType = .standard
         default:
+            tilesModel.elm = elm
             tilesModel.selectedLayer = selectedLayer
             tilesModel.isGrayscale = isGrayscale
             let overlay = tilesModel.getOverlay()
@@ -127,6 +150,7 @@ struct MapView: UIViewRepresentable {
 struct MapView_Previews: PreviewProvider {
     @State static var selectedLayer: Layer = .ign25
     @State static var loc = LocationsViewModel()
+    @State static var elm = ELMModel.buildELM()
     @State static var isGrayscale = false
     @State static var myMap = MapView(selectedLayer: $selectedLayer, region: $loc.mapRegion, isGrayscale: $isGrayscale)
     
@@ -136,5 +160,6 @@ struct MapView_Previews: PreviewProvider {
             .previewDisplayName("iPhone X")
             .environment(\.colorScheme, .dark)
             .environmentObject(loc)
+            .environmentObject(elm)
     }
 }

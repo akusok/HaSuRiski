@@ -12,8 +12,9 @@ struct ContentView: View {
 
     @State var selectedLayer: Layer = .standard
     @State var isGrayscale: Bool = false
-    @StateObject var viewModel = LocationsViewModel()
-
+    @StateObject private var viewModel = LocationsViewModel()
+    @StateObject private var elm = ELMModel.buildELM()
+    
     var body: some View {
         ZStack {
             MapView(selectedLayer: $selectedLayer, region: $viewModel.mapRegion, isGrayscale: $isGrayscale)
@@ -57,6 +58,31 @@ struct ContentView: View {
                     .clipShape(Circle())
                     .padding(.leading)
                     
+                    Button {
+                        let t0 = CFAbsoluteTimeGetCurrent()
+                        
+                        Task {
+                            await self.elm.getRemoteImage(6, 36, 15)
+                        }
+                        
+                        let loadTasks = Array(1000...1020).map { y in
+                            Task {
+                                await self.elm.getRemoteImage(12, 2337, y)
+                            }
+                        }
+                        
+                        let t1 = CFAbsoluteTimeGetCurrent() - t0
+                        print(String(format: "Button press took: %.1f seconds", t1))
+                    } label: {
+                        Image(systemName: "testtube.2")
+                    }
+                    .padding()
+                    .background(.gray.opacity(0.75))
+                    .foregroundColor(.white)
+                    .font(.title)
+                    .clipShape(Circle())
+                    .padding(.leading)
+                    
                     Spacer()
                     AddPinButton(isAS: false, bgColor: .green.opacity(0.85))
                     AddPinButton(isAS: true, bgColor: .red.opacity(0.75))
@@ -64,6 +90,7 @@ struct ContentView: View {
             }
         }
         .environmentObject(viewModel)
+        .environmentObject(elm)
     }
 }
 
@@ -71,9 +98,11 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     
     static let loc = LocationsViewModel()
+    static let elm = ELMModel.buildELM()
     
     static var previews: some View {
         ContentView()
             .environmentObject(loc)
+            .environmentObject(elm)
     }
 }

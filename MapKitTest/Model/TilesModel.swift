@@ -22,6 +22,7 @@ class TilesModel: ObservableObject {
     
     @Published var selectedLayer: Layer = .standard
     @Published var isGrayscale: Bool = false
+    @Published var elm: ELMModel?
     
     static let shared = TilesModel()
     
@@ -30,6 +31,8 @@ class TilesModel: ObservableObject {
 //        let overlay = MKTileOverlay(urlTemplate: mapPaths[self.selectedLayer])
         let urlTemplate = mapPaths[self.selectedLayer]!
         let overlay = CachedTileOverlay(urlTemplate: urlTemplate)
+        overlay.selectedLayer = selectedLayer
+        overlay.elm = elm
         overlay.isGrayscale = isGrayscale
         overlay.minimumZ = 2
         overlay.maximumZ = 16

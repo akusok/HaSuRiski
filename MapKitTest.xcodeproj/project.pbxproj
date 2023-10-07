@@ -14,7 +14,27 @@
 		9DE12DB72AA7202E00AC759C /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE12DB62AA7202E00AC759C /* LocationModel.swift */; };
 		9DE12DBA2AA7208200AC759C /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE12DB92AA7208200AC759C /* LocationViewModel.swift */; };
 		9DE12DBC2AA721ED00AC759C /* LocationEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE12DBB2AA721ED00AC759C /* LocationEditView.swift */; };
-		EC8B72E82ABDACA4007B32D7 /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8B72E72ABDACA4007B32D7 /* utils.swift */; };
+		EC8B5E562ACDEC92002AEA38 /* NpyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8B5E512ACDEC91002AEA38 /* NpyHeader.swift */; };
+		EC8B5E572ACDEC92002AEA38 /* NpySaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8B5E522ACDEC91002AEA38 /* NpySaver.swift */; };
+		EC8B5E582ACDEC92002AEA38 /* NpyLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8B5E532ACDEC91002AEA38 /* NpyLoader.swift */; };
+		EC8B5E592ACDEC92002AEA38 /* DataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8B5E542ACDEC92002AEA38 /* DataType.swift */; };
+		EC8B5E5A2ACDEC92002AEA38 /* Npy.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8B5E552ACDEC92002AEA38 /* Npy.swift */; };
+		EC8B5E5D2ACDEE3A002AEA38 /* ELM.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8B5E5B2ACDEE3A002AEA38 /* ELM.swift */; };
+		EC8B5E5E2ACDEE3A002AEA38 /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8B5E5C2ACDEE3A002AEA38 /* utils.swift */; };
+		EC8B5E602ACDEEA4002AEA38 /* imageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8B5E5F2ACDEEA4002AEA38 /* imageUtils.swift */; };
+		EC8B5E622ACDEF02002AEA38 /* ELMModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8B5E612ACDEF02002AEA38 /* ELMModel.swift */; };
+		EC8B5E772ACE14B2002AEA38 /* bias_100.npy in Resources */ = {isa = PBXBuildFile; fileRef = EC8B5E6B2ACE14AC002AEA38 /* bias_100.npy */; };
+		EC8B5E782ACE14B2002AEA38 /* W_300.npy in Resources */ = {isa = PBXBuildFile; fileRef = EC8B5E6C2ACE14AD002AEA38 /* W_300.npy */; };
+		EC8B5E792ACE14B2002AEA38 /* W_1000.npy in Resources */ = {isa = PBXBuildFile; fileRef = EC8B5E6D2ACE14AD002AEA38 /* W_1000.npy */; };
+		EC8B5E7A2ACE14B2002AEA38 /* W_3000.npy in Resources */ = {isa = PBXBuildFile; fileRef = EC8B5E6E2ACE14AE002AEA38 /* W_3000.npy */; };
+		EC8B5E7B2ACE14B2002AEA38 /* X.npy in Resources */ = {isa = PBXBuildFile; fileRef = EC8B5E6F2ACE14AF002AEA38 /* X.npy */; };
+		EC8B5E7C2ACE14B2002AEA38 /* Y.npy in Resources */ = {isa = PBXBuildFile; fileRef = EC8B5E702ACE14AF002AEA38 /* Y.npy */; };
+		EC8B5E7D2ACE14B2002AEA38 /* bias_300.npy in Resources */ = {isa = PBXBuildFile; fileRef = EC8B5E712ACE14B0002AEA38 /* bias_300.npy */; };
+		EC8B5E7E2ACE14B2002AEA38 /* W_30.npy in Resources */ = {isa = PBXBuildFile; fileRef = EC8B5E722ACE14B0002AEA38 /* W_30.npy */; };
+		EC8B5E7F2ACE14B2002AEA38 /* W_100.npy in Resources */ = {isa = PBXBuildFile; fileRef = EC8B5E732ACE14B1002AEA38 /* W_100.npy */; };
+		EC8B5E802ACE14B2002AEA38 /* bias_30.npy in Resources */ = {isa = PBXBuildFile; fileRef = EC8B5E742ACE14B1002AEA38 /* bias_30.npy */; };
+		EC8B5E812ACE14B2002AEA38 /* bias_1000.npy in Resources */ = {isa = PBXBuildFile; fileRef = EC8B5E752ACE14B2002AEA38 /* bias_1000.npy */; };
+		EC8B5E822ACE14B2002AEA38 /* bias_3000.npy in Resources */ = {isa = PBXBuildFile; fileRef = EC8B5E762ACE14B2002AEA38 /* bias_3000.npy */; };
 		ECD617532AA4B7C400C0633B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD617522AA4B7C400C0633B /* AppDelegate.swift */; };
 		ECD617552AA4B7C400C0633B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD617542AA4B7C400C0633B /* SceneDelegate.swift */; };
 		ECD6175C2AA4B7DC00C0633B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECD6175B2AA4B7DC00C0633B /* Assets.xcassets */; };
@@ -31,7 +51,27 @@
 		9DE12DB62AA7202E00AC759C /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
 		9DE12DB92AA7208200AC759C /* LocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
 		9DE12DBB2AA721ED00AC759C /* LocationEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditView.swift; sourceTree = "<group>"; };
-		EC8B72E72ABDACA4007B32D7 /* utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
+		EC8B5E512ACDEC91002AEA38 /* NpyHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NpyHeader.swift; sourceTree = "<group>"; };
+		EC8B5E522ACDEC91002AEA38 /* NpySaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NpySaver.swift; sourceTree = "<group>"; };
+		EC8B5E532ACDEC91002AEA38 /* NpyLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NpyLoader.swift; sourceTree = "<group>"; };
+		EC8B5E542ACDEC92002AEA38 /* DataType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataType.swift; sourceTree = "<group>"; };
+		EC8B5E552ACDEC92002AEA38 /* Npy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Npy.swift; sourceTree = "<group>"; };
+		EC8B5E5B2ACDEE3A002AEA38 /* ELM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ELM.swift; sourceTree = "<group>"; };
+		EC8B5E5C2ACDEE3A002AEA38 /* utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
+		EC8B5E5F2ACDEEA4002AEA38 /* imageUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = imageUtils.swift; sourceTree = "<group>"; };
+		EC8B5E612ACDEF02002AEA38 /* ELMModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ELMModel.swift; sourceTree = "<group>"; };
+		EC8B5E6B2ACE14AC002AEA38 /* bias_100.npy */ = {isa = PBXFileReference; lastKnownFileType = file; path = bias_100.npy; sourceTree = "<group>"; };
+		EC8B5E6C2ACE14AD002AEA38 /* W_300.npy */ = {isa = PBXFileReference; lastKnownFileType = file; path = W_300.npy; sourceTree = "<group>"; };
+		EC8B5E6D2ACE14AD002AEA38 /* W_1000.npy */ = {isa = PBXFileReference; lastKnownFileType = file; path = W_1000.npy; sourceTree = "<group>"; };
+		EC8B5E6E2ACE14AE002AEA38 /* W_3000.npy */ = {isa = PBXFileReference; lastKnownFileType = file; path = W_3000.npy; sourceTree = "<group>"; };
+		EC8B5E6F2ACE14AF002AEA38 /* X.npy */ = {isa = PBXFileReference; lastKnownFileType = file; path = X.npy; sourceTree = "<group>"; };
+		EC8B5E702ACE14AF002AEA38 /* Y.npy */ = {isa = PBXFileReference; lastKnownFileType = file; path = Y.npy; sourceTree = "<group>"; };
+		EC8B5E712ACE14B0002AEA38 /* bias_300.npy */ = {isa = PBXFileReference; lastKnownFileType = file; path = bias_300.npy; sourceTree = "<group>"; };
+		EC8B5E722ACE14B0002AEA38 /* W_30.npy */ = {isa = PBXFileReference; lastKnownFileType = file; path = W_30.npy; sourceTree = "<group>"; };
+		EC8B5E732ACE14B1002AEA38 /* W_100.npy */ = {isa = PBXFileReference; lastKnownFileType = file; path = W_100.npy; sourceTree = "<group>"; };
+		EC8B5E742ACE14B1002AEA38 /* bias_30.npy */ = {isa = PBXFileReference; lastKnownFileType = file; path = bias_30.npy; sourceTree = "<group>"; };
+		EC8B5E752ACE14B2002AEA38 /* bias_1000.npy */ = {isa = PBXFileReference; lastKnownFileType = file; path = bias_1000.npy; sourceTree = "<group>"; };
+		EC8B5E762ACE14B2002AEA38 /* bias_3000.npy */ = {isa = PBXFileReference; lastKnownFileType = file; path = bias_3000.npy; sourceTree = "<group>"; };
 		ECD6174F2AA4B7C400C0633B /* MapKitTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapKitTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECD617522AA4B7C400C0633B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ECD617542AA4B7C400C0633B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +105,39 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		EC8B5E4B2ACDEC1A002AEA38 /* ELM */ = {
+			isa = PBXGroup;
+			children = (
+				EC8B5E742ACE14B1002AEA38 /* bias_30.npy */,
+				EC8B5E6B2ACE14AC002AEA38 /* bias_100.npy */,
+				EC8B5E712ACE14B0002AEA38 /* bias_300.npy */,
+				EC8B5E752ACE14B2002AEA38 /* bias_1000.npy */,
+				EC8B5E762ACE14B2002AEA38 /* bias_3000.npy */,
+				EC8B5E722ACE14B0002AEA38 /* W_30.npy */,
+				EC8B5E732ACE14B1002AEA38 /* W_100.npy */,
+				EC8B5E6C2ACE14AD002AEA38 /* W_300.npy */,
+				EC8B5E6D2ACE14AD002AEA38 /* W_1000.npy */,
+				EC8B5E6E2ACE14AE002AEA38 /* W_3000.npy */,
+				EC8B5E6F2ACE14AF002AEA38 /* X.npy */,
+				EC8B5E702ACE14AF002AEA38 /* Y.npy */,
+				EC8B5E5B2ACDEE3A002AEA38 /* ELM.swift */,
+				EC8B5E5C2ACDEE3A002AEA38 /* utils.swift */,
+			);
+			path = ELM;
+			sourceTree = "<group>";
+		};
+		EC8B5E502ACDEC68002AEA38 /* SwiftNpy */ = {
+			isa = PBXGroup;
+			children = (
+				EC8B5E542ACDEC92002AEA38 /* DataType.swift */,
+				EC8B5E552ACDEC92002AEA38 /* Npy.swift */,
+				EC8B5E512ACDEC91002AEA38 /* NpyHeader.swift */,
+				EC8B5E532ACDEC91002AEA38 /* NpyLoader.swift */,
+				EC8B5E522ACDEC91002AEA38 /* NpySaver.swift */,
+			);
+			path = SwiftNpy;
+			sourceTree = "<group>";
+		};
 		ECD617462AA4B7C400C0633B = {
 			isa = PBXGroup;
 			children = (
@@ -84,13 +157,14 @@
 		ECD617512AA4B7C400C0633B /* MapKitTest */ = {
 			isa = PBXGroup;
 			children = (
+				EC8B5E502ACDEC68002AEA38 /* SwiftNpy */,
+				EC8B5E4B2ACDEC1A002AEA38 /* ELM */,
 				ECD617602AA4B7DC00C0633B /* Info.plist */,
 				ECD6175B2AA4B7DC00C0633B /* Assets.xcassets */,
 				ECD617822AA4B95B00C0633B /* Main */,
 				ECD6178D2AA4E22600C0633B /* Model */,
 				ECD617832AA4B9A700C0633B /* View */,
 				9DE12DB82AA7206700AC759C /* ViewModel */,
-				EC8B72E72ABDACA4007B32D7 /* utils.swift */,
 			);
 			path = MapKitTest;
 			sourceTree = "<group>";
@@ -119,10 +193,12 @@
 		ECD6178D2AA4E22600C0633B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				EC8B5E5F2ACDEEA4002AEA38 /* imageUtils.swift */,
 				ECD617862AA4BD0D00C0633B /* LayersModel.swift */,
 				ECD6178E2AA4E23200C0633B /* TilesModel.swift */,
 				9DE12DB62AA7202E00AC759C /* LocationModel.swift */,
 				9D2D08082AA9F602007AB5B7 /* CachedOverlay.swift */,
+				EC8B5E612ACDEF02002AEA38 /* ELMModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -193,8 +269,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC8B5E7E2ACE14B2002AEA38 /* W_30.npy in Resources */,
+				EC8B5E7A2ACE14B2002AEA38 /* W_3000.npy in Resources */,
 				ECD6175F2AA4B7DC00C0633B /* LaunchScreen.storyboard in Resources */,
 				ECD6175C2AA4B7DC00C0633B /* Assets.xcassets in Resources */,
+				EC8B5E812ACE14B2002AEA38 /* bias_1000.npy in Resources */,
+				EC8B5E822ACE14B2002AEA38 /* bias_3000.npy in Resources */,
+				EC8B5E7C2ACE14B2002AEA38 /* Y.npy in Resources */,
+				EC8B5E802ACE14B2002AEA38 /* bias_30.npy in Resources */,
+				EC8B5E772ACE14B2002AEA38 /* bias_100.npy in Resources */,
+				EC8B5E7D2ACE14B2002AEA38 /* bias_300.npy in Resources */,
+				EC8B5E7F2ACE14B2002AEA38 /* W_100.npy in Resources */,
+				EC8B5E792ACE14B2002AEA38 /* W_1000.npy in Resources */,
+				EC8B5E782ACE14B2002AEA38 /* W_300.npy in Resources */,
+				EC8B5E7B2ACE14B2002AEA38 /* X.npy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,18 +293,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC8B5E572ACDEC92002AEA38 /* NpySaver.swift in Sources */,
+				EC8B5E562ACDEC92002AEA38 /* NpyHeader.swift in Sources */,
 				9DE12DB72AA7202E00AC759C /* LocationModel.swift in Sources */,
 				9DE12DB52AA7201000AC759C /* Buttons.swift in Sources */,
+				EC8B5E622ACDEF02002AEA38 /* ELMModel.swift in Sources */,
 				ECD617532AA4B7C400C0633B /* AppDelegate.swift in Sources */,
-				EC8B72E82ABDACA4007B32D7 /* utils.swift in Sources */,
+				EC8B5E592ACDEC92002AEA38 /* DataType.swift in Sources */,
+				EC8B5E5A2ACDEC92002AEA38 /* Npy.swift in Sources */,
 				ECD617852AA4B9B200C0633B /* MapView.swift in Sources */,
 				ECD617872AA4BD0D00C0633B /* LayersModel.swift in Sources */,
+				EC8B5E5D2ACDEE3A002AEA38 /* ELM.swift in Sources */,
+				EC8B5E5E2ACDEE3A002AEA38 /* utils.swift in Sources */,
 				9D2D08092AA9F602007AB5B7 /* CachedOverlay.swift in Sources */,
+				EC8B5E582ACDEC92002AEA38 /* NpyLoader.swift in Sources */,
 				ECD617812AA4B90B00C0633B /* ContentView.swift in Sources */,
 				ECD617552AA4B7C400C0633B /* SceneDelegate.swift in Sources */,
 				9DE12DBA2AA7208200AC759C /* LocationViewModel.swift in Sources */,
 				ECD6178F2AA4E23200C0633B /* TilesModel.swift in Sources */,
 				9DE12DBC2AA721ED00AC759C /* LocationEditView.swift in Sources */,
+				EC8B5E602ACDEEA4002AEA38 /* imageUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
