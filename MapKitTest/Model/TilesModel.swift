@@ -31,6 +31,7 @@ class TilesModel: ObservableObject {
 //        let overlay = MKTileOverlay(urlTemplate: mapPaths[self.selectedLayer])
         let urlTemplate = mapPaths[self.selectedLayer]!
         let overlay = CachedTileOverlay(urlTemplate: urlTemplate)
+        overlay.selectedLayer = selectedLayer
         overlay.elm = elm
         overlay.isGrayscale = isGrayscale
         overlay.minimumZ = 2

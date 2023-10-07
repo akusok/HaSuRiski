@@ -95,6 +95,27 @@ struct MapView: UIViewRepresentable {
     }
     
     private func setOverlays(mapView: MKMapView) {
+        
+        let currentTileOverlay = mapView.overlays.first { $0 is MKTileOverlay}
+        var layerHasChanged: Bool
+        switch selectedLayer {
+        case .satellite:
+            layerHasChanged = mapView.mapType != .hybrid
+        case .flyover:
+            layerHasChanged = mapView.mapType != .hybridFlyover
+        case .standard:
+            layerHasChanged = mapView.mapType != .standard
+        default:
+            if let overlay = currentTileOverlay as? CachedTileOverlay {
+                layerHasChanged = overlay.selectedLayer != selectedLayer
+            } else {
+                layerHasChanged = true
+            }
+        }
+
+        // still on the same layer, nothing to do
+        guard layerHasChanged else { return }
+        
         mapView.removeOverlays(mapView.overlays)
         switch selectedLayer {
         case .satellite:

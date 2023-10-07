@@ -21,6 +21,7 @@ class CachedTileOverlay: MKTileOverlay {
     private let device: MTLDevice
 
     @Published var isGrayscale: Bool = false
+    @Published var selectedLayer: Layer = .standard
     @Published var elm: ELMModel?
     
     private let cache = try! Storage<String, Data>(
@@ -56,9 +57,12 @@ class CachedTileOverlay: MKTileOverlay {
                         result(upscaledData, error)
                     }
                     
-                    Task {
-                        await self.elm!.getRemoteImage(6, 36, 15)
+                    if let model = self.elm {
+                        print("Got a model!")
                     }
+//                    Task {
+//                        await self.elm!.getRemoteImage(6, 36, 15)
+//                    }
                     
                     
                 }.resume()
