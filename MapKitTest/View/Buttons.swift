@@ -80,17 +80,3 @@ struct LoadButton: View {
     }
 }
 
-//struct LayersButton: View {
-//    var body: some View {
-//        Button {
-//            // pass
-//        } label: {
-//            Image(systemName: "map")
-//        }
-//        .font(.system(size: 40))
-//        .foregroundColor(.blue.opacity(0.85))
-//        .background(.white.opacity(0.7))
-//        .cornerRadius(8)
-//        .padding(.trailing)
-//    }
-//}

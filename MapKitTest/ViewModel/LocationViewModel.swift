@@ -11,11 +11,7 @@ import MapKit
 class LocationsViewModel: ObservableObject {
 
     var locations: [Location]
-//    var annotations: [LocAnnotation] {
-//        locations.map { LocAnnotation(poi: $0) }
-//    }
     
-    @Published var showGrayscale = false
     @Published var selectedLocation: Location?
     @Published var showingExporter = false
     @Published var showingImporter = false

@@ -20,8 +20,10 @@ func loadFromNpy(contentsOf url: URL, device: MTLDevice) -> MPSMatrix {
     return MPSMatrix(buffer: buffer, descriptor: descr)
 }
 
-func loadFromNpy(data: Data, device: MTLDevice) -> MPSMatrix {
-    let npy = try! Npy(data: data)
+func loadFromNpy(data: Data, device: MTLDevice) -> MPSMatrix? {
+    guard let npy = try? Npy(data: data) else {
+        return nil
+    }
     let rows = npy.shape[0]
     let columns = npy.shape[1]
     

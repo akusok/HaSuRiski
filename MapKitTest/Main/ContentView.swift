@@ -11,13 +11,12 @@ import MapKit
 struct ContentView: View {
 
     @State var selectedLayer: Layer = .standard
-    @State var isGrayscale: Bool = false
     @StateObject private var viewModel = LocationsViewModel()
     @StateObject private var elm = ELMModel.buildELM()
     
     var body: some View {
         ZStack {
-            MapView(selectedLayer: $selectedLayer, region: $viewModel.mapRegion, isGrayscale: $isGrayscale)
+            MapView(selectedLayer: $selectedLayer, region: $viewModel.mapRegion)
                 .ignoresSafeArea()
                     
             // at the center
@@ -45,44 +44,6 @@ struct ContentView: View {
                 Spacer()
                 
                 HStack {
-                    
-                    Button {
-                        self.isGrayscale.toggle()
-                    } label: {
-                        Image(systemName: "eye.fill")
-                    }
-                    .padding()
-                    .background(.gray.opacity(0.75))
-                    .foregroundColor(.white)
-                    .font(.title)
-                    .clipShape(Circle())
-                    .padding(.leading)
-                    
-                    Button {
-                        let t0 = CFAbsoluteTimeGetCurrent()
-                        
-                        Task {
-                            await self.elm.getRemoteImage(6, 36, 15)
-                        }
-                        
-                        let loadTasks = Array(1000...1020).map { y in
-                            Task {
-                                await self.elm.getRemoteImage(12, 2337, y)
-                            }
-                        }
-                        
-                        let t1 = CFAbsoluteTimeGetCurrent() - t0
-                        print(String(format: "Button press took: %.1f seconds", t1))
-                    } label: {
-                        Image(systemName: "testtube.2")
-                    }
-                    .padding()
-                    .background(.gray.opacity(0.75))
-                    .foregroundColor(.white)
-                    .font(.title)
-                    .clipShape(Circle())
-                    .padding(.leading)
-                    
                     Spacer()
                     AddPinButton(isAS: false, bgColor: .green.opacity(0.85))
                     AddPinButton(isAS: true, bgColor: .red.opacity(0.75))
