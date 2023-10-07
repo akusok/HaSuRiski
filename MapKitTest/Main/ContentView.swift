@@ -12,6 +12,8 @@ struct ContentView: View {
 
     @State var selectedLayer: Layer = .standard
     @State var selectedLocation: Location? = nil
+    @State var editingLocations = false
+
     @StateObject private var viewModel: LocationsViewModel = .shared
     @StateObject private var elm = ELMModel.buildELM()
     
@@ -52,6 +54,19 @@ struct ContentView: View {
                 Spacer()
                 
                 HStack {
+                    
+                    Button {
+                        editingLocations.toggle()
+                    } label: {
+                        Image(systemName: "eraser")
+                    }
+                    .padding()
+                    .background(.gray)
+                    .foregroundColor(.white)
+                    .font(.title)
+                    .clipShape(Circle())
+                    .padding(.leading)
+
                     Spacer()
                     AddPinButton(isAS: false, bgColor: .green.opacity(0.85))
                     AddPinButton(isAS: true, bgColor: .red.opacity(0.75))
@@ -63,7 +78,19 @@ struct ContentView: View {
                 viewModel.updateLocation($0, old: selectedLocation)
             }
         }
-
+        .sheet(isPresented: $editingLocations) {
+            NavigationStack {
+                LocationsListView(vm: viewModel)
+                    .navigationTitle("Remove locations")
+//                    .toolbar {
+//                        ToolbarItem(placement: .confirmationAction) {
+//                            Button("Done") {
+//                                editingLocations = false
+//                            }
+//                        }
+//                    }
+            }
+        }
         .environmentObject(viewModel)
         .environmentObject(elm)
     }

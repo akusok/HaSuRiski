@@ -9,7 +9,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 import MapKit
 
-struct Location: Identifiable, Codable, Equatable {
+struct Location: Identifiable, Codable, Equatable, Hashable {
     var id: UUID
     var name: String
     var acidSulfate: Bool

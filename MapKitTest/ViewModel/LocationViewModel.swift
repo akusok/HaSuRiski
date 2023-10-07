@@ -38,6 +38,15 @@ final class LocationsViewModel: ObservableObject {
         }
     }
     
+    func loadLocations() {
+        do {
+            let data = try Data(contentsOf: savePath)
+            locations = try JSONDecoder().decode([Location].self, from: data)
+        } catch {
+            locations = []
+        }
+    }
+    
     func saveLocations() {
         do {
             let data = try JSONEncoder().encode(locations)
