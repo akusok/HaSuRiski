@@ -15,7 +15,6 @@ struct ContentView: View {
     @State var editingLocations = false
 
     @StateObject private var viewModel: LocationsViewModel = .shared
-    @StateObject private var elm = ELMModel.buildELM()
     
     private var isLocationViewDisplayed: Bool { selectedLocation != nil }
     
@@ -73,7 +72,6 @@ struct ContentView: View {
             }
         }
         .environmentObject(viewModel)
-        .environmentObject(elm)
     }
 }
 
@@ -81,11 +79,9 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     
     static let loc = LocationsViewModel()
-    static let elm = ELMModel.buildELM()
     
     static var previews: some View {
         ContentView()
             .environmentObject(loc)
-            .environmentObject(elm)
     }
 }

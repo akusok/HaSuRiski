@@ -61,12 +61,16 @@ final class LocationsViewModel: ObservableObject {
     }
     
     func addLocation(isAcidSulfate: Bool) {
+        let lat = mapRegion.center.latitude
+        let lon = mapRegion.center.longitude
+
         let newLocation = Location(
             id: UUID(),
             name: "New",
             acidSulfate: isAcidSulfate,
-            latitude: mapRegion.center.latitude,
-            longitude: mapRegion.center.longitude
+            latitude: lat,
+            longitude: lon,
+            x: get_pixel_data(lat: lat, lon: lon)
         )
         locations.append(newLocation)
         saveLocations()

@@ -22,6 +22,20 @@ class TilesModel: ObservableObject {
         overlay.elm = elm
         overlay.minimumZ = 2
         overlay.maximumZ = 15
+        
+        
+//        if let elm = elm {
+            print("Playing with ELM")
+//            elm.train()
+//            
+//            // project_pixel(24.9384, 60.1699, 15)
+//            // [242, 206, 18653, 9484]
+//            print(get_pixel_data(lat: 60.1699, lon: 24.9384))
+//        }
+
+        
+        
+        
         return overlay
     }
 }

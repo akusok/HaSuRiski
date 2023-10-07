@@ -13,7 +13,6 @@ var selectedAnnotation: LocAnnotation?
 
 struct MapView: UIViewRepresentable {
     
-    @EnvironmentObject var elm: ELMModel
     @Binding var locations: [Location]
     @Binding var selectedLocation: Location?
     @Binding var selectedLayer: Layer
@@ -141,7 +140,7 @@ struct MapView: UIViewRepresentable {
         case .standard:
             mapView.mapType = .standard
         default:
-            tilesModel.elm = elm
+            tilesModel.elm = ELMModel.buildELM(locations: $locations)
             tilesModel.selectedLayer = selectedLayer
             let overlay = tilesModel.getOverlay()
             overlay.canReplaceMapContent = false
@@ -167,7 +166,6 @@ struct MapView: UIViewRepresentable {
 struct MapView_Previews: PreviewProvider {
     @State static var selectedLayer: Layer = .ign25
     @State static var loc: LocationsViewModel = .shared
-    @State static var elm = ELMModel.buildELM()
     @State static var myMap = MapView(
         selectedLayer: $selectedLayer,
         region: $loc.mapRegion,
@@ -181,6 +179,5 @@ struct MapView_Previews: PreviewProvider {
             .previewDisplayName("iPhone X")
             .environment(\.colorScheme, .dark)
             .environmentObject(loc)
-            .environmentObject(elm)
     }
 }
