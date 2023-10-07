@@ -88,7 +88,7 @@ class ELMModel: ObservableObject {
         }
         
         guard let Xs: MPSMatrix = loadFromNpy(data: data, device: self.device) else {
-            print("Cannot load Xs")
+//            print("Cannot load Xs")
             return nil
         }
         

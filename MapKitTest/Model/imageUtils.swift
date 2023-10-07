@@ -26,8 +26,29 @@ extension UIImage {
         return (pixelData, Int(size.width), Int(size.height))
     }
     
-    convenience init(_ data: inout [UInt8], width: Int, height: Int) {
-        let cgImg = data.withUnsafeMutableBytes { (ptr) -> CGImage in
+//    convenience init(_ data: inout [UInt8], width: Int, height: Int) {
+//        let cgImg = data.withUnsafeMutableBytes { (ptr) -> CGImage in
+//            let ctx = CGContext(
+//                data: ptr.baseAddress,
+//                width: width,
+//                height: height,
+//                bitsPerComponent: 8,
+//                bytesPerRow: 4*width,
+//                space: CGColorSpace(name: CGColorSpace.sRGB)!,
+//                bitmapInfo: CGBitmapInfo.byteOrder32Little.rawValue +
+//                CGImageAlphaInfo.premultipliedFirst.rawValue
+//            )!
+//            return ctx.makeImage()!
+//        }
+//        self.init(cgImage: cgImg)
+//    }
+    
+    convenience init(_ data: [UInt8], width: Int, height: Int) {
+        var ownData = Array<UInt8>(repeating: 0, count: width*height*4)
+        for i in 0..<width*height*4 {
+            ownData[i] = data[i]
+        }
+        let cgImg = ownData.withUnsafeMutableBytes { (ptr) -> CGImage in
             let ctx = CGContext(
                 data: ptr.baseAddress,
                 width: width,

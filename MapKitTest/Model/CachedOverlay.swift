@@ -26,7 +26,7 @@ class CachedTileOverlay: MKTileOverlay {
     
     private let cache = try! Storage<String, Data>(
         diskConfig: DiskConfig(name: "TileCache"),
-        memoryConfig: MemoryConfig(expiry: .never, countLimit: 50_000, totalCostLimit: 1_000_000),
+        memoryConfig: MemoryConfig(expiry: .never, countLimit: 5_000, totalCostLimit: 100_000),
         transformer: TransformerFactory.forData()
     )
     private let subdomains = ["a", "b", "c"]
@@ -36,6 +36,7 @@ class CachedTileOverlay: MKTileOverlay {
         super.init(urlTemplate: URLTemplate)
         UIGraphicsGetCurrentContext()?.interpolationQuality = .high
         try? self.cache.removeExpiredObjects()
+        self.clearCache()
     }
 
     override func loadTile(at path: MKTileOverlayPath, result: @escaping (Data?, Error?) -> Void) {
@@ -45,25 +46,22 @@ class CachedTileOverlay: MKTileOverlay {
             let dataCacheKey = "\(self.urlTemplate!)-\(path.x)-\(path.y)-\(path.z)-\(path.contentScaleFactor)-data"
             self.cache.async.object(forKey: dataCacheKey) { val in
                 switch val {
-                case .success(let data):
-                    result(data, nil)
+                case .success(let imgData):
+                    print("Loading cached data")
+                    result(imgData, nil)
                     
                 case .failure:
-                    
                     print("Loading HaSuRiski map")
                     // create basic image array
                     let n = 256*256
-                    var Yh_arr = Array<UInt8>(repeating: 128, count: n*4)
+                    var Yh_arr = Array<UInt8>(repeating: 100, count: n*4)
                     for i in 0 ..< n {
-                        Yh_arr[i*4] = 200
-                        Yh_arr[i*4 + 1] = 50
-                        Yh_arr[i*4 + 2] = 10
-                        Yh_arr[i*4 + 3] = 0
+                        Yh_arr[i*4 + 2] = 255
                     }
 
                     // loading remote data, predicting, writing predictions to pixels
                     let url = URL(string: "http://akusok.asuscomm.com:9000/elevation/combined_data/\(path.z)/\(path.x)/\(path.y).npy")!
-                    let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 3)
+                    let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 10)
                     self.session.dataTask(with: request) { data, _, error in
                         if let combinedData=data {
                             if let Yh = self.elm!.predict(data: combinedData) {
@@ -72,17 +70,20 @@ class CachedTileOverlay: MKTileOverlay {
                                     Yh_arr[i*4] = UInt8(min(max(res[i], 0), 1) * 255)
                                     Yh_arr[i*4 + 1] = UInt8(min(max(res[i], 0), 1) * 255)
                                     Yh_arr[i*4 + 2] = UInt8(min(max(res[i], 0), 1) * 255)
-                                    Yh_arr[i*4 + 3] = 0
+                                    Yh_arr[i*4 + 3] = 255
                                 }
                             }
                         }
+                        
+                        // use imageUtil with 4-channel array
+                        let img = UIImage(Yh_arr, width: 256, height: 256)
+                        let imgData = img.pngData()!
+                        self.cache.async.setObject(imgData, forKey: dataCacheKey, completion: { _ in  })
+
+                        print("Sending data for: \(url)")
+                        result(imgData, nil)
+                        
                     }.resume()
-                    
-                    // use imageUtil with 4-channel array
-                    let img = UIImage(&Yh_arr, width: 256, height: 256)
-                    let imgData = img.pngData()!
-                    self.cache.async.setObject(imgData, forKey: dataCacheKey, completion: { _ in  })
-                    result(imgData, nil)
                 }
             }
             
