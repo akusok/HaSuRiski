@@ -53,14 +53,14 @@ class CachedTileOverlay: MKTileOverlay {
                 case .failure:
                     print("Loading HaSuRiski map")
                     // create basic image array
-                    let n = 256*256
-                    var Yh_arr = Array<UInt8>(repeating: 100, count: n*4)
-                    for i in 0 ..< n {
-                        Yh_arr[i*4 + 2] = 255
-                    }
+                    let reduce = 4
+                    let dataDir = "combined_data_4"
+                    
+                    let n = (256/reduce)*(256/reduce)
+                    var Yh_arr = Array<UInt8>(repeating: 255, count: n*4)
 
                     // loading remote data, predicting, writing predictions to pixels
-                    let url = URL(string: "http://akusok.asuscomm.com:9000/elevation/combined_data/\(path.z)/\(path.x)/\(path.y).npy")!
+                    let url = URL(string: "http://akusok.asuscomm.com:9000/elevation/\(dataDir)/\(path.z)/\(path.x)/\(path.y).npy")!
                     let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 15)
                     self.session.dataTask(with: request) { data, _, error in
                         var loadSuccess = false
@@ -80,10 +80,10 @@ class CachedTileOverlay: MKTileOverlay {
                         }
                         
                         // use imageUtil with 4-channel array
-                        let img = UIImage(Yh_arr, width: 256, height: 256)
+                        // blur adds boundaries between images
+                        let img = UIImage(Yh_arr, width: 256/reduce, height: 256/reduce).resize(256, 256)!  // .blur(radius: 0.5)!
                         let imgData = img.pngData()!
                         if loadSuccess {
-//                            try? self.cache.setObject(imgData, forKey: dataCacheKey)
                             self.cache.async.setObject(imgData, forKey: dataCacheKey, completion: { _ in  })
                         }
 
@@ -145,59 +145,6 @@ class CachedTileOverlay: MKTileOverlay {
     }
 }
 
-extension UIImage {
-    func resize(_ width: CGFloat, _ height: CGFloat) -> UIImage? {
-        let widthRatio  = width / size.width
-        let heightRatio = height / size.height
-        let ratio = widthRatio > heightRatio ? heightRatio : widthRatio
-        let newSize = CGSize(width: size.width * ratio, height: size.height * ratio)
-        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-        self.draw(in: rect)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return newImage
-    }
-    
-    func noir(device: MTLDevice) -> UIImage? {
-        
-        let x = self.cgImage!
-        print(x.bitsPerPixel)
-        let provider = x.dataProvider
-        let providerData = provider?.data!
-        let dataPtr = CFDataGetBytePtr(providerData)!
-        
-        let N = 256*256*4
-        var dataDiff: [UInt8] = Array(repeating: 0, count: N)
-        for i in stride(from: 0, to: N, by: 4) { dataDiff[i] = dataPtr[i] < 200 ? 50 : 0 }
-        
-        
-        var dataVector2: [UInt8]?
-        let a, b: Int
-        (dataVector2, a, b) = UIImage(cgImage: x).pixelData()
-        
-        print(dataVector2?.count)
-        print(Array(0..<20).map { dataVector2![$0] })
-        
-        
-        let buffer = device.makeBuffer(bytes: dataPtr, length: N, options: [])!
-        let descr = MPSVectorDescriptor(length: N, dataType: .uInt8)
-        let dataVector = MPSVector(buffer: buffer, descriptor: descr)
-                
-        let res = dataVector.data.contents().bindMemory(to: UInt8.self, capacity: N)
-        let resArray = Array(0 ..< 20).map { res[$0] }
-        print(resArray.map{ String($0) }.joined(separator: "\t"))
-        
-        let context = CIContext(options: nil)
-        guard let currentFilter = CIFilter(name: "CIPhotoEffectNoir") else { return nil }
-        currentFilter.setValue(CIImage(image: self), forKey: kCIInputImageKey)
-        if let output = currentFilter.outputImage,
-           let cgImage = context.createCGImage(output, from: output.extent) {
-           return UIImage(cgImage: cgImage, scale: scale, orientation: imageOrientation)
-        }
-        return nil
-   }
-}
 
 
 // Make uiImage from data

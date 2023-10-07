@@ -24,7 +24,7 @@ class ELMModel: ObservableObject {
 //        let myFiles = Dictionary(uniqueKeysWithValues: allFiles.map { ($0.lastPathComponent, $0) })
         
         let bK = 1  // weight batches
-        let bL = 100
+        let bL = 300
         
         print("Data file:")
         let fileX = mainBundle.url(forResource: "X", withExtension: "npy")!

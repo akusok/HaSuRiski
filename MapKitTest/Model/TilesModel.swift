@@ -35,7 +35,7 @@ class TilesModel: ObservableObject {
         overlay.elm = elm
         overlay.isGrayscale = isGrayscale
         overlay.minimumZ = 2
-        overlay.maximumZ = 16
+        overlay.maximumZ = 15
         return overlay
     }
 }
