@@ -16,6 +16,7 @@ class ELMModel: ObservableObject {
     let device = MTLCreateSystemDefaultDevice()!
     let bK = 1  // weight batches
     let bL = 1000
+    let sample_weight: Float32 = 5000.0
 
     init(locations: Binding<[Location]>) {
         self._locations = locations
@@ -51,23 +52,25 @@ class ELMModel: ObservableObject {
 
         let npX = try! Npy(contentsOf: fileX)
         let npY = try! Npy(contentsOf: fileY)
-        let aX = Array(npX.elementsData)
-        let aY = Array(npY.elementsData)
         
-        print(aX.count)
-//
-//        let X: MPSMatrix = loadFromNpy(contentsOf: fileX, device: device)
-//        let Y: MPSMatrix = loadFromNpy(contentsOf: fileY, device: device)
-//
-//        
-//        let rows = npy.shape[0]
-//        let columns = npy.shape[1]
-//        let buffer = device.makeBuffer(bytes: Array(npy.elementsData), length: rows * columns * fp32stride, options: [])!
-//        let descr = MPSMatrixDescriptor(rows: rows, columns: columns, rowBytes: columns * fp32stride, dataType: .float32)
-//        return MPSMatrix(buffer: buffer, descriptor: descr)
-//
+        var aY = npyToArray(npY)
+        var aX = npyToArray(npX)
+        for location in locations {
+            aY.append(contentsOf: location.y.map { $0 * sample_weight })
+            aX.append(contentsOf: location.x)
+        }
         
+        let rows = npX.shape[0] + locations.count
+        let X: MPSMatrix = loadFromArray(arr: aX, rows: rows, columns: npX.shape[1], device: self.device)!
+        let Y: MPSMatrix = loadFromArray(arr: aY, rows: rows, columns: npY.shape[1], device: self.device)!
         
+        print(X.rows, X.columns)
+        print(Y.rows, Y.columns)
+            
+        let t0 = CFAbsoluteTimeGetCurrent()
+        self.model!.fit(X: X, Y: Y)
+        let t = CFAbsoluteTimeGetCurrent() - t0
+        print(String(format: "Update time: %.3f", t))
     }
     
     func predict(data: Data) -> MPSMatrix? {

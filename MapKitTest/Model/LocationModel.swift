@@ -11,28 +11,11 @@ import MapKit
 
 let session = URLSession.shared
 
-//func project_pixel(lon: Double, lat: Double, zoom: Int = 14) -> (Int, Int, Int, Int) {
-//    var siny = sin(lat * Double.pi / 180)
-//    siny = min(max(siny, -0.9999), 0.9999)
-//    
-//    let x: Double = 256.0 * (0.5 + lon / 360)
-//    let y: Double = 256.0 * (0.5 - log((1 + siny) / (1 - siny)) / (4 * Double.pi))
-//    
-//    let scale: Double = pow(2.0, Double(zoom))
-//    
-//    let tx = Int(x * scale / 256)
-//    let ty = Int(y * scale / 256)
-//    
-//    let px = Int(Float(x * scale).truncatingRemainder(dividingBy: 256).rounded(.down))
-//    let py = Int(Float(y * scale).truncatingRemainder(dividingBy: 256).rounded(.down))
-//    
-//    return (px, py, tx, ty)
-//}
-
 func get_pixel_data(lat: Double, lon: Double, zoom: Int = 14) -> Array<Float32> {
     
     let sem = DispatchSemaphore.init(value: 0)
     
+    // project pixel
     var siny = sin(lat * Double.pi / 180)
     siny = min(max(siny, -0.9999), 0.9999)
     
@@ -47,7 +30,7 @@ func get_pixel_data(lat: Double, lon: Double, zoom: Int = 14) -> Array<Float32> 
     let px = Int(Float(x * scale).truncatingRemainder(dividingBy: 256).rounded(.down))
     let py = Int(Float(y * scale).truncatingRemainder(dividingBy: 256).rounded(.down))
 
-    print(tx, ty, px, py)
+    // load data
     var result: Array<Float32> = .init(repeating: 0.0, count: 11)
     
     let url = URL(string: "http://akusok.asuscomm.com:9000/elevation/combined_data/\(zoom)/\(tx)/\(ty).npy")!
@@ -93,7 +76,7 @@ struct Location: Identifiable, Codable, Equatable, Hashable {
     }
     
     var y: Array<Float32> {
-        return Array<Float32>(repeating: acidSulfate ? 100 : 0, count: 1)
+        return Array<Float32>(repeating: acidSulfate ? 1 : 0, count: 1)
     }
     
 }
