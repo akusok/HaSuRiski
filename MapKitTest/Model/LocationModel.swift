@@ -76,7 +76,7 @@ struct Location: Identifiable, Codable, Equatable, Hashable {
     }
     
     var y: Array<Float32> {
-        return Array<Float32>(repeating: acidSulfate ? 1 : 0, count: 1)
+        return Array<Float32>(repeating: acidSulfate ? 1.0 : -1.0, count: 1)
     }
     
 }

@@ -74,6 +74,8 @@ final class LocationsViewModel: ObservableObject {
         )
         locations.append(newLocation)
         saveLocations()
+        
+        
     }
     
     func updateLocation(_ newLocation: Location, old oldLocation: Location?) {

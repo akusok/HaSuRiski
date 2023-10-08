@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 
 var selectedAnnotation: LocAnnotation?
+var poiCount: Int = 0
 
 struct MapView: UIViewRepresentable {
     
@@ -128,6 +129,13 @@ struct MapView: UIViewRepresentable {
             }
         }
 
+        // reload on new points
+        if poiCount != locations.count {
+            print("Action on more points")
+            poiCount = locations.count
+            layerHasChanged = true
+        }
+        
         // still on the same layer, nothing to do
         guard layerHasChanged else { return }
         
