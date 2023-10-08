@@ -83,7 +83,7 @@ struct Location: Identifiable, Codable, Equatable, Hashable {
 
 struct LocationDoc: FileDocument {
 
-    static var readableContentTypes: [UTType] { [.plainText] }
+    static var readableContentTypes: [UTType] { [.json] }
 
     private var content: [Location]
     init(content: [Location]) {
