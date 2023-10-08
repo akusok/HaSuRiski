@@ -22,6 +22,10 @@ class TilesModel: ObservableObject {
         overlay.elm = elm
         overlay.minimumZ = 2
         overlay.maximumZ = 15
+        
+        // update model
+        if selectedLayer == .hasuriski { elm!.train() }
+        
         return overlay
     }
 }

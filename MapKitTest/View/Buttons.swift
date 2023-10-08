@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct AddPinButton: View {
 
     @EnvironmentObject var model: LocationsViewModel
@@ -29,6 +28,24 @@ struct AddPinButton: View {
     }
 }
 
+struct RemoveLocationsButton: View {
+    
+    @Binding var editingLocations: Bool
+    
+    var body: some View {
+        Button {
+            editingLocations.toggle()
+        } label: {
+            Image(systemName: "eraser")
+        }
+        .font(.system(size: 50))
+        .foregroundColor(.blue.opacity(0.85))
+        .background(.white.opacity(0.7))
+        .clipShape(Circle())
+        .padding(.leading)
+    }
+}
+
 struct SaveButton: View {
     
     @EnvironmentObject var model: LocationsViewModel
@@ -44,7 +61,7 @@ struct SaveButton: View {
         .background(.white.opacity(0.7))
         .cornerRadius(8)
         .padding(.leading)
-        .fileExporter(isPresented: $model.showingExporter, document: LocationDoc(content: model.locations), contentType: .text) { result in }
+        .fileExporter(isPresented: $model.showingExporter, document: LocationDoc(content: model.locations), contentType: .json) { result in }
     }
 }
 
@@ -62,21 +79,21 @@ struct LoadButton: View {
         .foregroundColor(.blue.opacity(0.85))
         .background(.white.opacity(0.7))
         .cornerRadius(8)
-//        .fileImporter(isPresented: $model.showingImporter, allowedContentTypes: [.text]) { result in
-//            do {
-//                let fileUrl = try result.get()
-//                
-//                if fileUrl.startAccessingSecurityScopedResource() {
-//                    let data = try Data(contentsOf: result.get())
-//                    let fileLocations = try JSONDecoder().decode([Location].self, from: data)
-//                    model.setLocations(fileLocations)
-//                }
-//                fileUrl.stopAccessingSecurityScopedResource()
-//                
-//            } catch let error as NSError {
-//                fatalError("Error: \(error.localizedDescription)")
-//            }
-//        }
+        .fileImporter(isPresented: $model.showingImporter, allowedContentTypes: [.json]) { result in
+            do {
+                let fileUrl = try result.get()
+                
+                if fileUrl.startAccessingSecurityScopedResource() {
+                    let data = try Data(contentsOf: result.get())
+                    let fileLocations = try JSONDecoder().decode([Location].self, from: data)
+                    model.setLocations(fileLocations)
+                }
+                fileUrl.stopAccessingSecurityScopedResource()
+                
+            } catch let error as NSError {
+                fatalError("Error: \(error.localizedDescription)")
+            }
+        }
     }
 }
 

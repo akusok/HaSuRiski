@@ -76,3 +76,20 @@ func MPSEye(_ n: Int, alpha: Float, device: MTLDevice) -> MPSMatrix {
     ptr.deallocate()
     return MPSMatrix(buffer: buffer, descriptor: descr)
 }
+
+func npyToArray(_ npy: Npy) -> Array<Float32> {
+    let n_elements = npy.shape.reduce(1) { $0 * $1 }
+    var arr = Array<Float32>(repeating: 0, count: n_elements)
+    _ = arr.withUnsafeMutableBytes { npy.elementsData.copyBytes(to: $0) }
+    return arr
+}
+
+//func arrayData(_ arr: Array<Float32>) -> Data {
+//    return Data(buffer: UnsafeBufferPointer<Float32>(start: arr, count: arr.count))
+//}
+
+func loadFromArray(arr: Array<Float32>, rows: Int, columns: Int, device: MTLDevice) -> MPSMatrix? {
+    let buffer = device.makeBuffer(bytes: arr, length: rows * columns * fp32stride, options: [])!
+    let descr = MPSMatrixDescriptor(rows: rows, columns: columns, rowBytes: columns * fp32stride, dataType: .float32)
+    return MPSMatrix(buffer: buffer, descriptor: descr)
+}

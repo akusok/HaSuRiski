@@ -11,12 +11,21 @@ import MapKit
 struct ContentView: View {
 
     @State var selectedLayer: Layer = .standard
-    @StateObject private var viewModel = LocationsViewModel()
-    @StateObject private var elm = ELMModel.buildELM()
+    @State var selectedLocation: Location? = nil
+    @State var editingLocations = false
+
+    @StateObject private var viewModel: LocationsViewModel = .shared
+    
+    private var isLocationViewDisplayed: Bool { selectedLocation != nil }
     
     var body: some View {
         ZStack {
-            MapView(selectedLayer: $selectedLayer, region: $viewModel.mapRegion)
+            MapView(
+                selectedLayer: $selectedLayer,
+                region: $viewModel.mapRegion,
+                locations: $viewModel.locations,
+                selectedLocation: $selectedLocation
+            )
                 .ignoresSafeArea()
                     
             // at the center
@@ -44,14 +53,25 @@ struct ContentView: View {
                 Spacer()
                 
                 HStack {
+                    RemoveLocationsButton(editingLocations: $editingLocations)
                     Spacer()
                     AddPinButton(isAS: false, bgColor: .green.opacity(0.85))
                     AddPinButton(isAS: true, bgColor: .red.opacity(0.75))
                 }
             }
         }
+        .sheet(item: $selectedLocation) { place in
+            LocationEditView(location: place) {
+                viewModel.updateLocation($0, old: selectedLocation)
+            }
+        }
+        .sheet(isPresented: $editingLocations) {
+            NavigationStack {
+                LocationsListView(vm: viewModel)
+                    .navigationTitle("Remove locations")
+            }
+        }
         .environmentObject(viewModel)
-        .environmentObject(elm)
     }
 }
 
@@ -59,11 +79,9 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     
     static let loc = LocationsViewModel()
-    static let elm = ELMModel.buildELM()
     
     static var previews: some View {
         ContentView()
             .environmentObject(loc)
-            .environmentObject(elm)
     }
 }

@@ -8,11 +8,11 @@
 import Foundation
 import MapKit
 
-class LocationsViewModel: ObservableObject {
-
-    var locations: [Location]
+final class LocationsViewModel: ObservableObject {
     
-    @Published var selectedLocation: Location?
+    static let shared: LocationsViewModel = .init()
+
+    @Published var locations: [Location]
     @Published var showingExporter = false
     @Published var showingImporter = false
     private let savePath: URL
@@ -38,6 +38,15 @@ class LocationsViewModel: ObservableObject {
         }
     }
     
+    func loadLocations() {
+        do {
+            let data = try Data(contentsOf: savePath)
+            locations = try JSONDecoder().decode([Location].self, from: data)
+        } catch {
+            locations = []
+        }
+    }
+    
     func saveLocations() {
         do {
             let data = try JSONEncoder().encode(locations)
@@ -52,21 +61,30 @@ class LocationsViewModel: ObservableObject {
     }
     
     func addLocation(isAcidSulfate: Bool) {
+        let lat = mapRegion.center.latitude
+        let lon = mapRegion.center.longitude
+
         let newLocation = Location(
             id: UUID(),
             name: "New",
             acidSulfate: isAcidSulfate,
-            latitude: mapRegion.center.latitude,
-            longitude: mapRegion.center.longitude
+            latitude: lat,
+            longitude: lon,
+            x: get_pixel_data(lat: lat, lon: lon)
         )
         locations.append(newLocation)
         saveLocations()
+        
+        
     }
     
-    func updateLocation(_ newLocation: Location) {
-        guard let selectedPlace = selectedLocation else { return }
+    func updateLocation(_ newLocation: Location, old oldLocation: Location?) {
+        guard let oldLocation = oldLocation else {
+            print("No location selected")
+            return
+        }
         
-        if let index = locations.firstIndex(of: selectedPlace) {
+        if let index = locations.firstIndex(of: oldLocation) {
             locations[index] = newLocation
             saveLocations()
         }

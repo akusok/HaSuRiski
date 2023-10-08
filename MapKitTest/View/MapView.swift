@@ -9,18 +9,23 @@ import SwiftUI
 import UIKit
 import MapKit
 
+var selectedAnnotation: LocAnnotation?
+var poiCount: Int = 0
+
 struct MapView: UIViewRepresentable {
     
-    @EnvironmentObject var locationsModel: LocationsViewModel
-    @EnvironmentObject var elm: ELMModel
+    @Binding var locations: [Location]
+    @Binding var selectedLocation: Location?
     @Binding var selectedLayer: Layer
     @Binding var region: MKCoordinateRegion
     private let tilesModel = TilesModel.shared
     private var locationsCount: Int = 0
 
-    init(selectedLayer: Binding<Layer>, region: Binding<MKCoordinateRegion>) {
+    init(selectedLayer: Binding<Layer>, region: Binding<MKCoordinateRegion>, locations: Binding<[Location]>, selectedLocation: Binding<Location?>) {
         self._selectedLayer = selectedLayer
         self._region = region
+        self._locations = locations
+        self._selectedLocation = selectedLocation
     }
 
     func makeCoordinator() -> Coordinator {
@@ -67,6 +72,19 @@ struct MapView: UIViewRepresentable {
                 return nil
             }
         }
+        
+        func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+            guard let annotation = view.annotation as? LocAnnotation else { return }
+            self.parent.selectedLocation = annotation.poi
+            selectedAnnotation = annotation
+//            Feedback.selected()
+        }
+        
+        func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+            self.parent.selectedLocation = nil
+            selectedAnnotation = nil
+//            Feedback.selected()
+        }
     }
     
     func makeUIView(context: Context) -> MKMapView {
@@ -111,6 +129,13 @@ struct MapView: UIViewRepresentable {
             }
         }
 
+        // reload on new points
+        if poiCount != locations.count {
+            print("Action on more points")
+            poiCount = locations.count
+            layerHasChanged = true
+        }
+        
         // still on the same layer, nothing to do
         guard layerHasChanged else { return }
         
@@ -123,7 +148,7 @@ struct MapView: UIViewRepresentable {
         case .standard:
             mapView.mapType = .standard
         default:
-            tilesModel.elm = elm
+            tilesModel.elm = ELMModel.buildELM(locations: $locations)
             tilesModel.selectedLayer = selectedLayer
             let overlay = tilesModel.getOverlay()
             overlay.canReplaceMapContent = false
@@ -134,11 +159,13 @@ struct MapView: UIViewRepresentable {
     
     private func setAnnotations(mapView: MKMapView) {
         let previousAnnotations = mapView.annotations
-        let annotations = self.locationsModel.locations.map { LocAnnotation(poi: $0) }
-        if previousAnnotations.count != annotations.count {
-            mapView.removeAnnotations(previousAnnotations)
-            mapView.addAnnotations(annotations)
-        }
+        let annotations = self.locations.map { LocAnnotation(poi: $0) }
+//        if previousAnnotations.count != annotations.count {
+//            mapView.removeAnnotations(previousAnnotations)
+//            mapView.addAnnotations(annotations)
+//        }
+        mapView.removeAnnotations(previousAnnotations)
+        mapView.addAnnotations(annotations)
     }
 
 }
@@ -146,9 +173,13 @@ struct MapView: UIViewRepresentable {
 // MARK: Previews
 struct MapView_Previews: PreviewProvider {
     @State static var selectedLayer: Layer = .ign25
-    @State static var loc = LocationsViewModel()
-    @State static var elm = ELMModel.buildELM()
-    @State static var myMap = MapView(selectedLayer: $selectedLayer, region: $loc.mapRegion)
+    @State static var loc: LocationsViewModel = .shared
+    @State static var myMap = MapView(
+        selectedLayer: $selectedLayer,
+        region: $loc.mapRegion,
+        locations: $loc.locations,
+        selectedLocation: Binding<Location?>.constant(nil)
+    )
     
     static var previews: some View {
         myMap
@@ -156,6 +187,5 @@ struct MapView_Previews: PreviewProvider {
             .previewDisplayName("iPhone X")
             .environment(\.colorScheme, .dark)
             .environmentObject(loc)
-            .environmentObject(elm)
     }
 }

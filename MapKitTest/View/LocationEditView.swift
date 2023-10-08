@@ -21,7 +21,7 @@ struct LocationEditView: View {
     var body: some View {
         NavigationView {
             VStack{
-                infoForm.frame(maxHeight: 100)
+                infoForm.frame(maxHeight: 160)
                 mapSection
                     .ignoresSafeArea()
             }
@@ -49,6 +49,8 @@ extension LocationEditView {
                 Toggle(acidSulfate ? "Acid Sulfate soil" : "Normal Soil", isOn: $acidSulfate)
                     .foregroundColor(acidSulfate ? .red : .green)
             }
+            Text("Data: \(location.x.description)")
+                .font(.footnote)
         }
     }
     
