@@ -1,6 +1,6 @@
 //
 //  CachedTilesModel.swift
-//  MapKitTest
+//  HaSuRiski
 //
 //  Created by Anton Akusok on 7.9.2023.
 //

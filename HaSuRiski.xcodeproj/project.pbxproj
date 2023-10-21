@@ -141,7 +141,7 @@
 		ECD617462AA4B7C400C0633B = {
 			isa = PBXGroup;
 			children = (
-				ECD617512AA4B7C400C0633B /* MapKitTest */,
+				ECD617512AA4B7C400C0633B /* HaSuRiski */,
 				ECD617502AA4B7C400C0633B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -154,7 +154,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		ECD617512AA4B7C400C0633B /* MapKitTest */ = {
+		ECD617512AA4B7C400C0633B /* HaSuRiski */ = {
 			isa = PBXGroup;
 			children = (
 				EC8B5E502ACDEC68002AEA38 /* SwiftNpy */,
@@ -166,7 +166,7 @@
 				ECD617832AA4B9A700C0633B /* View */,
 				9DE12DB82AA7206700AC759C /* ViewModel */,
 			);
-			path = MapKitTest;
+			path = HaSuRiski;
 			sourceTree = "<group>";
 		};
 		ECD617822AA4B95B00C0633B /* Main */ = {
@@ -459,7 +459,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H5PLQ7F2W5;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MapKitTest/Info.plist;
+				INFOPLIST_FILE = HaSuRiski/Info.plist;
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -470,7 +470,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fi.arcada.risklab.MapKitTest;
+				PRODUCT_BUNDLE_IDENTIFIER = HaSuRiski;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -487,7 +487,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H5PLQ7F2W5;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MapKitTest/Info.plist;
+				INFOPLIST_FILE = HaSuRiski/Info.plist;
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -498,7 +498,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fi.arcada.risklab.MapKitTest;
+				PRODUCT_BUNDLE_IDENTIFIER = HaSuRiski;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

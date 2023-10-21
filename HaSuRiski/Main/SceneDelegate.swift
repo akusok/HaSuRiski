@@ -1,6 +1,6 @@
 //
 //  SceneDelegate.swift
-//  MapKitTest
+//  HaSuRiski
 //
 //  Created by Anton on 3.9.2023.
 //

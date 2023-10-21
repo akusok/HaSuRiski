@@ -1,6 +1,6 @@
 //
 //  LocationsListView.swift
-//  MapKitTest
+//  HaSuRiski
 //
 //  Created by Anton on 7.10.2023.
 //
