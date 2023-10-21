@@ -41,7 +41,6 @@ class CachedTileOverlay: MKTileOverlay {
 
     override func loadTile(at path: MKTileOverlayPath, result: @escaping (Data?, Error?) -> Void) {
         
-        let dataDir = "" // "combined_data_layer_10"
         let subsample = 1  // subsampled images
         let n = (256/subsample)*(256/subsample)
 
@@ -59,7 +58,7 @@ class CachedTileOverlay: MKTileOverlay {
                     var Yh_arr = Array<UInt8>(repeating: 255, count: n*4)
                     
                     // load local file
-                    let url = URL(string: "\(self.docDir)\(dataDir)/\(path.z)/\(path.x)/\(path.y).npy")!
+                    let url = URL(string: "\(self.docDir)\(path.z)/\(path.x)/\(path.y).npy")!
                     var loadSuccess = false
                     
                     if let combinedData = try? Data(contentsOf: url) {
