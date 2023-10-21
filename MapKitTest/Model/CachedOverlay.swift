@@ -41,9 +41,9 @@ class CachedTileOverlay: MKTileOverlay {
 
     override func loadTile(at path: MKTileOverlayPath, result: @escaping (Data?, Error?) -> Void) {
         
-        let dataDir = "combined_data_4"
-        let reduce = 4
-        let n = (256/reduce)*(256/reduce)
+        let dataDir = "" // "combined_data_layer_10"
+        let subsample = 1  // subsampled images
+        let n = (256/subsample)*(256/subsample)
 
         if self.selectedLayer == .hasuriski {
             // save data tile
@@ -59,7 +59,7 @@ class CachedTileOverlay: MKTileOverlay {
                     var Yh_arr = Array<UInt8>(repeating: 255, count: n*4)
                     
                     // load local file
-                    let url = URL(string: "\(self.docDir)/\(path.z)/\(path.x)/\(path.y).npy")!
+                    let url = URL(string: "\(self.docDir)\(dataDir)/\(path.z)/\(path.x)/\(path.y).npy")!
                     var loadSuccess = false
                     
                     if let combinedData = try? Data(contentsOf: url) {
@@ -78,7 +78,7 @@ class CachedTileOverlay: MKTileOverlay {
                         
                         // use imageUtil with 4-channel array
                         // blur adds boundaries between images
-                        let img = UIImage(Yh_arr, width: 256/reduce, height: 256/reduce).resize(256, 256)!  // .blur(radius: 0.5)!
+                        let img = UIImage(Yh_arr, width: 256/subsample, height: 256/subsample)
                         let imgData = img.pngData()!
                         if loadSuccess {
                             self.cache.async.setObject(imgData, forKey: dataCacheKey, completion: { _ in  })
@@ -86,6 +86,8 @@ class CachedTileOverlay: MKTileOverlay {
                         
                         print("Getting data for: \(url)")
                         result(imgData, nil)
+                    } else {
+                        print("Error loading: \(url)")
                     }
                 }
             }
@@ -103,7 +105,7 @@ class CachedTileOverlay: MKTileOverlay {
             
         } else if self.selectedLayer == .gtkEnnako {
             // local cached images
-            let dataDir = "predict_terrain"
+            let dataDir = "hasuriski_ennako"
             let url = URL(string: "\(self.docDir)\(dataDir)/\(path.z)/\(path.x)/\(path.y).png")!
             if let imageData = try? Data(contentsOf: url) {
                 let img = UIImage(data: imageData)!
