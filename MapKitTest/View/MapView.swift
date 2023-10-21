@@ -115,8 +115,6 @@ struct MapView: UIViewRepresentable {
         let currentTileOverlay = mapView.overlays.first { $0 is MKTileOverlay}
         var layerHasChanged: Bool
         switch selectedLayer {
-        case .satellite:
-            layerHasChanged = mapView.mapType != .hybrid
         case .flyover:
             layerHasChanged = mapView.mapType != .hybridFlyover
         case .standard:
@@ -141,8 +139,6 @@ struct MapView: UIViewRepresentable {
         
         mapView.removeOverlays(mapView.overlays)
         switch selectedLayer {
-        case .satellite:
-            mapView.mapType = .hybrid
         case .flyover:
             mapView.mapType = .hybridFlyover
         case .standard:
@@ -172,7 +168,7 @@ struct MapView: UIViewRepresentable {
 
 // MARK: Previews
 struct MapView_Previews: PreviewProvider {
-    @State static var selectedLayer: Layer = .ign25
+    @State static var selectedLayer: Layer = .flyover
     @State static var loc: LocationsViewModel = .shared
     @State static var myMap = MapView(
         selectedLayer: $selectedLayer,
