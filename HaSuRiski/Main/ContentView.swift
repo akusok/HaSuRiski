@@ -7,18 +7,37 @@
 
 import SwiftUI
 import MapKit
+//import CoreLocation
 
 struct ContentView: View {
 
     @State var selectedLayer: Layer = .standard
     @State var selectedLocation: Location? = nil
     @State var editingLocations = false
+    @State var locationViewModel = LocationViewModel()
 
     @StateObject private var viewModel: LocationsViewModel = .shared
     
     private var isLocationViewDisplayed: Bool { selectedLocation != nil }
     
     var body: some View {
+        
+        // location permissions
+        switch locationViewModel.authorizationStatus {
+        case .notDetermined:
+            AnyView(RequestLocationView())
+                .environmentObject(locationViewModel)
+        case .restricted:
+            ErrorView(errorText: "Location use is restricted.")
+        case .denied:
+            ErrorView(errorText: "The app does not have location permissions. Please enable them in settings.")
+        case .authorizedAlways, .authorizedWhenInUse:
+            EmptyView()
+                .environmentObject(locationViewModel)
+        default:
+            Text("Unexpected status")
+        }
+
         ZStack {
             MapView(
                 selectedLayer: $selectedLayer,

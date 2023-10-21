@@ -12,6 +12,7 @@
 		9DE12DB72AA7202E00AC759C /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE12DB62AA7202E00AC759C /* LocationModel.swift */; };
 		9DE12DBA2AA7208200AC759C /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE12DB92AA7208200AC759C /* LocationViewModel.swift */; };
 		9DE12DBC2AA721ED00AC759C /* LocationEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE12DBB2AA721ED00AC759C /* LocationEditView.swift */; };
+		EC0EAB262AE47E790070E106 /* LocationPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0EAB252AE47E790070E106 /* LocationPermissions.swift */; };
 		EC55D7D92AD1B358007C7E2D /* LocationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC55D7D82AD1B358007C7E2D /* LocationsListView.swift */; };
 		EC8B5E562ACDEC92002AEA38 /* NpyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8B5E512ACDEC91002AEA38 /* NpyHeader.swift */; };
 		EC8B5E572ACDEC92002AEA38 /* NpySaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8B5E522ACDEC91002AEA38 /* NpySaver.swift */; };
@@ -51,6 +52,7 @@
 		9DE12DB62AA7202E00AC759C /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
 		9DE12DB92AA7208200AC759C /* LocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
 		9DE12DBB2AA721ED00AC759C /* LocationEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditView.swift; sourceTree = "<group>"; };
+		EC0EAB252AE47E790070E106 /* LocationPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPermissions.swift; sourceTree = "<group>"; };
 		EC55D7D82AD1B358007C7E2D /* LocationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsListView.swift; sourceTree = "<group>"; };
 		EC8B5E512ACDEC91002AEA38 /* NpyHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NpyHeader.swift; sourceTree = "<group>"; };
 		EC8B5E522ACDEC91002AEA38 /* NpySaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NpySaver.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 				9DE12DB62AA7202E00AC759C /* LocationModel.swift */,
 				9D2D08082AA9F602007AB5B7 /* CachedOverlay.swift */,
 				EC8B5E612ACDEF02002AEA38 /* ELMModel.swift */,
+				EC0EAB252AE47E790070E106 /* LocationPermissions.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 				9DE12DB72AA7202E00AC759C /* LocationModel.swift in Sources */,
 				9DE12DB52AA7201000AC759C /* Buttons.swift in Sources */,
 				EC8B5E622ACDEF02002AEA38 /* ELMModel.swift in Sources */,
+				EC0EAB262AE47E790070E106 /* LocationPermissions.swift in Sources */,
 				ECD617532AA4B7C400C0633B /* AppDelegate.swift in Sources */,
 				EC8B5E592ACDEC92002AEA38 /* DataType.swift in Sources */,
 				EC8B5E5A2ACDEC92002AEA38 /* Npy.swift in Sources */,
@@ -461,6 +465,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HaSuRiski/Info.plist;
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "App shows user location on the map";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -489,6 +494,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HaSuRiski/Info.plist;
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "App shows user location on the map";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

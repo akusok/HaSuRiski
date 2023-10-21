@@ -91,6 +91,7 @@ struct MapView: UIViewRepresentable {
         let mapView = MKMapView()
         mapView.delegate = context.coordinator
         self.configureMap(mapView: mapView)
+        mapView.showsUserLocation = true
         return mapView
     }
     
@@ -164,6 +165,7 @@ struct MapView: UIViewRepresentable {
 //        }
         mapView.removeAnnotations(previousAnnotations)
         mapView.addAnnotations(annotations)
+        mapView.addAnnotation(mapView.userLocation)
     }
 
 }
