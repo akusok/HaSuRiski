@@ -18,6 +18,8 @@ class CachedTileOverlay: MKTileOverlay {
     private let operationQueue = OperationQueue()
     private let session = URLSession.shared
     private let device: MTLDevice
+    private let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+
 
     @Published var selectedLayer: Layer = .standard
     @Published var elm: ELMModel?
@@ -55,24 +57,22 @@ class CachedTileOverlay: MKTileOverlay {
                     
                     // create basic image array
                     var Yh_arr = Array<UInt8>(repeating: 255, count: n*4)
-
-                    // loading remote data, predicting, writing predictions to pixels
-                    let url = URL(string: "http://akusok.asuscomm.com:9000/elevation/\(dataDir)/\(path.z)/\(path.x)/\(path.y).npy")!
-                    let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 15)
-                    self.session.dataTask(with: request) { data, _, error in
-                        var loadSuccess = false
-                        if let combinedData=data {
-                            if let Yh = self.elm!.predict(data: combinedData) {
-                                loadSuccess = true
-                                let res = Yh.data.contents().bindMemory(to: Float.self, capacity: n)
-                                for i in 0 ..< n {
-                                    let val = (0.7 - res[i])*4  // "colormap" scaling
-                                    let ival = UInt8(min(max(val, 0), 1) * 255)
-                                    Yh_arr[i*4] = ival
-                                    Yh_arr[i*4 + 1] = ival
-                                    Yh_arr[i*4 + 2] = ival
-                                    Yh_arr[i*4 + 3] = 255 - ival
-                                }
+                    
+                    // load local file
+                    let url = URL(string: "\(self.docDir)/\(path.z)/\(path.x)/\(path.y).npy")!
+                    var loadSuccess = false
+                    
+                    if let combinedData = try? Data(contentsOf: url) {
+                        if let Yh = self.elm!.predict(data: combinedData) {
+                            loadSuccess = true
+                            let res = Yh.data.contents().bindMemory(to: Float.self, capacity: n)
+                            for i in 0 ..< n {
+                                let val = (0.7 - res[i])*4  // "colormap" scaling
+                                let ival = UInt8(min(max(val, 0), 1) * 255)
+                                Yh_arr[i*4] = ival
+                                Yh_arr[i*4 + 1] = ival
+                                Yh_arr[i*4 + 2] = ival
+                                Yh_arr[i*4 + 3] = 255 - ival
                             }
                         }
                         
@@ -83,14 +83,35 @@ class CachedTileOverlay: MKTileOverlay {
                         if loadSuccess {
                             self.cache.async.setObject(imgData, forKey: dataCacheKey, completion: { _ in  })
                         }
-
+                        
                         print("Getting data for: \(url)")
                         result(imgData, nil)
-                        
-                    }.resume()
+                    }
                 }
             }
             
+        } else if self.selectedLayer == .antonEnnako {
+            // local cached images
+            let dataDir = "predict_terrain"
+            let url = URL(string: "\(self.docDir)\(dataDir)/\(path.z)/\(path.x)/\(path.y).png")!
+            if let imageData = try? Data(contentsOf: url) {
+                let img = UIImage(data: imageData)!
+                result(img.pngData()!, nil)
+            } else {
+                print("error loading \(url)")
+            }
+            
+        } else if self.selectedLayer == .gtkEnnako {
+            // local cached images
+            let dataDir = "predict_terrain"
+            let url = URL(string: "\(self.docDir)\(dataDir)/\(path.z)/\(path.x)/\(path.y).png")!
+            if let imageData = try? Data(contentsOf: url) {
+                let img = UIImage(data: imageData)!
+                result(img.pngData()!, nil)
+            } else {
+                print("error loading \(url)")
+            }
+
         } else {
             // normal cached image
             let cacheKey = "\(self.urlTemplate!)-\(path.x)-\(path.y)-\(path.z)-\(path.contentScaleFactor)"
