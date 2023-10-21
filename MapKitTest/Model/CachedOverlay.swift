@@ -41,7 +41,7 @@ class CachedTileOverlay: MKTileOverlay {
 
     override func loadTile(at path: MKTileOverlayPath, result: @escaping (Data?, Error?) -> Void) {
         
-        let subsample = 1  // subsampled images
+        let subsample = 2  // subsampled images
         let n = (256/subsample)*(256/subsample)
 
         if self.selectedLayer == .hasuriski {
