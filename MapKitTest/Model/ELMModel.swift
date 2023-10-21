@@ -31,7 +31,6 @@ class ELMModel: ObservableObject {
         let fileBias = mainBundle.url(forResource: "bias_\(elm.bL)", withExtension: "npy")!
 
         elm.model = ELM(device: elm.device, bK: elm.bK, bL: elm.bL, alpha: 1E2, W: [fileW], bias: [fileBias])
-        elm.train()
         return elm
     }
     

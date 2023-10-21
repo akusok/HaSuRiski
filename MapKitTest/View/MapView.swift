@@ -144,8 +144,10 @@ struct MapView: UIViewRepresentable {
         case .standard:
             mapView.mapType = .standard
         default:
-            tilesModel.elm = ELMModel.buildELM(locations: $locations)
             tilesModel.selectedLayer = selectedLayer
+            if selectedLayer == .hasuriski {
+                tilesModel.elm = ELMModel.buildELM(locations: $locations)
+            }
             let overlay = tilesModel.getOverlay()
             overlay.canReplaceMapContent = false
             mapView.mapType = .mutedStandard

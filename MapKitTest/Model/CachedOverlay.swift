@@ -83,10 +83,10 @@ class CachedTileOverlay: MKTileOverlay {
                             self.cache.async.setObject(imgData, forKey: dataCacheKey, completion: { _ in  })
                         }
                         
-                        print("Getting data for: \(url)")
+//                        print("Getting data for: \(url)")
                         result(imgData, nil)
                     } else {
-                        print("Error loading: \(url)")
+//                        print("Error loading: \(url)")
                     }
                 }
             }
@@ -99,7 +99,7 @@ class CachedTileOverlay: MKTileOverlay {
                 let img = UIImage(data: imageData)!
                 result(img.pngData()!, nil)
             } else {
-                print("error loading \(url)")
+//                print("error loading \(url)")
             }
             
         } else if self.selectedLayer == .gtkEnnako {
@@ -110,7 +110,7 @@ class CachedTileOverlay: MKTileOverlay {
                 let img = UIImage(data: imageData)!
                 result(img.pngData()!, nil)
             } else {
-                print("error loading \(url)")
+//                print("error loading \(url)")
             }
 
         } else {
