@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		9D2D08092AA9F602007AB5B7 /* CachedOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2D08082AA9F602007AB5B7 /* CachedOverlay.swift */; };
-		9D2D080C2AA9F63D007AB5B7 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 9D2D080B2AA9F63D007AB5B7 /* Cache */; };
-		9D8DD0822AA526730053FB8D /* Semaphore in Frameworks */ = {isa = PBXBuildFile; productRef = 9D8DD0812AA526730053FB8D /* Semaphore */; };
 		9DE12DB52AA7201000AC759C /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE12DB42AA7201000AC759C /* Buttons.swift */; };
 		9DE12DB72AA7202E00AC759C /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE12DB62AA7202E00AC759C /* LocationModel.swift */; };
 		9DE12DBA2AA7208200AC759C /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE12DB92AA7208200AC759C /* LocationViewModel.swift */; };
@@ -36,6 +34,7 @@
 		EC8B5E802ACE14B2002AEA38 /* bias_30.npy in Resources */ = {isa = PBXBuildFile; fileRef = EC8B5E742ACE14B1002AEA38 /* bias_30.npy */; };
 		EC8B5E812ACE14B2002AEA38 /* bias_1000.npy in Resources */ = {isa = PBXBuildFile; fileRef = EC8B5E752ACE14B2002AEA38 /* bias_1000.npy */; };
 		EC8B5E822ACE14B2002AEA38 /* bias_3000.npy in Resources */ = {isa = PBXBuildFile; fileRef = EC8B5E762ACE14B2002AEA38 /* bias_3000.npy */; };
+		ECC780E62AE46D1200E63287 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = ECC780E52AE46D1200E63287 /* Cache */; };
 		ECD617532AA4B7C400C0633B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD617522AA4B7C400C0633B /* AppDelegate.swift */; };
 		ECD617552AA4B7C400C0633B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD617542AA4B7C400C0633B /* SceneDelegate.swift */; };
 		ECD6175C2AA4B7DC00C0633B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECD6175B2AA4B7DC00C0633B /* Assets.xcassets */; };
@@ -91,8 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D8DD0822AA526730053FB8D /* Semaphore in Frameworks */,
-				9D2D080C2AA9F63D007AB5B7 /* Cache in Frameworks */,
+				ECC780E62AE46D1200E63287 /* Cache in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,8 +221,7 @@
 			);
 			name = HaSuRiski;
 			packageProductDependencies = (
-				9D8DD0812AA526730053FB8D /* Semaphore */,
-				9D2D080B2AA9F63D007AB5B7 /* Cache */,
+				ECC780E52AE46D1200E63287 /* Cache */,
 			);
 			productName = MapKitTest;
 			productReference = ECD6174F2AA4B7C400C0633B /* HaSuRiski.app */;
@@ -544,13 +541,9 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		9D2D080B2AA9F63D007AB5B7 /* Cache */ = {
+		ECC780E52AE46D1200E63287 /* Cache */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Cache;
-		};
-		9D8DD0812AA526730053FB8D /* Semaphore */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Semaphore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
