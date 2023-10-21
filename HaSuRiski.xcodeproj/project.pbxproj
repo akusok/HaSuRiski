@@ -74,7 +74,7 @@
 		EC8B5E742ACE14B1002AEA38 /* bias_30.npy */ = {isa = PBXFileReference; lastKnownFileType = file; path = bias_30.npy; sourceTree = "<group>"; };
 		EC8B5E752ACE14B2002AEA38 /* bias_1000.npy */ = {isa = PBXFileReference; lastKnownFileType = file; path = bias_1000.npy; sourceTree = "<group>"; };
 		EC8B5E762ACE14B2002AEA38 /* bias_3000.npy */ = {isa = PBXFileReference; lastKnownFileType = file; path = bias_3000.npy; sourceTree = "<group>"; };
-		ECD6174F2AA4B7C400C0633B /* MapKitTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapKitTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECD6174F2AA4B7C400C0633B /* HaSuRiski.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HaSuRiski.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECD617522AA4B7C400C0633B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ECD617542AA4B7C400C0633B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		ECD6175B2AA4B7DC00C0633B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -151,7 +151,7 @@
 		ECD617502AA4B7C400C0633B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ECD6174F2AA4B7C400C0633B /* MapKitTest.app */,
+				ECD6174F2AA4B7C400C0633B /* HaSuRiski.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -209,9 +209,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		ECD6174E2AA4B7C400C0633B /* MapKitTest */ = {
+		ECD6174E2AA4B7C400C0633B /* HaSuRiski */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ECD617632AA4B7DC00C0633B /* Build configuration list for PBXNativeTarget "MapKitTest" */;
+			buildConfigurationList = ECD617632AA4B7DC00C0633B /* Build configuration list for PBXNativeTarget "HaSuRiski" */;
 			buildPhases = (
 				ECD6174B2AA4B7C400C0633B /* Sources */,
 				ECD6174C2AA4B7C400C0633B /* Frameworks */,
@@ -221,13 +221,13 @@
 			);
 			dependencies = (
 			);
-			name = MapKitTest;
+			name = HaSuRiski;
 			packageProductDependencies = (
 				9D8DD0812AA526730053FB8D /* Semaphore */,
 				9D2D080B2AA9F63D007AB5B7 /* Cache */,
 			);
 			productName = MapKitTest;
-			productReference = ECD6174F2AA4B7C400C0633B /* MapKitTest.app */;
+			productReference = ECD6174F2AA4B7C400C0633B /* HaSuRiski.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -245,7 +245,7 @@
 					};
 				};
 			};
-			buildConfigurationList = ECD6174A2AA4B7C400C0633B /* Build configuration list for PBXProject "MapKitTest" */;
+			buildConfigurationList = ECD6174A2AA4B7C400C0633B /* Build configuration list for PBXProject "HaSuRiski" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -262,7 +262,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				ECD6174E2AA4B7C400C0633B /* MapKitTest */,
+				ECD6174E2AA4B7C400C0633B /* HaSuRiski */,
 			);
 		};
 /* End PBXProject section */
@@ -512,7 +512,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		ECD6174A2AA4B7C400C0633B /* Build configuration list for PBXProject "MapKitTest" */ = {
+		ECD6174A2AA4B7C400C0633B /* Build configuration list for PBXProject "HaSuRiski" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ECD617612AA4B7DC00C0633B /* Debug */,
@@ -521,7 +521,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ECD617632AA4B7DC00C0633B /* Build configuration list for PBXNativeTarget "MapKitTest" */ = {
+		ECD617632AA4B7DC00C0633B /* Build configuration list for PBXNativeTarget "HaSuRiski" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ECD617642AA4B7DC00C0633B /* Debug */,
