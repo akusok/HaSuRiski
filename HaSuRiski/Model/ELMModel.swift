@@ -16,7 +16,7 @@ class ELMModel: ObservableObject {
     let device = MTLCreateSystemDefaultDevice()!
     let bK = 1  // weight batches
     let bL = 1000
-    let sample_weight: Float32 = 10.0
+    let sample_weight: Float32 = Constants.sampleWeight
 
     init(locations: Binding<[Location]>) {
         self._locations = locations
