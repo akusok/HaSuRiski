@@ -13,7 +13,7 @@ let session = URLSession.shared
 let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
 
 
-func get_pixel_data(lat: Double, lon: Double, zoom: Int = 10) -> Array<Float32> {
+func get_pixel_data(lat: Double, lon: Double, zoom: Int = 14) -> Array<Float32> {
     
     let sem = DispatchSemaphore.init(value: 0)
     
