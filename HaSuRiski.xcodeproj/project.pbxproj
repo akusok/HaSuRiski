@@ -13,7 +13,9 @@
 		9DE12DBA2AA7208200AC759C /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE12DB92AA7208200AC759C /* LocationViewModel.swift */; };
 		9DE12DBC2AA721ED00AC759C /* LocationEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE12DBB2AA721ED00AC759C /* LocationEditView.swift */; };
 		EC0EAB262AE47E790070E106 /* LocationPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0EAB252AE47E790070E106 /* LocationPermissions.swift */; };
+		EC36DB9B2AF1A42A00D895EF /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = EC36DB9A2AF1A42A00D895EF /* Cache */; };
 		EC55D7D92AD1B358007C7E2D /* LocationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC55D7D82AD1B358007C7E2D /* LocationsListView.swift */; };
+		EC8917E72AF424BC0022BC45 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8917E62AF424BC0022BC45 /* Constants.swift */; };
 		EC8B5E562ACDEC92002AEA38 /* NpyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8B5E512ACDEC91002AEA38 /* NpyHeader.swift */; };
 		EC8B5E572ACDEC92002AEA38 /* NpySaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8B5E522ACDEC91002AEA38 /* NpySaver.swift */; };
 		EC8B5E582ACDEC92002AEA38 /* NpyLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8B5E532ACDEC91002AEA38 /* NpyLoader.swift */; };
@@ -54,6 +56,7 @@
 		9DE12DBB2AA721ED00AC759C /* LocationEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditView.swift; sourceTree = "<group>"; };
 		EC0EAB252AE47E790070E106 /* LocationPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPermissions.swift; sourceTree = "<group>"; };
 		EC55D7D82AD1B358007C7E2D /* LocationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsListView.swift; sourceTree = "<group>"; };
+		EC8917E62AF424BC0022BC45 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		EC8B5E512ACDEC91002AEA38 /* NpyHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NpyHeader.swift; sourceTree = "<group>"; };
 		EC8B5E522ACDEC91002AEA38 /* NpySaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NpySaver.swift; sourceTree = "<group>"; };
 		EC8B5E532ACDEC91002AEA38 /* NpyLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NpyLoader.swift; sourceTree = "<group>"; };
@@ -93,6 +96,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ECC780E62AE46D1200E63287 /* Cache in Frameworks */,
+				EC36DB9B2AF1A42A00D895EF /* Cache in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,6 +182,7 @@
 				ECD617542AA4B7C400C0633B /* SceneDelegate.swift */,
 				ECD6175D2AA4B7DC00C0633B /* LaunchScreen.storyboard */,
 				ECD617802AA4B90B00C0633B /* ContentView.swift */,
+				EC8917E62AF424BC0022BC45 /* Constants.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -225,6 +230,7 @@
 			name = HaSuRiski;
 			packageProductDependencies = (
 				ECC780E52AE46D1200E63287 /* Cache */,
+				EC36DB9A2AF1A42A00D895EF /* Cache */,
 			);
 			productName = MapKitTest;
 			productReference = ECD6174F2AA4B7C400C0633B /* HaSuRiski.app */;
@@ -302,6 +308,7 @@
 				9DE12DB52AA7201000AC759C /* Buttons.swift in Sources */,
 				EC8B5E622ACDEF02002AEA38 /* ELMModel.swift in Sources */,
 				EC0EAB262AE47E790070E106 /* LocationPermissions.swift in Sources */,
+				EC8917E72AF424BC0022BC45 /* Constants.swift in Sources */,
 				ECD617532AA4B7C400C0633B /* AppDelegate.swift in Sources */,
 				EC8B5E592ACDEC92002AEA38 /* DataType.swift in Sources */,
 				EC8B5E5A2ACDEC92002AEA38 /* Npy.swift in Sources */,
@@ -547,6 +554,10 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		EC36DB9A2AF1A42A00D895EF /* Cache */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Cache;
+		};
 		ECC780E52AE46D1200E63287 /* Cache */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Cache;

@@ -10,8 +10,10 @@ import UniformTypeIdentifiers
 import MapKit
 
 let session = URLSession.shared
+let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
 
-func get_pixel_data(lat: Double, lon: Double, zoom: Int = 14) -> Array<Float32> {
+
+func get_pixel_data(lat: Double, lon: Double, zoom: Int = 10) -> Array<Float32> {
     
     let sem = DispatchSemaphore.init(value: 0)
     
@@ -27,28 +29,23 @@ func get_pixel_data(lat: Double, lon: Double, zoom: Int = 14) -> Array<Float32> 
     let tx = Int(x * scale / 256)
     let ty = Int(y * scale / 256)
     
-    let px = Int(Float(x * scale).truncatingRemainder(dividingBy: 256).rounded(.down))
-    let py = Int(Float(y * scale).truncatingRemainder(dividingBy: 256).rounded(.down))
+    let px = Int(Float(x * scale).truncatingRemainder(dividingBy: 256).rounded(.down)) / Constants.subsample
+    let py = Int(Float(y * scale).truncatingRemainder(dividingBy: 256).rounded(.down)) / Constants.subsample
+    let imgSize = 256 / Constants.subsample
 
     // load data
-    var result: Array<Float32> = .init(repeating: 0.0, count: 11)
+    guard let url = URL(string: "\(docDir)\(zoom)/\(tx)/\(ty).npy") else {
+        return Array(repeating: 0.0, count: 11)
+    }
     
-    let url = URL(string: "http://akusok.asuscomm.com:9000/elevation/combined_data/\(zoom)/\(tx)/\(ty).npy")!
-    let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 3)
-    session.dataTask(with: request) { data, _, error in
-        defer { sem.signal() }
-        if let combinedData = data {
-            if let tile = try? Npy(data: combinedData) {
-                let tile_arr = tile.elements(Float.self)
-                let n = 11 * (px*256 + py)
-                result = Array<Float32>(tile_arr[n..<n+11])
-            }
-        }
-    }.resume()
-    sem.wait()
+    let npy = try! Npy(contentsOf: url)
+    let imgData = npyToArray(npy)
+    let n = 11 * (px*imgSize + py)
+    let result = Array(imgData[n..<n+11])
     
     return result
 }
+
 
 struct Location: Identifiable, Codable, Equatable, Hashable {
     var id: UUID

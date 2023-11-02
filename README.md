@@ -48,7 +48,7 @@ You can remove uploaded data in the same "Files" window in Finder, or by deletin
 ### Use different detail level in Live maps
 Live maps are available in full resolution (largest), subsample 2 (2x2 averaged pixels), and subsample 4 (4x4 averaged pixels). To switch the resolution, 
 you should upload folders `2`, `3`, `4`, ... up to `15` from a corresponding folder to your phone.  
-You **must** also change `subsample` parameter in code in `Model/CachedOverlay.swift` source file to the correct value: 1, 2, or 4. 
+You **must** also change `subsample` parameter in code in `Main/Constants.swift` source file to the correct value: 1, 2, or 4. 
 
 Default subsample value is 2.
 
